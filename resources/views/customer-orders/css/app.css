@@ -312,7 +312,7 @@ body {
 }
 
 nav li:last-child a {
-  background: #fe5f1e;
+  background: #FE5F1E;
 }
 
 nav li:last-child a:hover {
@@ -324,25 +324,25 @@ nav li a {
 }
 
 nav li a:hover {
-  color: #fe5f1e;
+  color: #FE5F1E;
 }
 
 section.hero {
-  background: #f8f8f8;
+  background: #F8F8F8;
 }
 
 .size {
-  background: #f8f8f8;
+  background: #F8F8F8;
 }
 
 .add-to-cart {
-  border: 2px solid #fe5f1e;
-  color: #fe5f1e;
+  border: 2px solid #FE5F1E;
+  color: #FE5F1E;
   transition: all 0.3s ease-in-out;
 }
 
 .add-to-cart:hover {
-  background: #fe5f1e;
+  background: #FE5F1E;
   border-color: #fff;
   color: #fff;
 }
@@ -352,7 +352,7 @@ section.hero {
 }
 
 .btn-primary {
-  background: #fe5f1e;
+  background: #FE5F1E;
   transition: all 0.3s ease-in-out;
 }
 
@@ -361,20 +361,20 @@ section.hero {
 }
 
 section.cart {
-  background: #f8f8f8;
+  background: #F8F8F8;
 }
 
 section.cart .amount {
-  color: #fe5f1e;
+  color: #FE5F1E;
 }
 
 section.login {
-  background: #f8f8f8;
+  background: #F8F8F8;
   min-height: calc(100vh - 86px);
 }
 
 section.login a {
-  color: #fe5f1e;
+  color: #FE5F1E;
 }
 
 section.login a:hover {
@@ -387,11 +387,11 @@ section.login a:hover {
 }
 
 a.link {
-  color: #fe5f1e;
+  color: #FE5F1E;
 }
 
 section.status {
-  background: #f8f8f8;
+  background: #F8F8F8;
   min-height: calc(100vh - 86px);
 }
 
@@ -418,7 +418,7 @@ section.status {
   height: 10px;
   border-radius: 50%;
   transform: translateY(-50%);
-  box-shadow: 0 0 1px 10px #f8f8f8;
+  box-shadow: 0 0 1px 10px #F8F8F8;
 }
 
 .status-box ul li span:before {
@@ -468,7 +468,7 @@ section.status {
 }
 
 .status-box ul li:nth-child(5) span:after {
-  box-shadow: 0 20px 1px 20px #f8f8f8;
+  box-shadow: 0 20px 1px 20px #F8F8F8;
 }
 
 .status-box ul li.step-completed:before {
@@ -484,11 +484,11 @@ section.status {
 }
 
 .status-box ul li.current span {
-  color: #fe5f1e;
+  color: #FE5F1E;
 }
 
 .status-box ul li.current span:after {
-  background: #fe5f1e;
+  background: #FE5F1E;
 }
 
 .status-box ul li small {

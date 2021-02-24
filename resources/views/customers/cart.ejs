@@ -35,7 +35,7 @@
             <select
               id="paymentType"
               name="paymentType"
-              class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded leading-tight focus:outline-none focus:shadow-outline"
+              class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 mb-20 px-4 py-2 pr-8 rounded leading-tight focus:outline-none focus:shadow-outline"
             >
               <option value="currency">Pagar em dinheiro</option>
               <option value="credit-card">Pagar com cartão</option>
@@ -57,25 +57,28 @@
           <div class="flex items-center justify-between">
             <input
               name="name"
-              class="border border-gray-400 p-2 w-1/2 mb-4 rounded-md"
+              class="border border-gray-400 p-2 w-1/2 mb-16 rounded-md"
               type="text"
               value="<%= user.name%>"
-            /><input
+            />
+
+            <input
+              id="phone"
               name="phone"
-              class="border border-gray-400 px-12 py-2 w-1/3 mb-4 rounded-md"
+              class="border border-gray-400 px-12 py-2 w-1/3 mb-16 rounded-md"
               type="text"
               placeholder="Telefone"
             />
           </div>
-          <div class="flex">
+          <div class="flex items-center justify-between mb-4">
             <input
               name="cep"
-              class="border border-gray-400 p-2 px-4 rounded-md"
+              class="border border-gray-400 w-1/4 p-2 px-4 rounded-md"
               type="text"
               placeholder="Cep"
             />
             <button
-              class="btn-primary ml-20 px-8 py-2 rounded-full text-white font-bold"
+              class="btn-primary ml-20 px-8 py-2 w-1/4 rounded-full text-white font-bold"
               type="submit"
             >
               Buscar Cep
@@ -84,34 +87,35 @@
 
           <input
             name="street"
-            class="border border-gray-400 p-2 w-1/2 mb-4"
+            class="w-full border border-gray-400 p-2 px-4 mb-4 rounded-md"
             type="text"
             placeholder="Rua"
-          />
-          <input
-            name="district"
-            class="border border-gray-400 p-2 w-1/2 mb-4"
-            type="text"
-            placeholder="Bairro"
-          />
-          <input
-            name="city"
-            class="border border-gray-400 p-2 w-1/2 mb-4"
-            type="text"
-            placeholder="Cidade"
-          />
-
-          <input
-            name="address"
-            class="border border-gray-400 p-2 w-1/2"
-            type="text"
-            placeholder="Endereço"
-          />
+          /><br />
+          <div class="flex items-center justify-between ">
+            <input
+              name="district"
+              class="border border-gray-400 p-2 w-1/2 mb-4 rounded-md"
+              type="text"
+              placeholder="Bairro"
+            />
+            <input
+              name="city"
+              class="border border-gray-400 p-2 w-1/4 mb-4 rounded-md"
+              type="text"
+              placeholder="Cidade"
+            />
+            <input
+              name="state"
+              class="border border-gray-400 p-2 w-1/6 mb-4 rounded-md"
+              type="text"
+              placeholder="Estado"
+            />
+          </div>
 
           <div class="mt-4">
             <div id="card-element"></div>
             <button
-              class="btn-primary px-6 py-2 rounded-full text-white font-bold mt-6"
+              class="btn-primary ml-20 px-8 py-2 w-1/4 rounded-full text-white font-bold"
               type="submit"
             >
               Peça Agora

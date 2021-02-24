@@ -25,6 +25,8 @@
     "express-ejs-layouts": "^2.5.0",
     "express-flash": "^0.0.2",
     "express-session": "^1.17.1",
+    "jquery": "^3.5.1",
+    "jquery-mask-plugin": "^1.14.16",
     "moment": "^2.27.0",
     "mongoose": "^5.9.25",
     "noty": "^3.2.0-beta",

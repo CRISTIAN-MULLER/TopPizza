@@ -67,6 +67,7 @@ app.use((req, res, next) => {
   res.locals.user = req.user;
   next();
 });
+
 // set Template engine
 app.use(expressLayout);
 app.set('views', path.join(__dirname, '/resources/views'));

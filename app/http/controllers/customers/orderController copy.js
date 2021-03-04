@@ -1,41 +1,39 @@
 const Order = require('../../../models/order');
 const moment = require('moment');
 
-function orderController(e) {
+function orderController() {
   return {
     store(req, res) {
-      const {
-        phone,
-        zipcode,
-        street,
-        houseNumber,
-        district,
-        city,
-        state,
-      } = req.body;
-
-      if (!phone || !zipcode || !street || !houseNumber || !district || !city) {
-        req.flash('error', 'Todos os campos são obrigatórios');
-        return res.redirect('/cart');
+      // Validate request
+      const { phone, address, paymentMethod } = req.body;
+      if (!phone || !address) {
+        return res
+          .status(422)
+          .json({ message: 'Todos os campos são obrigatórios' });
       }
 
       const order = new Order({
         customerId: req.user._id,
         items: req.session.cart.items,
         phone,
-        address: { zipcode, street, houseNumber, district, city, state },
+        address,
       });
-
       order
         .save()
         .then((result) => {
-          req.flash('success', 'Pedido feito com sucesso');
-          delete req.session.cart;
-          return res.redirect('/customer/orders');
+          Order.populate(result, { path: 'customerId' }, (err, placedOrder) => {
+            // req.flash('success', 'Order placed successfully')
+
+            if (paymentMethod === 'card') {
+              delete req.session.cart;
+              return res.json({ message: 'Pedido gerado com sucesso.' });
+            }
+          });
         })
         .catch((err) => {
-          req.flash('error', 'Algo deu errado, tente novamente.');
-          return res.redirect('/cart');
+          return res
+            .status(500)
+            .json({ message: 'Algo deu errado, tente novamente.' });
         });
     },
     async index(req, res) {
@@ -55,4 +53,5 @@ function orderController(e) {
     },
   };
 }
+
 module.exports = orderController;

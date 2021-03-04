@@ -1,0 +1,245 @@
+<section class="cart py-16">
+  <% if(session.cart) { %>
+  <div class="order container mx-auto xl:w-1/2">
+    <div class="flex items-center border-b border-gray-300 pb-4">
+      <img src="/img/cart-black.png" alt="" />
+      <h1 class="font-bold ml-4 text-2xl">Resumo do pedido</h1>
+    </div>
+    <div class="pizza-list">
+      <% for(let pizza of Object.values(session.cart.items)) { %>
+      <div class="flex items-center my-8">
+        <img class="w-24" src="/img/<%= pizza.item.image %>" alt="" />
+        <div class="flex-1 ml-4">
+          <h1><%= pizza.item.name %></h1>
+          <!-- <span><%= pizza.item.size %></span> -->
+        </div>
+        <span class="flex-1"><%= pizza.qty %> Un</span>
+        <span class="font-bold text-lg"
+          >R$ <%= pizza.item.price * pizza.qty %></span
+        >
+      </div>
+      <% } %>
+    </div>
+    <hr />
+    <div class="text-right py-4">
+      <div>
+        <span class="text-lg font-bold">Total do pedido:</span>
+        <span class="amount text-2xl font-bold ml-2"
+          >R$ <%= session.cart.totalPrice %></span
+        >
+      </div>
+      <% if(user) { %>
+      <div>
+        <form
+          action="/orders"
+          method="POST"
+          class="mt-12"
+          name="orderForm"
+          id="orderForm"
+        >
+          <div class="relative w-1/2 ml-auto mb-4">
+            <select
+              id="paymentMethod"
+              name="paymentMethod"
+              class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 mb-10 px-4 py-2 pr-8 rounded leading-tight focus:outline-none focus:shadow-outline"
+            >
+              <option value="currency">Pagar em dinheiro</option>
+              <option value="credit-card">Pagar com cartão</option>
+            </select>
+
+            <div
+              class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
+            >
+              <svg
+                class="fill-current h-4 w-4"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
+                />
+              </svg>
+            </div>
+          </div>
+          <div id="currencyChange" class="currencyChange mx-auto">
+            <span class="text-lg color-primary colors.orange"
+              >Precisa de troco? pra quanto?</span
+            >
+            <span class="text-sm mb-4"
+              >Se não precisa, só deixar em branco.</span
+            >
+            <input
+              class=" ml-auto mr-0 border border-gray-400 px-12 py-2 w-1/3 mb-4 rounded-md"
+              type="text"
+              placeholder="R$ 0,00"
+            />
+          </div>
+
+          <div class="flex items-center justify-between flex-col mx-auto">
+            <div class="form-control">
+              <input
+                id="username"
+                name="username"
+                class="border border-gray-400 p-2 w-1/2 mb-16 rounded-md"
+                type="text"
+                value="<%= user.name%>"
+              />
+              <i class="fas fa-check-circle"></i>
+              <i class="fas fa-exclamation-circle"></i>
+              <small>Error message</small>
+            </div>
+            <div class="form-control">
+              <input
+                id="phone"
+                value="<%= user.phone%>"
+                name="phone"
+                class="border border-gray-400 px-12 py-2 w-1/3 mb-16 rounded-md"
+                type="text"
+                placeholder="Telefone"
+              />
+              <i class="fas fa-check-circle"></i>
+              <i class="fas fa-exclamation-circle"></i>
+              <small>Error message</small>
+            </div>
+          </div>
+          <div class="flex items-center justify-between mb-4">
+            <div class="form-control">
+              <input
+                id="zipcode"
+                value="<%= user.address.zipcode%>"
+                name="zipcode"
+                class="border border-gray-400 w-1/4 p-2 px-4 rounded-md"
+                type="number"
+                placeholder="Cep"
+              />
+              <i class="fas fa-check-circle"></i>
+              <i class="fas fa-exclamation-circle"></i>
+              <small>Error message</small>
+            </div>
+            <button
+              class="btn-primary ml-auto mr-2 px-4 p-2 w-1/4 rounded-full text-white font-bold"
+              id="searchzipcodebtn"
+              name="searchzipcodebtn"
+              type="button"
+            >
+              Buscar Cep
+            </button>
+            <a href="descobrir-cep">Nao sei meu Cep</a>
+          </div>
+
+          <div class="flex items-center justify-between">
+            <div class="form-control">
+              <input
+                id="street"
+                name="street"
+                class="w-full border border-gray-400 p-2 px-4 rounded-md"
+                type="text"
+                value="<%= user.address.street%>"
+                placeholder="Rua"
+              />
+              <i class="fas fa-check-circle"></i>
+              <i class="fas fa-exclamation-circle"></i>
+              <small>Error message</small>
+            </div>
+
+            <br />
+            <div class="form-control">
+              <input
+                id="houseNumber"
+                name="houseNumber"
+                class="w-1/5 border border-gray-400 p-2 px-4 ml-6 rounded-md"
+                type="number"
+                value="<%= user.address.housenumber%>"
+                placeholder="Num"
+              />
+              <i class="fas fa-check-circle"></i>
+              <i class="fas fa-exclamation-circle"></i>
+              <small>Error message</small>
+            </div>
+          </div>
+          <br />
+          <div class="flex items-center justify-between">
+            <div class="form-control">
+              <input
+                id="district"
+                name="district"
+                value="<%= user.address.district%>"
+                class="border border-gray-400 p-2 w-1/2 mb-4 rounded-md"
+                type="text"
+                placeholder="Bairro"
+              />
+              <i class="fas fa-check-circle"></i>
+              <i class="fas fa-exclamation-circle"></i>
+              <small>Error message</small>
+            </div>
+            <div class="form-control">
+              <input
+                id="city"
+                name="city"
+                value="<%= user.address.city%>"
+                class="border border-gray-400 p-2 w-1/4 mb-4 rounded-md"
+                type="text"
+                placeholder="Cidade"
+              />
+              <i class="fas fa-check-circle"></i>
+              <i class="fas fa-exclamation-circle"></i>
+              <small>Error message</small>
+            </div>
+            <div class="form-control">
+              <input
+                id="state"
+                name="state"
+                value="<%= user.address.state%>"
+                class="border border-gray-400 p-2 w-1/6 mb-4 rounded-md"
+                type="text"
+                placeholder="Estado"
+              />
+              <i class="fas fa-check-circle"></i>
+              <i class="fas fa-exclamation-circle"></i>
+              <small>Error message</small>
+            </div>
+          </div>
+
+          <div id="order-btn" class="mt-4">
+            <button
+              id="ordernowbtn"
+              class="btn-primary ml-20 px-8 py-2 w-1/4 rounded-full text-white font-bold"
+              type="submit"
+            >
+              Peça Agora
+            </button>
+          </div>
+        </form>
+      </div>
+      <% } else { %>
+      <a
+        href="/login"
+        class="inline-block cursor-pointer btn-primary px-6 py-2 rounded-full text-white font-bold mt-6"
+        >Entrar para continuar</a
+      >
+      <% } %>
+    </div>
+
+    <% } else { %>
+    <div class="empty-cart py-16">
+      <div class="container mx-auto text-center">
+        <h1 class="text-3xl font-bold mb-2">Carrinho vazio 😕</h1>
+        <p class="text-gray-500 text-lg mb-12">
+          Você ainda não pediu nada. <br />
+          Para fazer seu pedido, clique em Menu , escolha seu item e clique em
+          "Adicionar".
+        </p>
+        <img class="w-2/5 mx-auto" src="/img/empty-cart.png" alt="empty-cart" />
+        <a
+          href="/"
+          class="inline-block px-6 py-2 rounded-full btn-primary text-white font-bold mt-12"
+          >Voltar</a
+        >
+      </div>
+    </div>
+    <% } %>
+  </div>
+</section>
+<script src="../js/searchzipcode.js"></script>
+<script src="../js/hideElements.js"></script>
+<script src="../js/validate.js"></script>

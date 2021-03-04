@@ -4,6 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Top Pizza</title>
+    <script
+      src="https://kit.fontawesome.com/ecb358af67.js"
+      crossorigin="anonymous"
+    ></script>
+
     <link
       href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap"
       rel="stylesheet"
@@ -28,7 +33,7 @@
       </div>
       <div>
         <% if (user) { %>
-        <span id="username" class=""
+        <span id="" class=""
           >Bem Vindo <strong><%= user.name %></strong> !</span
         >
         <%}%>
@@ -82,5 +87,7 @@
     <footer></footer>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/app.js"></script>
+
+    <!-- <script src="../js/validate.js"></script> -->
   </body>
 </html>

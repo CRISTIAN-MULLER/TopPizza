@@ -1,11 +1,17 @@
 const orderForm = document.getElementById('orderForm');
 const username = document.getElementById('username');
-// const zipcode = document.getElementById('zipcode');
+const phone = document.getElementById('phone');
+const zipcode = document.getElementById('zipcode');
 const street = document.getElementById('street');
 const houseNumber = document.getElementById('houseNumber');
 const district = document.getElementById('district');
 const city = document.getElementById('city');
 const state = document.getElementById('state');
+const reference = document.getElementById('reference');
+const entryPoint = document.getElementById('entryPoint');
+const hiddenEntryPoint = document.getElementById('entryPointValue');
+const paymentMethod = document.getElementById('paymentMethod');
+const hiddenPaymentMethod = document.getElementById('paymentMethodValue');
 
 orderForm.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -15,12 +21,19 @@ orderForm.addEventListener('submit', (e) => {
 function checkInputs() {
   // trim to remove the whitespaces
   const usernameValue = username.value.trim();
-  // const zipcodeValue = zipcode.value.trim();
+  const phoneValue = phone.value.trim();
+  const zipcodeValue = zipcode.value.trim();
   const streetValue = street.value.trim();
   const houseNumberValue = houseNumber.value.trim();
   const districtValue = district.value.trim();
   const cityValue = city.value.trim();
   const stateValue = state.value.trim();
+  const referenceValue = reference.value.trim();
+  const entryPointValue = entryPoint.value;
+  const paymentMethodValue = paymentMethod.value;
+
+  hiddenPaymentMethod.value = paymentMethodValue;
+  hiddenEntryPoint.value = entryPointValue;
 
   if (usernameValue === '') {
     setErrorFor(username, 'Nome não pode ficar em branco.');
@@ -28,11 +41,17 @@ function checkInputs() {
     setSuccessFor(username);
   }
 
-  // if (zipcodeValue === '') {
-  //   setErrorFor(zipcode, 'Cep Não pode ficar em branco.');
-  // } else {
-  //   setSuccessFor(zipcodeValue);
-  // }
+  if (phoneValue === '') {
+    setErrorFor(phone, 'Telefone Não pode ficar em branco.');
+  } else {
+    setSuccessFor(phone);
+  }
+
+  if (zipcodeValue === '') {
+    setErrorFor(zipcode, 'Cep Não pode ficar em branco.');
+  } else {
+    setSuccessFor(zipcode);
+  }
 
   if (streetValue === '') {
     setErrorFor(street, 'Rua não pode ficar em branco.');
@@ -46,25 +65,43 @@ function checkInputs() {
     setSuccessFor(houseNumber);
   }
   if (districtValue === '') {
-    setErrorFor(district, 'Número não pode ficar em branco.');
+    setErrorFor(district, 'Bairro não pode ficar em branco.');
   } else {
     setSuccessFor(district);
   }
   if (cityValue === '') {
-    setErrorFor(city, 'Número não pode ficar em branco.');
+    setErrorFor(city, 'Cidade não pode ficar em branco.');
   } else {
     setSuccessFor(city);
   }
   if (stateValue === '') {
-    setErrorFor(state, 'Número não pode ficar em branco.');
+    setErrorFor(state, 'Estado não pode ficar em branco.');
   } else {
     setSuccessFor(state);
+  }
+  if (referenceValue === '') {
+    setErrorFor(reference, 'Ponto de referência não pode ficar em branco.');
+  } else {
+    setSuccessFor(reference);
+  }
+  if (
+    usernameValue !== '' &&
+    phoneValue !== '' &&
+    zipcodeValue !== '' &&
+    streetValue !== '' &&
+    houseNumberValue !== '' &&
+    districtValue !== '' &&
+    cityValue !== '' &&
+    stateValue !== '' &&
+    referenceValue !== ''
+  ) {
+    document.orderForm.submit();
   }
 }
 
 function setErrorFor(input, message) {
   const formControl = input.parentElement;
-  console.log(input);
+
   const small = formControl.querySelector('small');
   formControl.className = 'form-control error';
   small.innerText = message;

@@ -1,5 +1,7 @@
 const homeController = require('../app/http/controllers/homeController');
 const authController = require('../app/http/controllers/authController');
+const usersController = require('../app/http/controllers/usersController');
+
 const cartController = require('../app/http/controllers/customers/cartController');
 const orderController = require('../app/http/controllers/customers/orderController');
 const adminOrderController = require('../app/http/controllers/admin/orderController');
@@ -18,6 +20,8 @@ function initRoutes(app) {
   app.post('/register', authController().postRegister);
   app.post('/logout', authController().logout);
 
+  app.get('/usersearch/:username', usersController().searchUser);
+
   app.get('/cart', cartController().index);
   app.post('/update-cart', cartController().update);
 
@@ -28,6 +32,7 @@ function initRoutes(app) {
 
   // Admin routes
   app.get('/admin/orders', admin, adminOrderController().index);
+
   app.post('/admin/order/status', admin, statusController().update);
 }
 

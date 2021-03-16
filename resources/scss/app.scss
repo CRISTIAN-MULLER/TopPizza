@@ -6,6 +6,7 @@ body {
   font-family: 'Lato', sans-serif;
   -webkit-font-smoothing: antialiased;
   color: $dark;
+  scroll-behavior: smooth;
 }
 
 nav li:last-child a {
@@ -192,9 +193,19 @@ section.status {
 }
 
 .paymentMethod {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-content: space-between;
+  align-items: center;
   position: relative;
 }
-.paymentMethod .pointer {
+.paymentMethod .pointer-entry {
+  position: absolute;
+  top: 12px;
+  left: 120px;
+}
+
+.paymentMethod .pointer-payment {
   position: absolute;
   top: 12px;
 }
@@ -206,25 +217,96 @@ section.status {
   width: 400px;
   max-width: 100%;
 }
+.firstline {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+}
+
+.secondline {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.secondline small {
+  color: #e74c3c;
+  visibility: visible;
+}
+.secondline a {
+  margin-right: 0;
+  margin-left: auto;
+  width: auto;
+}
+
+.thirdline {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+}
+
+.fourthline {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  column-gap: 10px;
+}
+
+#searchzipcodebtn {
+  margin-left: auto;
+  margin-right: 0;
+  padding: 10px;
+}
+
+#searchclientbtn {
+  margin-left: auto;
+  margin-right: 0;
+  padding: 10px;
+}
+
+#searchUserBtn {
+  margin-left: auto;
+  margin-right: 0;
+  padding: 10px;
+}
+
 .form-control.success input {
   border-color: #2ecc71;
+}
+
+.form-control.success small {
+  visibility: hidden;
 }
 
 .form-control.error input {
   border-color: #e74c3c;
 }
-.form-control i {
+
+.form-control.error small {
   visibility: visible;
-  position: absolute;
-  top: 40px;
-  right: 10px;
 }
 
 .form-control {
-  // display: block;
   position: relative;
+  display: grid;
+  margin-bottom: 10px;
+  padding-bottom: 20px;
 }
-/*.form-control.success i.fa-check-circle {
+
+.form-control input {
+  display: block;
+}
+
+.form-control label {
+  display: inline-block;
+  margin-bottom: 5px;
+}
+.form-control i {
+  visibility: hidden;
+  position: absolute;
+  top: 40px;
+  margin-left: 4px;
+}
+
+.form-control.success i.fa-check-circle {
   color: #2ecc71;
   visibility: visible;
 }
@@ -242,9 +324,51 @@ section.status {
   visibility: visible;
 }
 
-.form-control.error small {
-  visibility: visible;
-}*/
+#order-btn {
+  position: relative;
+}
+#ordernowbtn {
+  position: absolute;
+  right: 10px;
+  top: 5px;
+  padding: 10px;
+}
+
+.modal {
+  transition: opacity 0.25s ease;
+}
+.inputModal {
+  display: grid;
+  min-width: 50vw;
+}
+
+.modalinputs > input {
+  margin-top: 10px;
+}
+
+.modalinputs > form {
+  margin-top: 20px;
+}
+
+table {
+  border-spacing: 0px;
+  width: 100%;
+}
+
+.table td,
+.table th {
+  padding: 0.75em;
+  vertical-align: top;
+}
+
+.thead-dark th {
+  color: #fff;
+  background-color: #ff7d49;
+}
+body.modal-active {
+  overflow-x: hidden;
+  overflow-y: visible !important;
+}
 
 @media (max-width: 1060px) {
   .container {

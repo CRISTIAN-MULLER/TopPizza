@@ -15,6 +15,7 @@ export function initAdmin(socket) {
     })
     .then((res) => {
       orders = res.data;
+
       markup = generateMarkup(orders);
       orderTableBody.innerHTML = markup;
     })
@@ -43,8 +44,17 @@ export function initAdmin(socket) {
                     <div>${renderItems(order.items)}</div>
                 </td>
                 <td class="border px-4 py-2">${order.customerId.name}</td>
-                <td class="border px-4 py-2">${order.address}</td>
-                <td class="border px-4 py-2"></td>
+                <td class="border px-4 py-2">
+                ${order.address.street},
+                ${order.address.houseNumber}, 
+                ${order.address.district}</td>
+                <td class="border px-4 py-2">${order.phone}</td>
+                <td class="border px-4 py-2">
+                    ${moment(order.createdAt).format('DD/MM/YYYY - HH:mm')}
+                </td>
+                <td class="border px-4 py-2">
+                    ${order.paymentStatus ? 'paid' : 'Falta Pagamento'}
+                </td>
                 <td class="border px-4 py-2">
                     <div class="inline-block relative w-64">
                         <form action="/admin/order/status" method="POST">
@@ -90,12 +100,7 @@ export function initAdmin(socket) {
                         </div>
                     </div>
                 </td>
-                <td class="border px-4 py-2">
-                    ${moment(order.createdAt).format('DD/MM/YYYY - HH:mm')}
-                </td>
-                <td class="border px-4 py-2">
-                    ${order.paymentStatus ? 'paid' : 'Falta Pagamento'}
-                </td>
+                
             </tr>
         `;
       })

@@ -12,6 +12,8 @@ const MongoDbStore = require('connect-mongo')(session);
 const passport = require('passport');
 const Emitter = require('events');
 
+const Cors = require('cors');
+
 // Database connection
 mongoose.connect(process.env.MONGO_CONNECTION_URL, {
   useNewUrlParser: true,
@@ -37,6 +39,12 @@ let mongoStore = new MongoDbStore({
 // Event emitter
 const eventEmitter = new Emitter();
 app.set('eventEmitter', eventEmitter);
+
+//body parsererror
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(Cors());
 
 // Session config
 app.use(

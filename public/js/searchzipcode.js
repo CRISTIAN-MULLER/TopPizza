@@ -5,7 +5,6 @@ let districtToSearch = document.querySelector('#district');
 let cityToSearch = document.querySelector('#city');
 let stateToSearch = document.querySelector('#state');
 
-//zipcode.value = '01001000';
 searchzipcodebtn.addEventListener('click', function(e) {
   console.log(zipcodeToSearch.value);
   let zipcodeToSearchValue = zipcodeToSearch.value;

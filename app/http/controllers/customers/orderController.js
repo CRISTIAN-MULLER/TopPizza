@@ -12,18 +12,31 @@ function orderController(e) {
         district,
         city,
         state,
+        reference,
+        paymentMethod = req.body.paymentMethodValue,
+        entryPoint = req.body.entryPointValue,
       } = req.body;
 
-      if (!phone || !zipcode || !street || !houseNumber || !district || !city) {
-        req.flash('error', 'Todos os campos são obrigatórios');
-        return res.redirect('/cart');
-      }
-
+      // if (!phone || !zipcode || !street || !houseNumber || !district || !city) {
+      //   req.flash('error', 'Todos os campos são obrigatórios');
+      //   return res.redirect('/cart');
+      // }
+      //console.log(entryPoint);
       const order = new Order({
         customerId: req.user._id,
         items: req.session.cart.items,
         phone,
-        address: { zipcode, street, houseNumber, district, city, state },
+        address: {
+          zipcode,
+          street,
+          houseNumber,
+          district,
+          city,
+          state,
+          reference,
+        },
+        paymentMethod,
+        entryPoint,
       });
 
       order
@@ -35,6 +48,7 @@ function orderController(e) {
         })
         .catch((err) => {
           req.flash('error', 'Algo deu errado, tente novamente.');
+          console.log(err);
           return res.redirect('/cart');
         });
     },

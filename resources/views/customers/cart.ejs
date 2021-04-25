@@ -1,94 +1,428 @@
 <section class="cart py-16">
-  <div class="order container mx-auto w-1/2">
+  <% if(session.cart) { %>
+  <div class="order container mx-auto xl:w-1/2">
     <div class="flex items-center border-b border-gray-300 pb-4">
       <img src="/img/cart-black.png" alt="" />
-      <h1 class="font-bold ml-4 text-2xl">Resumo do Pedido</h1>
+      <h1 class="font-bold ml-4 text-2xl">Resumo do pedido</h1>
     </div>
-    <div class="itens-list">
+    <div class="product-list">
+      <% for(let product of Object.values(session.cart.items)) { %>
       <div class="flex items-center my-8">
-        <img class="w-24" src="/img/pizza.png" alt="" />
+        <img class="w-24" src="/img/<%= product.item.image %>" alt="" />
         <div class="flex-1 ml-4">
-          <h1>Marinara</h1>
+          <h1><%= product.item.name %></h1>
+          <span><%= product.item.size %></span>
         </div>
-        <span class="flex-1">1 UN</span>
-        <span class="font-bold text-lg">R$ 30,00</span>
+        <div class="flex-1">
+        <button
+          data-cart="<%= JSON.stringify(product.item) %>"
+          class="decreaseItemQty btn-primary mx-4 px-4 text-white rounded-md font-size- font-bold"
+          type="button"
+          > - </button>
+        <span id="productQty<%= product.item._id %>"><%= product.qty %> Un</span>
+        <button
+        data-cart="<%= JSON.stringify(product.item) %>"
+          class="increaseItemQty btn-primary mx-4 px-4 text-white rounded-md font-size- font-bold"
+          type="button"
+          > + </button>
+        </div>
+        <span id="productItemTotal<%= product.item._id %>" class="font-bold text-lg"
+          >R$ <%= product.item.price * product.qty %></span
+        >
       </div>
-    </div>
-    <div class="flex items-center my-8">
-      <img class="w-24" src="/img/pizza.png" alt="" />
-      <div class="flex-1 ml-4">
-        <h1>Marinara</h1>
-      </div>
-      <span class="flex-1">1 UN</span>
-      <span class="font-bold text-lg">R$ 30,00</span>
-    </div>
-
-    <div class="flex items-center my-8">
-      <img class="w-24" src="/img/pizza.png" alt="" />
-      <div class="flex-1 ml-4">
-        <h1>Marinara</h1>
-      </div>
-      <span class="flex-1">1 UN</span>
-      <span class="font-bold text-lg">R$ 30,00</span>
+      <% } %>
     </div>
     <hr />
+    <% if (user && user.role == 'admin') { %>
     <div class="text-right py-4">
-      <div>
-        <span class="text-lg font-bold">Valor Total</span>
-        <span class="amount text-2xl font-bold ml-2">R$ 30,00</span>
+      <div class="grid justify-between grid-cols-2 align-center m-0">
+        <span class="ml-0 mr-auto text-lg font-bold">Tipo de abertura:</span>
+        <div>
+          <span class="text-lg font-bold">Total do pedido:</span>
+          <span id="amount" class="amount text-2xl font-bold ml-2"
+            >R$ <%= session.cart.totalPrice %></span
+          >
+        </div>
       </div>
-      <div>
-        <form class="mt-12" action="">
-          <input
-            class="border border-gray-400 p-2 w-1/2 mb-4"
-            type="text"
-            name=""
-            id=""
-            placeholder="Telefone"
-          />
-          <div>
-            <!-- <button
-              class="btn-primary px-6 py-2 rounded-full text-white font-bold mt-6"
-              type="submit"
-            >
-              Fazer Pedido
-            </button> -->
-          </div>
-        </form>
+
+      <div class="paymentMethod grid">
+        <select
+          id="entryPoint"
+          name="entryPoint"
+          class="block appearance-none ml-0 mr-auto bg-white border border-gray-400 hover:border-gray-500 mb-4 px-4 py-2 pr-8 rounded leading-tight focus:outline-none focus:shadow-outline"
+        >
+          <option value="whatsapp">WhatsApp</option>
+          <option value="phone">Telefone</option>
+          <option value="table">Mesa / Balcão</option>
+          <option value="site">Site</option>
+        </select>
+
+        <div
+          class="pointer-entry pointer-events-none inset-y-0 left-12 px-2 text-gray-700"
+        >
+          <svg
+            class="fill-current h-4 w-4"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+          >
+            <path
+              d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
+            />
+          </svg>
+        </div>
+        <select
+          id="paymentMethod"
+          name="paymentMethod"
+          class="block appearance-none ml-auto mr-0 bg-white border border-gray-400 hover:border-gray-500 mb-4 px-4 py-2 pr-8 rounded leading-tight focus:outline-none focus:shadow-outline"
+        >
+          <option value="currency">Pagar em dinheiro</option>
+          <option value="credit-card">Pagar com cartão</option>
+        </select>
+
+        <div
+          class="pointer-payment pointer-events-none inset-y-0 right-0 px-2 text-gray-700"
+        >
+          <svg
+            class="fill-current h-4 w-4"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+          >
+            <path
+              d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
+            />
+          </svg>
+        </div>
       </div>
-      <a
-        href=""
-        class="inline-block cursor-pointer btn-primary px-6 py-2 rounded-full text-white font-bold mt-6"
-        >Faça login para continuar.</a
-      >
-    </div>
-  </div>
-  <!-- <div class="empty-cart py-16">
-    <div class="container mx-auto text-center">
-      <h1 class="text-3xl font-bold mb-2">
-        Carrinho Vazio
-        <img
-          class="inline-block ml-2"
-          width="3%"
-          height="3%"
-          src="img/sad-emoji.png"
-          alt=""
+      <div id="currencyChange" class="currencyChange flex flex-col">
+        <span class="text-lg color-primary">Precisa de troco? pra quanto?</span>
+        <span class="text-sm mb-4">Se não precisa, só deixar em branco.</span>
+        <input
+          class=" ml-auto mr-0 border border-gray-400 px-12 py-2 w-1/4 rounded-md"
+          type="text"
+          placeholder="R$ 0,00"
         />
-      </h1>
+      </div>
+    </div>
+    <% }else{ %>
+    <div class="text-right py-4">
+      <div class=" justify-between grid-cols-2 align-center m-0">
+        <div>
+          <span class="text-lg font-bold">Total do pedido:</span>
+          <span id="amount" class="amount text-2xl font-bold ml-2"
+            >R$ <%= session.cart.totalPrice %></span
+          >
+        </div>
+      </div>
+
+      <div class="paymentMethod">
+        <select
+          id="paymentMethod"
+          name="paymentMethod"
+          class="ml-auto mr-0 bg-white border border-gray-400 hover:border-gray-500 mb-4 px-4 py-2 pr-8 rounded leading-tight focus:outline-none focus:shadow-outline"
+        >
+          <option value="currency">Pagar em dinheiro</option>
+          <option value="credit-card">Pagar com cartão</option>
+        </select>
+      </div>
+      <div id="currencyChange" class="currencyChange flex flex-col">
+        <span class="text-lg color-primary">Precisa de troco? pra quanto?</span>
+        <span class="text-sm mb-4">Se não precisa, só deixar em branco.</span>
+        <input
+          class=" ml-auto mr-0 border border-gray-400 px-12 py-2 w-1/4 rounded-md"
+          type="text"
+          placeholder="R$ 0,00"
+        />
+      </div>
+    </div>
+    <%}%> <% if(user) { %>
+    <div>
+      <% if (user.role == 'admin') { %>
+      <form
+        action="/admin/order"
+        method="POST"
+        class=""
+        name="orderForm"
+        id="orderForm"
+      >
+       
+        <button
+          class="btn-primary modal-open rounded-full mb-4 text-white font-bold"
+          id="searchclientbtn"
+          name="searchclientbtn"
+          type="button"
+        >
+          Buscar Cliente
+        </button>
+        <% }else{ %>
+          <form
+        action="/customer/order"
+        method="POST"
+        class=""
+        name="orderForm"
+        id="orderForm"
+      >
+      <%}%>
+        <div class="firstline">
+          
+            <input id="id" type="hidden" name="id" value="<% if(user.role
+            == 'admin') { %>""<% }else { %> <%= user._id%> <% } %>"
+            />
+          
+         
+          <div class="form-control">
+            <label for="username">Nome:</label>
+
+            <input id="username" name="username" class="border pl-6 mr-10 px-4
+            py-2 border-gray-400 rounded-md" type="text" value="<% if(user.role
+            == 'admin') { %>""<% }else { %> <%= user.name%> <% } %>"
+            placeholder="Nome"/>
+            <i class="fas fa-check-circle"></i>
+            <i class="fas fa-exclamation-circle"></i>
+            <small></small>
+          </div>
+          <div class="form-control">
+            <label for="phone">Telefone:</label>
+            <input id="phone" type="text" value="<% if(user.role == 'admin') {
+            %>""<% }else { %><%= user.phone%> <% } %>" name="phone"
+            class="border pl-6 px-4 py-2 border-gray-400 rounded-md" type="text"
+            placeholder="Telefone"/>
+            <i class="fas fa-check-circle"></i>
+            <i class="fas fa-exclamation-circle"></i>
+            <small></small>
+          </div>
+        </div>
+        <div class="secondline">
+          <div class="form-control">
+            <label for="zipcode">Cep:</label>
+            <input id="zipcode" type="text" value="<% if(user.role == 'admin') {
+            %>""<% }else { %> <%= user.address.zipcode%> <% } %>" name="zipcode"
+            class="border pl-6 px-4 py-2 border-gray-400 rounded-md"
+            type="number" placeholder="Cep" />
+            <i class="fas fa-check-circle"></i>
+            <i class="fas fa-exclamation-circle"></i>
+            <small></small>
+          </div>
+
+          <button
+            class="btn-primary rounded-full text-white font-bold"
+            id="searchzipcodebtn"
+            name="searchzipcodebtn"
+            type="button"
+          >
+            Buscar Cep
+          </button>
+          <a href="descobrir-cep">Nao sei meu Cep</a>
+        </div>
+        <div class="thirdline">
+          <div class="form-control">
+            <label for="street">Rua:</label>
+            <input id="street" name="street" class="border pl-6 mr-10 px-4 py-2
+            border-gray-400 rounded-md" type="text" value="<% if(user.role ==
+            'admin') { %>""<% }else { %> <%= user.address.street%> <% } %>"
+            placeholder="Rua" />
+
+            <i class="fas fa-check-circle"></i>
+            <i class="fas fa-exclamation-circle"></i>
+            <small></small>
+          </div>
+          <div class="form-control">
+            <label for="houseNumber">Número:</label>
+            <input
+              id="houseNumber"
+              name="houseNumber"
+              class="border pl-6 px-4 py-2 border-gray-400  rounded-md"
+              type="number"
+              value="<%= user.address.houseNumber%>"
+              placeholder="Num"
+            />
+            <i class="fas fa-check-circle"></i>
+            <i class="fas fa-exclamation-circle"></i>
+            <small></small>
+          </div>
+        </div>
+        <div class="fourthline">
+          <div class="form-control">
+            <label for="district">Bairro:</label>
+            <input
+              id="district"
+              name="district"
+              value="<%= user.address.district%>"
+              class="border pl-6  px-4 py-2 border-gray-400 rounded-md"
+              type="text"
+              placeholder="Bairro"
+            />
+            <i class="fas fa-check-circle"></i>
+            <i class="fas fa-exclamation-circle"></i>
+            <small></small>
+          </div>
+          <div class="form-control">
+            <label for="city">Cidade:</label>
+            <input
+              id="city"
+              name="city"
+              value="<%= user.address.city%>"
+              class="border pl-6 px-4 py-2 border-gray-400 rounded-md"
+              type="text"
+              placeholder="Cidade"
+            />
+            <i class="fas fa-check-circle"></i>
+            <i class="fas fa-exclamation-circle"></i>
+            <small></small>
+          </div>
+          <div class="form-control">
+            <label for="state">Estado:</label>
+            <input
+              id="state"
+              name="state"
+              value="<%= user.address.state%>"
+              class="border pl-6 px-4 py-2 border-gray-400 rounded-md"
+              type="text"
+              placeholder="Estado"
+            />
+            <i class="fas fa-check-circle"></i>
+            <i class="fas fa-exclamation-circle"></i>
+            <small></small>
+          </div>
+        </div>
+        <div class="form-control">
+          <label for="reference">Ponto de referência:</label>
+          <input
+            id="reference"
+            name="reference"
+            value="<%= user.address.reference%>"
+            class="border pl-6 px-4 py-2 border-gray-400 rounded-md"
+            type="text"
+            placeholder="Ponto de referencia"
+          />
+          <i class="fas fa-check-circle"></i>
+          <i class="fas fa-exclamation-circle"></i>
+          <small></small>
+        </div>
+        <div class="form-control">
+          <input
+            id="entryPointValue"
+            name="entryPointValue"
+            value=""
+            type="hidden"
+          />
+        </div>
+        <div class="form-control">
+          <input
+            type="hidden"
+            name="paymentMethodValue"
+            id="paymentMethodValue"
+            value=""
+          />
+        </div>
+        <div id="order-btn" class="mt-4">
+          <button
+            id="ordernowbtn"
+            class="btn-primary rounded-full text-white font-bold"
+            type="submit"
+          >
+            Peça Agora
+          </button>
+        </div>
+      </form>
+    </div>
+    <% } else { %>
+    <a
+      href="/login"
+      class="inline-block cursor-pointer btn-primary px-6 py-2 rounded-full text-white font-bold mt-6"
+      >Entrar para continuar</a
+    >
+    <% } %>
+  </div>
+  <% } else { %>
+  <div class="empty-cart py-16">
+    <div class="container mx-auto text-center">
+      <h1 class="text-3xl font-bold mb-2">Carrinho vazio 😕</h1>
       <p class="text-gray-500 text-lg mb-12">
-        Você Ainda não pediu nada. <br />Para pedir algo, vá no menu escolha o
-        item e clique no botão adicionar.
+        Você ainda não pediu nada. <br />
+        Para fazer seu pedido, clique em Menu , escolha seu item e clique em
+        "Adicionar".
       </p>
-      <img
-        class="w-1/4 mx-auto"
-        src="/img/empty-cart.png"
-        alt="Carrinho Vazio"
-      />
+      <img class="w-2/5 mx-auto" src="/img/empty-cart.png" alt="empty-cart" />
       <a
         href="/"
         class="inline-block px-6 py-2 rounded-full btn-primary text-white font-bold mt-12"
         >Voltar</a
       >
     </div>
-  </div> -->
+  </div>
+  <% } %>
 </section>
+<div
+  class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center"
+>
+  <div
+    class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"
+  ></div>
+
+  <div
+    class="modal-container bg-white m-0  rounded shadow-lg z-50 overflow-y-auto"
+  >
+    <!-- Add margin if you want to see some of the overlay behind the modal-->
+    <div class="modal-content py-4 text-left px-6">
+      <!--Title-->
+
+      <!--Body-->
+      <div class="modalinputs">
+        <div class="inputModal">
+          <span>Telefone:</span>
+          <input
+            class=" border pl-6 px-4 py-2 mt-2 mb-4 border-gray-400 rounded-md"
+            type="text"
+            name="searchuserphone"
+            id="searchuserphone"
+            placeholder="Telefone"
+          />
+          <span>Nome:</span>
+
+          <input
+            class=" border pl-6 px-4 py-2 mt-2 mb-4 border-gray-400 rounded-md"
+            type="text"
+            name="searchusername"
+            id="searchusername"
+            placeholder="Nome do Cliente"
+          />
+
+          <button
+            class="btn-primary rounded-full text-white font-bold"
+            id="searchUserBtn"
+            name="searchUserBtn"
+            type="button"
+          >
+            Buscar Cliente
+          </button>
+        </div>
+      </div>
+
+      <table class="table userstable">
+        <thead>
+          <tr>
+            <th class="px-4 py-2 text-left">Nome</th>
+            <th class="px-4 py-2 text-left">Endereço</th>
+            <th class="px-4 py-2 text-left">Telefone</th>
+          </tr>
+        </thead>
+        <tbody id="userTableBody"></tbody>
+      </table>
+
+      <!--Footer-->
+      <div class="flex justify-end pt-2">
+        <button
+          id="selectUser"
+          class="btn-primary selectUser rounded-full px-4 py-2 mx-4 text-white font-bold"
+        >
+          Selecionar
+        </button>
+        <button class="modal-close ">
+          Fechar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+

@@ -288,7 +288,7 @@ body {
 }
 
 nav li:last-child a {
-  background: #2ceb0b;
+  background: #65ee4d;
 }
 nav li:last-child a:hover {
   background: #07b201;
@@ -298,7 +298,7 @@ nav li a {
   transition: all 0.3s ease-in-out;
 }
 nav li a:hover {
-  color: #2ceb0b;
+  color: #65ee4d;
 }
 
 section.hero {
@@ -316,12 +316,12 @@ section.hero {
 }
 
 .add-to-cart {
-  border: 2px solid #2ceb0b;
-  color: #2ceb0b;
+  border: 2px solid #65ee4d;
+  color: #65ee4d;
   transition: all 0.3s ease-in-out;
 }
 .add-to-cart:hover {
-  background: #2ceb0b;
+  background: #65ee4d;
   border-color: #fff;
   color: #fff;
 }
@@ -330,24 +330,24 @@ section.hero {
 }
 
 .size {
-  border: 2px solid #2ceb0b;
+  border: 2px solid #65ee4d;
   transition: all 0.3s ease-in-out;
 }
 .size:hover {
-  background: #2ceb0b;
+  background: #65ee4d;
   border-color: #fff;
   color: #fff;
 }
 
 .size.Selected {
-  background: #2ceb0b;
+  background: #65ee4d;
   border-color: #fff;
   color: #fff;
   outline: none;
 }
 
 .btn-primary {
-  background: #2ceb0b;
+  background: #65ee4d;
   transition: all 0.3s ease-in-out;
   outline: none;
 }
@@ -363,7 +363,7 @@ section.cart {
   background: #f8f8f8;
 }
 section.cart .amount {
-  color: #2ceb0b;
+  color: #65ee4d;
 }
 
 section.login {
@@ -371,7 +371,7 @@ section.login {
   min-height: calc(100vh - 86px);
 }
 section.login a {
-  color: #2ceb0b;
+  color: #65ee4d;
 }
 section.login a:hover {
   color: #07b201;
@@ -383,7 +383,7 @@ section.login a:hover {
 }
 
 a.link {
-  color: #2ceb0b;
+  color: #65ee4d;
 }
 
 section.status {
@@ -437,7 +437,7 @@ section.status {
 }
 
 .status-box ul li:nth-child(3) span:before {
-  content: "";
+  content: "";
 }
 
 .status-box ul li:nth-child(4) span:before {
@@ -480,11 +480,11 @@ section.status {
 }
 
 .status-box ul li.current span {
-  color: #2ceb0b;
+  color: #65ee4d;
 }
 
 .status-box ul li.current span:after {
-  background: #2ceb0b;
+  background: #65ee4d;
 }
 
 .status-box ul li small {
@@ -494,7 +494,7 @@ section.status {
 }
 
 .currencyChange :first-child {
-  color: #2ceb0b;
+  color: #65ee4d;
 }
 
 .paymentMethod {
@@ -565,7 +565,13 @@ section.status {
   padding: 10px;
 }
 
-#searchclientbtn {
+#searchClientBtn {
+  margin-left: auto;
+  margin-right: 0;
+  padding: 10px;
+}
+
+#addClientBtn {
   margin-left: auto;
   margin-right: 0;
   padding: 10px;
@@ -649,11 +655,6 @@ section.status {
   transition: opacity 0.25s ease;
 }
 
-.inputModal {
-  display: grid;
-  min-width: 50vw;
-}
-
 .modalinputs > input {
   margin-top: 10px;
 }
@@ -673,9 +674,18 @@ table {
   vertical-align: top;
 }
 
-.table tr.selected {
-  color: #fff;
-  background-color: #ff7d49;
+.table td > a.btn {
+  padding: 0.3em 1em;
+  font-size: 1.1em;
+  margin: 0.2em;
+}
+
+.table tbody tr:hover {
+  background-color: #2ecc71;
+}
+
+.table tbody tr:hover > a {
+  box-shadow: none;
 }
 
 .thead-dark th {

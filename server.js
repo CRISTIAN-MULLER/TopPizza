@@ -6,6 +6,7 @@ const path = require('path');
 const expressLayout = require('express-ejs-layouts');
 const PORT = process.env.PORT || 3000;
 const SECRET = process.env.SECRET || 'secret';
+const MONGO_URL = process.env.MONGO_URL;
 //const mongoose = require('mongoose');
 const session = require('express-session');
 const flash = require('express-flash');
@@ -41,7 +42,7 @@ app.use(express.urlencoded({ extended: true }));
 // Session config
 
 var store = new connect({
-  uri: process.env.MONGO_URL,
+  uri: 'mongodb+srv://admin:greenfood@cluster0.vzrkn.mongodb.net/greenfood?retryWrites=true&w=majority',
   collection: 'mySessions',
 });
 

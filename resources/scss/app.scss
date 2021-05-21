@@ -175,7 +175,7 @@ section.status {
 }
 
 .status-box ul li:nth-child(3) span:before {
-  content: '\f818';
+  content: '\f4ce';
 }
 
 .status-box ul li:nth-child(4) span:before {
@@ -301,7 +301,13 @@ section.status {
   padding: 10px;
 }
 
-#searchclientbtn {
+#searchClientBtn {
+  margin-left: auto;
+  margin-right: 0;
+  padding: 10px;
+}
+
+#addClientBtn {
   margin-left: auto;
   margin-right: 0;
   padding: 10px;
@@ -382,10 +388,10 @@ section.status {
 .modal {
   transition: opacity 0.25s ease;
 }
-.inputModal {
-  display: grid;
-  min-width: 50vw;
-}
+// .inputModal {
+//   display: grid;
+//   min-width: 50vw;
+// }
 
 .modalinputs > input {
   margin-top: 10px;
@@ -405,9 +411,23 @@ table {
   padding: 0.75em;
   vertical-align: top;
 }
-.table tr.selected {
-  color: #fff;
-  background-color: #ff7d49;
+
+.table td > a.btn {
+  padding: 0.3em 1em;
+  font-size: 1.1em;
+  margin: 0.2em;
+}
+
+// .table tr.selected {
+//   color: #fff;
+//   background-color: #2ecc71;
+// }
+
+.table tbody tr:hover {
+  background-color: #2ecc71;
+}
+.table tbody tr:hover > a {
+  box-shadow: none;
 }
 
 .thead-dark th {

@@ -123,9 +123,10 @@ function updateStatus(order) {
       stepCompleted = false;
       time.innerText = moment(order.updatedAt).format('HH:mm');
       status.appendChild(time);
-      if (status.nextElementSibling) {
-        status.nextElementSibling.classList.add('current');
-      }
+      status.classList.add('current');
+      // if (status.nextElementSibling) {
+      //   status.nextElementSibling.classList.add('current');
+      // }
     }
   });
 }
@@ -154,7 +155,7 @@ socket.on('orderUpdated', (data) => {
   new Noty({
     type: 'success',
     timeout: 1000,
-    text: 'Order updated',
+    text: 'Pedido Atualizado',
     progressBar: false,
   }).show();
 });

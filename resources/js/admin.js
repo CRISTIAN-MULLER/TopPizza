@@ -14,10 +14,11 @@ export function initAdmin(socket) {
       },
     })
     .then((res) => {
-      orders = res.data;
-
-      markup = generateMarkup(orders);
-      orderTableBody.innerHTML = markup;
+      if (orderTableBody) {
+        orders = res.data;
+        markup = generateMarkup(orders);
+        orderTableBody.innerHTML = markup;
+      }
     })
     .catch((err) => {
       console.log(err);
@@ -74,10 +75,19 @@ export function initAdmin(socket) {
                                   order.status === 'confirmed' ? 'selected' : ''
                                 }>
                                     Confirmado</option>
-                                <option value="prepared" ${
-                                  order.status === 'prepared' ? 'selected' : ''
+                                <option value="preparation" ${
+                                  order.status === 'preparation'
+                                    ? 'selected'
+                                    : ''
                                 }>
-                                    Preparado</option>
+                                    Em Preparação</option>
+                                <option value="outfordelivery" ${
+                                  order.status === 'outfordelivery'
+                                    ? 'selected'
+                                    : ''
+                                }>
+                                    Saiu para entrega
+                                </option>
                                 <option value="delivered" ${
                                   order.status === 'delivered' ? 'selected' : ''
                                 }>
@@ -111,7 +121,7 @@ export function initAdmin(socket) {
     new Noty({
       type: 'success',
       timeout: 1000,
-      text: 'New order!',
+      text: 'Novo Pedido!',
       progressBar: false,
     }).show();
     orders.unshift(order);

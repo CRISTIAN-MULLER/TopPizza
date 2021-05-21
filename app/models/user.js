@@ -8,7 +8,8 @@ const userSchema = new Schema(
       type: String,
       trim: true,
       unique: true,
-      spare: true,
+      sparse: true,
+      partialFilterExpression: { email: { $type: 'string' } },
     },
     phone: { type: String, required: false },
     address: {

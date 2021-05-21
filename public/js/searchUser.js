@@ -1,29 +1,31 @@
 //const user = require('../../app/models/user');
 //let searchUserBtn = document.querySelector('#searchUserBtn');
-const userToSearch = document.querySelector('#searchusername');
-const phoneToSearch = document.querySelector('#searchuserphone');
+const userToSearch = document.getElementById('searchUserName');
+const phoneToSearch = document.getElementById('searchUserPhone');
 const userTableBody = document.querySelector('#userTableBody');
 
-$('#searchUserBtn').on('click', function() {
+$('#searchUserBtn').on('click', function () {
   if (phoneToSearch.value) {
-    $.get(`/searchClientByPhone/${phoneToSearch.value}`, function(users, res) {
-      if (users.length > 0) {
-        let markup;
-        markup = generateMarkup(users);
-        userTableBody.innerHTML = markup;
-      } else {
-        userTableBody.innerHTML = `
+    $.get(
+      `/searchClientByPhone/${phoneToSearch.value}`,
+      function (clients, res) {
+        if (clients.length > 0) {
+          let markup;
+          markup = generateMarkup(clients);
+          userTableBody.innerHTML = markup;
+        } else {
+          userTableBody.innerHTML = `
        <tr>
         <td ">
           <p>Cliente não encontrado.</p>
         </td>
        </tr>`;
+        }
       }
-    });
-
+    );
     return;
   } else {
-    $.get(`/searchClientByName/${userToSearch.value}`, function(clients) {
+    $.get(`/searchClientByName/${userToSearch.value}`, function (clients) {
       if (clients.length > 0) {
         let markup;
         markup = generateMarkup(clients);
@@ -41,7 +43,6 @@ $('#searchUserBtn').on('click', function() {
 
   function generateMarkup(clients) {
     return clients
-
       .map((client) => {
         return `
               <tr>
@@ -50,18 +51,24 @@ $('#searchUserBtn').on('click', function() {
               <td ">${client.address.street},
               ${client.address.houseNumber}, 
               ${client.address.district}</td>
-              <td ">${client.phone}</td>                  
+              <td ">${client.phone}</td>
+              <td ">
+              <button type="button" onclick="toggleModal()" class="modal-open">
+              <a class="btn border-shadow data-id="${client._id}">
+                  <span class="text-gradient">
+                    <i class="fas fa-pencil-alt"></i> 
+                  </span>
+                </a>
+                </button>  
+              </td>             
               </tr>
               `;
       })
       .join('');
   }
 });
-$('#userTableBody').on('click', 'tr', function(event) {
-  $(this)
-    .addClass('selected')
-    .siblings()
-    .removeClass('selected');
+$('#userTableBody').on('click', 'tr', function (event) {
+  $(this).addClass('selected').siblings().removeClass('selected');
 });
 
 function getRow() {
@@ -70,10 +77,10 @@ function getRow() {
   return $('tr.selected > .id');
 }
 
-$('#selectUser').on('click', function(e) {
+$('#selectUser').on('click', function (e) {
   var selrowid = getRow().text();
 
-  $.get(`/searchClientById/${selrowid}`, function(client) {
+  $.get(`/searchClientById/${selrowid}`, function (client) {
     $('#id').val(client._id);
     $('#username').val(client.name);
     $('#phone').val(client.phone);

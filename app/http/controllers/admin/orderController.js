@@ -1,6 +1,5 @@
 const Order = require('../../../models/order');
 const User = require('../../../models/user');
-const moment = require('moment');
 
 function orderController() {
   return {

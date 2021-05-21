@@ -6,6 +6,8 @@ function usersController() {
       const idToSearch = req.params.clientid;
 
       User.findById(idToSearch)
+        .select('-password')
+
         .then((client) => {
           res.send(client);
         })
@@ -19,6 +21,7 @@ function usersController() {
     async searchClientByName(req, res) {
       const userToSearch = req.params.clientname;
       User.find({ name: { $regex: new RegExp(userToSearch, 'i') } })
+        .select('-password')
         .then((client) => {
           res.send(client);
         })

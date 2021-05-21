@@ -3,6 +3,7 @@
 const userToSearch = document.getElementById('searchUserName');
 const phoneToSearch = document.getElementById('searchUserPhone');
 const userTableBody = document.querySelector('#userTableBody');
+const editUserBtn = document.querySelectorAll('#editUser');
 
 $('#searchUserBtn').on('click', function () {
   if (phoneToSearch.value) {
@@ -45,7 +46,7 @@ $('#searchUserBtn').on('click', function () {
     return clients
       .map((client) => {
         return `
-              <tr>
+                 <tr>
               <td class ="id" style="display: none">${client._id}</td>
               <td class ="name">${client.name}</td>
               <td ">${client.address.street},
@@ -53,20 +54,20 @@ $('#searchUserBtn').on('click', function () {
               ${client.address.district}</td>
               <td ">${client.phone}</td>
               <td ">
-              <button type="button" onclick="toggleModal()" class="modal-open">
-              <a class="btn border-shadow data-id="${client._id}">
-                  <span class="text-gradient">
-                    <i class="fas fa-pencil-alt"></i> 
-                  </span>
-                </a>
-                </button>  
+              <button id="editUser" type="button" name="editUser" class="modal-open editUser btn-primary rounded-full mb-4 text-white font-bold">
+                  Editar</button>  
               </td>             
               </tr>
               `;
       })
       .join('');
   }
+
+  $('#editUser').on('click', function (e) {
+    alert('cliquei searchUser');
+  });
 });
+
 $('#userTableBody').on('click', 'tr', function (event) {
   $(this).addClass('selected').siblings().removeClass('selected');
 });
@@ -93,3 +94,27 @@ $('#selectUser').on('click', function (e) {
     $('#reference').val(client.address.reference);
   });
 });
+
+if (userTableBody) {
+  userTableBody.addEventListener('click', function (e) {
+    e.preventDefault();
+    toggleModal();
+    // e.target is the clicked element!
+    // If it was a list item
+    if (e.target && e.target.matches('.editUser')) {
+      var selrowid = getRow().text();
+      $.get(`/searchClientById/${selrowid}`, function (client) {
+        $('#id').val(client._id);
+        $('#username').val(client.name);
+        $('#phone').val(client.phone);
+        $('#zipcode').val(client.address.zipcode);
+        $('#street').val(client.address.street);
+        $('#houseNumber').val(client.address.houseNumber);
+        $('#district').val(client.address.district);
+        $('#city').val(client.address.city);
+        $('#state').val(client.address.state);
+        $('#reference').val(client.address.reference);
+      });
+    }
+  });
+}

@@ -2,7 +2,6 @@ import axios from 'axios';
 import Noty from 'noty';
 import { initAdmin } from './admin';
 import moment from 'moment';
-import { data } from 'jquery';
 
 let addToCart = document.querySelectorAll('.add-to-cart');
 let cartCounter = document.getElementById('cartCounter');
@@ -191,4 +190,25 @@ socket.on('orderUpdated', (data) => {
     text: 'Pedido Atualizado',
     progressBar: false,
   }).show();
+});
+
+$('.editUser').on('click', function (e) {
+  console.log(editUserBtn);
+  // console.log('funcao');
+  // var selrowid = getRow().text();
+  // console.log(selrowid);
+
+  // $.get(`/searchClientById/${selrowid}`, function (client) {
+  //   $('#id').val(client._id);
+  //   $('#username').val(client.name);
+  //   $('#phone').val(client.phone);
+  //   $('#zipcode').val(client.address.zipcode);
+  //   $('#street').val(client.address.street);
+  //   $('#houseNumber').val(client.address.houseNumber);
+  //   $('#district').val(client.address.district);
+  //   $('#city').val(client.address.city);
+  //   $('#state').val(client.address.state);
+  //   $('#reference').val(client.address.reference);
+  //   console.log(client);
+  //});
 });

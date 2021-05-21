@@ -62,15 +62,16 @@ function userController() {
     },
 
     handleUser(req, res) {
-      User.find()
-        .populate('customerId', '-password')
-        .exec((err, clients) => {
-          if (req.xhr) {
-            return res.json(clients);
-          } else {
-            return res.render('admin/clientForm');
-          }
-        });
+      const userData = req.body;
+      // User.find()
+      //   .populate('customerId', '-password')
+      //   .exec((err, clients) => {
+      //     if (req.xhr) {
+      //       return res.json(clients);
+      //     } else {
+      //       return res.render('admin/clientForm');
+      //     }
+      //   });
     },
   };
 }

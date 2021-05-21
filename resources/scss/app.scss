@@ -418,10 +418,10 @@ table {
   margin: 0.2em;
 }
 
-// .table tr.selected {
-//   color: #fff;
-//   background-color: #2ecc71;
-// }
+.table tr.selected {
+  color: #fff;
+  background-color: #2ecc71;
+}
 
 .table tbody tr:hover {
   background-color: #2ecc71;

@@ -7,13 +7,18 @@
     </div>
     <div class="product-list">
       <% for(let product of Object.values(session.cart.items)) { %>
-      <div class="flex items-center my-8">
+      <div id='productData<%= product.item._id %>' class="flex items-center my-8">
         <img class="w-24" src="/img/<%= product.item.image %>" alt="" />
         <div class="flex-1 ml-4">
           <h1><%= product.item.name %></h1>
           <span><%= product.item.size %></span>
         </div>
         <div class="flex-1">
+          <button
+          data-cart="<%= JSON.stringify(product.item) %>"
+          class="removeItem btn-primary mx-4 px-4 text-white rounded-md font-bold"
+          type="button"
+          > Remover </button>
         <button
           data-cart="<%= JSON.stringify(product.item) %>"
           class="decreaseItemQty btn-primary mx-4 px-4 text-white rounded-md font-size- font-bold"

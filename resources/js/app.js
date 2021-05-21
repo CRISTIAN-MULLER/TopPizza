@@ -2,14 +2,17 @@ import axios from 'axios';
 import Noty from 'noty';
 import { initAdmin } from './admin';
 import moment from 'moment';
+import { data } from 'jquery';
 
 let addToCart = document.querySelectorAll('.add-to-cart');
 let cartCounter = document.getElementById('cartCounter');
 let decreaseItemQty = document.querySelectorAll('.decreaseItemQty');
 let cartAmount = document.getElementById('amount');
 let increaseItemQty = document.querySelectorAll('.increaseItemQty');
+let removeItem = document.querySelectorAll('.removeItem');
+let categories = document.querySelectorAll('.categories');
+
 let sizeSelected = document.querySelectorAll('.size');
-let halfSelected = document.querySelectorAll('input[type="checkbox"]');
 
 function updateCart(product) {
   axios
@@ -33,9 +36,9 @@ function updateCart(product) {
     });
 }
 
-function decrease(product) {
+function decreaseItemCartQty(product) {
   axios
-    .put('/decrease-item-cart', product)
+    .put('/decrease-cart-item', product)
     .then((res) => {
       let productQty = document.getElementById('productQty' + res.data.itemId);
 
@@ -52,9 +55,9 @@ function decrease(product) {
       console.log(err);
     });
 }
-function increase(product) {
+function increaseItemCartQty(product) {
   axios
-    .put('/increase-item-cart', product)
+    .put('/increase-cart-item', product)
     .then((res) => {
       let productQty = document.getElementById('productQty' + res.data.itemId);
       let productItemTotal = document.getElementById(
@@ -64,6 +67,23 @@ function increase(product) {
       productItemTotal.innerText = 'R$ ' + res.data.itemTotalPrice;
       productQty.innerText = res.data.itemTotalQty + ' UN';
       cartCounter.innerText = res.data.totalQty;
+      cartAmount.innerText = 'R$ ' + res.data.cartTotalPrice;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+function removeItemFromCart(product) {
+  axios
+    .put('/remove-cart-item', product)
+    .then((res) => {
+      let productData = document.getElementById(
+        'productData' + res.data.itemId
+      );
+      productData.remove();
+
+      cartCounter.innerText = res.data.totalQty;
+
       cartAmount.innerText = 'R$ ' + res.data.cartTotalPrice;
     })
     .catch((err) => {
@@ -81,14 +101,27 @@ addToCart.forEach((btn) => {
 decreaseItemQty.forEach((btn) => {
   btn.addEventListener('click', (e) => {
     let product = JSON.parse(btn.dataset.cart);
-    decrease(product);
+    decreaseItemCartQty(product);
   });
 });
 
 increaseItemQty.forEach((btn) => {
   btn.addEventListener('click', (e) => {
     let product = JSON.parse(btn.dataset.cart);
-    increase(product);
+    increaseItemCartQty(product);
+  });
+});
+
+removeItem.forEach((btn) => {
+  btn.addEventListener('click', (e) => {
+    let product = JSON.parse(btn.dataset.cart);
+    removeItemFromCart(product);
+  });
+});
+
+categories.forEach((btn) => {
+  btn.addEventListener('click', (e) => {
+    console.log(addToCart);
   });
 });
 

@@ -15,7 +15,11 @@
 <section id="container" class="menu container mx-auto py-8">
   <h1 class="text-xl font-bold mb-8">
     Todos os Itens <% categories.forEach(function (category){%>
-    <button type="button" class="size py-1 px-4 rounded-full uppercase text-xs">
+    <button
+      id="<%= category %>"
+      type="button"
+      class="categories size py-1 px-4 rounded-full uppercase text-xs"
+    >
       <%= category %>
     </button>
     <% })%>

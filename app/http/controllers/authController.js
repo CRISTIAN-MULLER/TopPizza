@@ -40,7 +40,7 @@ function authController() {
       res.render('auth/register');
     },
     async postRegister(req, res) {
-      const { name, email, password } = req.body;
+      const { username, email, password } = req.body;
       // Validate request
       if (!name || !email || !password) {
         req.flash('error', 'Todos os campos são obrigatórios');
@@ -63,7 +63,7 @@ function authController() {
       const hashedPassword = await bcrypt.hash(password, 10);
       // Create a user
       const user = new User({
-        name,
+        username,
         email,
         password: hashedPassword,
       });

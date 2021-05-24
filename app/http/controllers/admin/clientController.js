@@ -13,65 +13,50 @@ function userController() {
           }
         });
     },
-    async addClient(req, res) {
-      const userData = req.body;
 
-      // Validate request
-      // if (!name || !email || !password) {
-      //   req.flash('error', 'Todos os campos são obrigatórios');
-      //   req.flash('name', name);
-      //   req.flash('email', email);
-      //   return res.redirect('/register');
-      // }
-
-      // Check if email exists
-      // Users.exists({ email: email }, (err, result) => {
-      //   if (result) {
-      //     req.flash('error', 'Este email já está cadastrado');
-      //     req.flash('name', name);
-      //     req.flash('email', email);
-      //     return res.redirect('/register');
-      //   }
-      // });
-
-      // Create a user
-      const user = new User({
-        name: userData.username,
-        phone: userData.phone,
+    async handleUser(req, res) {
+      const userData = {
+        id: req.body.id ? req.body.id : '',
+        username: req.body.username,
+        phone: req.body.phone,
         address: {
-          zipcode: userData.zipcode,
-          street: userData.street,
-          houseNumber: userData.houseNumber,
-          district: userData.district,
-          city: userData.city,
-          state: userData.state,
-          reference: userData.reference,
+          zipcode: req.body.zipcode,
+          street: req.body.street,
+          houseNumber: req.body.houseNumber,
+          district: req.body.district,
+          city: req.body.city,
+          state: req.body.state,
+          reference: req.body.reference,
         },
-      });
+      };
 
-      user
-        .save()
-        .then((user) => {
-          return res.redirect('clients');
-        })
-        .catch((err) => {
-          console.log(err);
-          req.flash('error', 'Algo deu errado, tente novamente');
-          return res.redirect('clients');
+      //checa se tem id no body da requisição, se tiver atualiza o cliente
+      //se não, cria um novo.
+      if (!req.body.id) {
+        const user = new User(userData);
+
+        user
+          .save()
+          .then((user) => {
+            return res.redirect('/admin/clients');
+          })
+          .catch((err) => {
+            console.log(err);
+            req.flash('error', 'Algo deu errado, tente novamente');
+            return res.redirect('/admin/clients');
+          });
+      } else {
+        const clientId = userData.id;
+
+        User.findByIdAndUpdate(clientId, userData, function (err, docs) {
+          if (err) {
+            console.log(err);
+            return res.redirect('/admin/clients');
+          } else {
+            return res.redirect('/admin/clients');
+          }
         });
-    },
-
-    handleUser(req, res) {
-      const userData = req.body;
-      // User.find()
-      //   .populate('customerId', '-password')
-      //   .exec((err, clients) => {
-      //     if (req.xhr) {
-      //       return res.json(clients);
-      //     } else {
-      //       return res.render('admin/clientForm');
-      //     }
-      //   });
+      }
     },
   };
 }

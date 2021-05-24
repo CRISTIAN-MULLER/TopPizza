@@ -1,5 +1,5 @@
 const orderForm = document.getElementById('orderForm');
-const addClientForm = document.getElementById('addClientForm');
+const handleClientForm = document.getElementById('handleClientForm');
 const username = document.getElementById('username');
 const phone = document.getElementById('phone');
 const zipcode = document.getElementById('zipcode');
@@ -32,11 +32,11 @@ if (orderForm !== null) {
   });
 }
 
-if (addClientForm !== null) {
-  addClientForm.addEventListener('submit', (e) => {
+if (handleClientForm !== null) {
+  handleClientForm.addEventListener('submit', (e) => {
     e.preventDefault();
     if (checkInputs()) {
-      document.addClientForm.submit();
+      document.handleClientForm.submit();
     }
   });
 }
@@ -116,86 +116,6 @@ function checkInputs() {
     return true;
   }
 }
-
-// function checkAddClientInputs() {
-//   // trim para remover espaços em branco
-//   const usernameValue = username.value.trim();
-//   const phoneValue = phone.value.trim();
-//   const zipcodeValue = zipcode.value.trim();
-//   const streetValue = street.value.trim();
-//   const houseNumberValue = houseNumber.value.trim();
-//   console.log('house', houseNumberValue);
-//   const districtValue = district.value.trim();
-
-//   const cityValue = city.value.trim();
-//   const stateValue = state.value.trim();
-//   const referenceValue = reference.value.trim();
-
-//   if (usernameValue === '') {
-//     setErrorFor(username, 'Nome não pode ficar em branco.');
-//   } else {
-//     setSuccessFor(username);
-//   }
-
-//   if (phoneValue === '') {
-//     setErrorFor(phone, 'Telefone Não pode ficar em branco.');
-//   } else {
-//     setSuccessFor(phone);
-//   }
-
-//   if (zipcodeValue === '') {
-//     setErrorFor(zipcode, 'Cep Não pode ficar em branco.');
-//   } else {
-//     setSuccessFor(zipcode);
-//   }
-
-//   if (streetValue === '') {
-//     setErrorFor(street, 'Rua não pode ficar em branco.');
-//   } else {
-//     setSuccessFor(street);
-//   }
-//   if (districtValue === '') {
-//     setErrorFor(district, 'Bairro não pode ficar em branco.');
-//   } else {
-//     setSuccessFor(district);
-//   }
-
-//   if (houseNumberValue === '') {
-//     setErrorFor(houseNumber, 'Número não pode ficar em branco.');
-//   } else {
-//     setSuccessFor(houseNumber);
-//   }
-
-//   if (cityValue === '') {
-//     setErrorFor(city, 'Cidade não pode ficar em branco.');
-//   } else {
-//     setSuccessFor(city);
-//   }
-//   if (stateValue === '') {
-//     setErrorFor(state, 'Estado não pode ficar em branco.');
-//   } else {
-//     setSuccessFor(state);
-//   }
-//   if (referenceValue === '') {
-//     setErrorFor(reference, 'Ponto de referência não pode ficar em branco.');
-//   } else {
-//     setSuccessFor(reference);
-//   }
-//   if (
-//     usernameValue !== '' &&
-//     phoneValue !== '' &&
-//     zipcodeValue !== '' &&
-//     streetValue !== '' &&
-//     houseNumberValue !== '' &&
-//     districtValue !== '' &&
-//     cityValue !== '' &&
-//     stateValue !== '' &&
-//     referenceValue !== ''
-//   ) {
-//     alert('ok');
-//     //   document.orderForm.submit();
-//   }
-// }
 
 function setErrorFor(input, message) {
   const formControl = input.parentElement;

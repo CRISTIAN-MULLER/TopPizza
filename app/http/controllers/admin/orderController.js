@@ -19,7 +19,7 @@ function orderController() {
     store(req, res) {
       if (req.body.id === '' || req.body.id === undefined) {
         const {
-          name = req.body.username,
+          username,
           phone,
           zipcode,
           street,
@@ -32,7 +32,7 @@ function orderController() {
 
         //Create a user
         const user = new User({
-          name,
+          username,
           phone,
           address: {
             zipcode,

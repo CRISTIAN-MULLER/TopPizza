@@ -5,7 +5,8 @@ const phoneToSearch = document.getElementById('searchUserPhone');
 const userTableBody = document.querySelector('#userTableBody');
 const editUserBtn = document.querySelectorAll('#editUser');
 
-$('#searchUserBtn').on('click', function () {
+$('#searchUserBtn').on('click', function (event) {
+  event.preventDefault();
   if (phoneToSearch.value) {
     $.get(
       `/searchClientByPhone/${phoneToSearch.value}`,
@@ -48,24 +49,21 @@ $('#searchUserBtn').on('click', function () {
         return `
                  <tr>
               <td class ="id" style="display: none">${client._id}</td>
-              <td class ="name">${client.name}</td>
+              <td class ="name">${client.username}</td>
               <td ">${client.address.street},
               ${client.address.houseNumber}, 
               ${client.address.district}</td>
               <td ">${client.phone}</td>
               <td ">
-              <button id="editUser" type="button" name="editUser" class="modal-open editUser btn-primary rounded-full mb-4 text-white font-bold">
-                  Editar</button>  
+              <button  type="button">
+              <i id="editUser" name="editUser" class="modal-open editUser fas fa-pencil-alt"></i>
+              </button>  
               </td>             
               </tr>
               `;
       })
       .join('');
   }
-
-  $('#editUser').on('click', function (e) {
-    alert('cliquei searchUser');
-  });
 });
 
 $('#userTableBody').on('click', 'tr', function (event) {
@@ -78,34 +76,18 @@ function getRow() {
   return $('tr.selected > .id');
 }
 
-$('#selectUser').on('click', function (e) {
-  var selrowid = getRow().text();
-
-  $.get(`/searchClientById/${selrowid}`, function (client) {
-    $('#id').val(client._id);
-    $('#username').val(client.name);
-    $('#phone').val(client.phone);
-    $('#zipcode').val(client.address.zipcode);
-    $('#street').val(client.address.street);
-    $('#houseNumber').val(client.address.houseNumber);
-    $('#district').val(client.address.district);
-    $('#city').val(client.address.city);
-    $('#state').val(client.address.state);
-    $('#reference').val(client.address.reference);
-  });
-});
-
 if (userTableBody) {
   userTableBody.addEventListener('click', function (e) {
     e.preventDefault();
-    toggleModal();
+
     // e.target is the clicked element!
     // If it was a list item
     if (e.target && e.target.matches('.editUser')) {
+      toggleModal();
       var selrowid = getRow().text();
       $.get(`/searchClientById/${selrowid}`, function (client) {
         $('#id').val(client._id);
-        $('#username').val(client.name);
+        $('#username').val(client.username);
         $('#phone').val(client.phone);
         $('#zipcode').val(client.address.zipcode);
         $('#street').val(client.address.street);

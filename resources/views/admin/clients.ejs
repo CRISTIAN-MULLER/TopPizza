@@ -6,6 +6,7 @@
         id="addClientBtn"
         name="addClientBtn"
         type="button"
+        onclick="handleClientForm.reset()"
       >
         + Adicionar Cliente
       </button>
@@ -14,8 +15,8 @@
       action="/admin/clients"
       method="POST"
       class=""
-      name="clientForm"
-      id="clientForm"
+      name="searchClientForm"
+      id="searchClientForm"
     >
       <div class="firstline">
         <div class="form-control">
@@ -128,15 +129,14 @@
       <div class="modalinputs">
         <div class="inputModal">
           <!--Body-->
-          <!-- <%- include('./clientForm'); %> -->
 
           <form
             action="/admin/clients/handleUser"
             method="POST"
-            name="addClientForm"
-            id="addClientForm"
+            name="handleClientForm"
+            id="handleClientForm"
           >
-            <input id="id" value="" />
+            <input id="id" name="id" value="" style="display: none" />
             <div class="firstline">
               <div class="form-control">
                 <label for="username">Nome:</label>
@@ -297,7 +297,7 @@
             >
               Salvar
             </button>
-            <button class="modal-close">Fechar</button>
+            <button type="button" class="modal-close">Fechar</button>
           </form>
         </div>
       </div>

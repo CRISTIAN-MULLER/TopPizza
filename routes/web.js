@@ -44,7 +44,6 @@ function initRoutes(app) {
   app.post('/admin/order/status', admin, statusController().update);
   app.get('/admin/clients', clientController().index);
   app.post('/admin/clients/handleUser', clientController().handleUser);
-  app.post('/admin/clients', clientController().addClient);
 }
 
 module.exports = initRoutes;

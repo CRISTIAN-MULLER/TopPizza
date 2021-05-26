@@ -35,26 +35,27 @@ function userController() {
       if (!req.body.id) {
         const user = new User(userData);
 
-        user
+        await user
           .save()
-          .then((user) => {
-            return res.redirect('/admin/clients');
-          })
+          // .then((user) => {
+          //   return res.redirect('/admin/clients');
+          // })
           .catch((err) => {
             console.log(err);
             req.flash('error', 'Algo deu errado, tente novamente');
-            return res.redirect('/admin/clients');
+            //  return res.redirect('/admin/clients');
           });
       } else {
         const clientId = userData.id;
 
-        User.findByIdAndUpdate(clientId, userData, function (err, docs) {
+        await User.findByIdAndUpdate(clientId, userData, function (err, docs) {
           if (err) {
             console.log(err);
-            return res.redirect('/admin/clients');
-          } else {
-            return res.redirect('/admin/clients');
+            // return res.redirect('/admin/clients');
           }
+          //else {
+          //  // return res.redirect('/admin/clients');
+          // }
         });
       }
     },

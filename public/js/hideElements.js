@@ -26,7 +26,10 @@ if (overlay !== null) {
 
 var closemodal = document.querySelectorAll('.modal-close');
 for (var i = 0; i < closemodal.length; i++) {
-  closemodal[i].addEventListener('click', toggleModal);
+  closemodal[i].addEventListener('click', function (event) {
+    toggleModal();
+    $('#searchUserBtn').trigger('click');
+  });
 }
 
 document.onkeydown = function (evt) {

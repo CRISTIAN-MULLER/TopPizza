@@ -32,14 +32,31 @@ if (orderForm !== null) {
   });
 }
 
-if (handleClientForm !== null) {
-  handleClientForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    if (checkInputs()) {
-      document.handleClientForm.submit();
-    }
-  });
-}
+// if (handleClientForm !== null) {
+//   handleClientForm.addEventListener('submit', (e) => {
+//     e.preventDefault();
+//     if (checkInputs()) {
+//       document.handleClientForm.submit();
+//     }
+//   });
+// }
+
+$('#handleClientForm').on('submit', function (event) {
+  event.preventDefault();
+  if (checkInputs()) {
+    $.ajax({
+      url: '/admin/clients/handleUser',
+      data: $('#handleClientForm').serialize(),
+      method: 'POST',
+    })
+      .then(function (response) {
+        // $('body').append(response);
+      })
+      .catch(function (err) {
+        console.error(err);
+      });
+  }
+});
 
 function checkInputs() {
   // trim para remover espaços em branco

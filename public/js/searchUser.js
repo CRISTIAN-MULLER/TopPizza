@@ -10,6 +10,7 @@ $('#searchUserBtn').on('click', function (event) {
   if (phoneToSearch.value) {
     $.get(
       `/searchClientByPhone/${phoneToSearch.value}`,
+
       function (clients, res) {
         if (clients.length > 0) {
           let markup;
@@ -26,7 +27,9 @@ $('#searchUserBtn').on('click', function (event) {
       }
     );
     return;
-  } else {
+  }
+
+  if (userToSearch.value) {
     $.get(`/searchClientByName/${userToSearch.value}`, function (clients) {
       if (clients.length > 0) {
         let markup;
@@ -41,6 +44,7 @@ $('#searchUserBtn').on('click', function (event) {
        </tr>`;
       }
     });
+    return;
   }
 
   function generateMarkup(clients) {

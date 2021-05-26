@@ -1,103 +1,90 @@
 <section class="py-16">
-  <div class="client container mx-auto xl:w-1/2">
-    <div id="addClient" class="mt-4">
+  <div class="product container mx-auto xl:w-1/2">
+    <div id="addProduct" class="mt-4">
       <button
         class="btn-primary modal-open rounded-full mb-4 text-white font-bold"
-        id="addClientBtn"
-        name="addClientBtn"
+        id="addProductBtn"
+        name="addProductBtn"
         type="button"
-        onclick="handleClientForm.reset()"
+        onclick="handleProductForm.reset()"
       >
-        + Adicionar Cliente
+        + Adicionar Produto
       </button>
     </div>
     <form
-      action="/admin/clients"
+      action="/admin/products"
       method="POST"
       class=""
-      name="searchClientForm"
-      id="searchClientForm"
+      name="searchProductForm"
+      id="searchProductForm"
     >
       <div class="firstline">
         <div class="form-control">
-          <label for="searchUserName">Nome:</label>
+          <label for="searchProductName">Nome:</label>
           <input
             type="text"
-            name="searchUserName"
-            id="searchUserName"
-            placeholder="Nome do Cliente"
+            name="searchProductName"
+            id="searchProductName"
+            placeholder="Nome do Produto"
             class="border pl-6 mr-10 px-4 py-2 border-gray-400 rounded-md"
           />
         </div>
-        <div class="form-control">
-          <label for="searchUserPhone">Telefone:</label>
-          <input
-            type="text"
-            name="searchUserPhone"
-            id="searchUserPhone"
-            value=""
-            class="border pl-6 px-4 py-2 border-gray-400 rounded-md"
-            placeholder="Telefone"
-          />
-        </div>
       </div>
 
-      <div class="fourthline">
-        <div class="form-control">
-          <label for="searchUserdistrict">Bairro:</label>
-          <input
-            id="searchUserDistrict"
-            name="searchUserdistrict"
-            value=""
-            class="border pl-6 px-4 py-2 border-gray-400 rounded-md"
-            type="text"
-            placeholder="Bairro"
-          />
-        </div>
-        <div class="form-control">
-          <label for="searchUsercity">Cidade:</label>
-          <input
-            id="searchUsercity"
-            name="searchUsercity"
-            value=""
-            class="border pl-6 px-4 py-2 border-gray-400 rounded-md"
-            type="text"
-            placeholder="Cidade"
-          />
-        </div>
-        <div class="form-control">
-          <label for="searchUserstate">Estado:</label>
-          <input
-            id="searchUserstate"
-            name="searchUserstate"
-            value=""
-            class="border pl-6 px-4 py-2 border-gray-400 rounded-md"
-            type="text"
-            placeholder="Estado"
-          />
-        </div>
-      </div>
-
-      <div id="clientSearch-btn" class="mt-4">
+      <div id="productSearch-btn" class="mt-4">
         <button
           class="btn-primary rounded-full mb-4 text-white font-bold"
-          id="searchUserBtn"
-          name="searchUserBtn"
+          id="searchProductBtn"
+          name="searchProductBtn"
           type="button"
         >
-          Buscar Cliente
+          Buscar Produto
         </button>
       </div>
     </form>
-    <table class="table userstable">
+    <table class="table productstable">
       <thead>
         <tr>
+          <th class="px-4 py-2 text-left">Produto</th>
           <th class="px-4 py-2 text-left">Nome</th>
-          <th class="px-4 py-2 text-left">Endereço</th>
-          <th class="px-4 py-2 text-left">Telefone</th>
+
+          <th class="px-4 py-2 text-left">Tamanho</th>
+          <th class="px-4 py-2 text-left">Preço</th>
+
+          <th class="px-4 py-2 text-left">Categoria</th>
         </tr>
       </thead>
-      <tbody id="userTableBody"></tbody>
+      <tbody id="productTableBody">
+        <% products.forEach(function (product){%>
+        <tr>
+          <td class="productData">
+            <img class="h-12 mx-auto" src="/img/<%= product.image %>" alt="" />
+          </td>
+          <td class="productData">
+            <h2 class="text-lg"><%= product.name %></h2>
+          </td>
+          <td class="productData">
+            <% product.sizes.forEach(function (size){%>
+            <button
+              type="button"
+              data-product="<%= JSON.stringify(product)
+                    %>"
+              id="<%= size %>"
+              class="size px-4 rounded-full uppercase text-xs"
+            >
+              <%= size %>
+            </button>
+            <% })%>
+          </td>
+          <td class="productData">
+            <span class="font-bold text-lg">R$ <%= product.price %></span>
+          </td>
+          <td class="productData">
+            <span class="text-lg"><%= product.category %></span>
+          </td>
+        </tr>
+        <% })%>
+      </tbody>
     </table>
   </div>
 </section>
@@ -130,18 +117,18 @@
         <div class="inputModal">
           <!--Body-->
 
-          <form name="handleClientForm" id="handleClientForm">
+          <form name="handleProductForm" id="handleProductForm">
             <input id="id" name="id" value="" style="display: none" />
             <div class="firstline">
               <div class="form-control">
-                <label for="username">Nome:</label>
+                <label for="name">Nome:</label>
                 <input
-                  id="username"
-                  name="username"
+                  id="name"
+                  name="name"
                   class="border pl-6 mr-10 px-4 py-2 border-gray-400 rounded-md"
                   type="text"
                   value=""
-                  placeholder="Nome do Cliente"
+                  placeholder="Nome do Produto"
                 />
                 <i class="fas fa-check-circle"></i>
                 <i class="fas fa-exclamation-circle"></i>

@@ -418,6 +418,10 @@ table {
   margin: 0.2em;
 }
 
+.table td.productData {
+  vertical-align: middle;
+}
+
 .table tr.selected {
   color: #fff;
   background-color: #2ecc71;

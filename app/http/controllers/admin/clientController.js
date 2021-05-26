@@ -37,9 +37,9 @@ function userController() {
 
         await user
           .save()
-          // .then((user) => {
-          //   return res.redirect('/admin/clients');
-          // })
+          .then((user) => {
+            return user;
+          })
           .catch((err) => {
             console.log(err);
             req.flash('error', 'Algo deu errado, tente novamente');
@@ -48,14 +48,13 @@ function userController() {
       } else {
         const clientId = userData.id;
 
-        await User.findByIdAndUpdate(clientId, userData, function (err, docs) {
+        await User.findByIdAndUpdate(clientId, userData, function (err, user) {
           if (err) {
             console.log(err);
             // return res.redirect('/admin/clients');
+          } else {
+            return user;
           }
-          //else {
-          //  // return res.redirect('/admin/clients');
-          // }
         });
       }
     },

@@ -48,14 +48,9 @@ $('#handleClientForm').on('submit', function (event) {
       url: '/admin/clients/handleUser',
       data: $('#handleClientForm').serialize(),
       method: 'POST',
-    })
-      .then(function (response) {
-        // $('body').append(response);
-      })
-      .catch(function (err) {
-        console.error(err);
-      });
+    });
   }
+  $('#small-message').html('Dados Salvos com sucesso');
 });
 
 function checkInputs() {

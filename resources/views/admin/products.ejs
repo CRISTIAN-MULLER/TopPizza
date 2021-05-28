@@ -64,21 +64,20 @@
             <h2 class="text-lg"><%= product.name %></h2>
           </td>
           <td class="productData">
-            <% product.sizes.forEach(function (size){%>
-            <button
-              type="button"
-              data-product="<%= JSON.stringify(product)
-                    %>"
-              id="<%= size %>"
-              class="size px-4 rounded-full uppercase text-xs"
-            >
-              <%= size %>
-            </button>
+            <% product.saleSizes.forEach(function (saleSize){%>
+            <div>
+              <button
+                type="button"
+                class="size px-4 mx-4 rounded-full uppercase text-xs"
+              >
+                <%= saleSize.saleSize %>
+              </button>
+
+              <span class="text-md">R$ <%= saleSize.price %></span>
+            </div>
             <% })%>
           </td>
-          <td class="productData">
-            <span class="font-bold text-lg">R$ <%= product.price %></span>
-          </td>
+
           <td class="productData">
             <span class="text-lg"><%= product.category %></span>
           </td>

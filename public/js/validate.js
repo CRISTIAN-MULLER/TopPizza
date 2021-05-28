@@ -49,8 +49,8 @@ $('#handleClientForm').on('submit', function (event) {
       data: $('#handleClientForm').serialize(),
       method: 'POST',
     });
+    $('#small-message').html('Dados Salvos com sucesso');
   }
-  $('#small-message').html('Dados Salvos com sucesso');
 });
 
 function checkInputs() {

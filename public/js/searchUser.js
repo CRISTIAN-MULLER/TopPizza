@@ -88,6 +88,9 @@ if (userTableBody) {
     // If it was a list item
     if (e.target && e.target.matches('.editUser')) {
       toggleModal();
+      $('.form-control').removeClass('success error');
+      $('small').text('');
+      $('.small-message').text('');
       var selrowid = getRow().text();
       $.get(`/searchClientById/${selrowid}`, function (client) {
         $('#id').val(client._id);

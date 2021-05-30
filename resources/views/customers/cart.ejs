@@ -1,5 +1,5 @@
 <section class="cart py-16">
-  <% if(session.cart) { %>
+  <% if(session.cart && session.cart.totalPrice !== 0) { %>
   <div class="order container mx-auto xl:w-1/2">
     <div class="flex items-center border-b border-gray-300 pb-4">
       <img src="/img/cart-black.png" alt="" />
@@ -12,11 +12,11 @@
         class="flex items-center my-8"
       >
         <img class="w-24" src="/img/<%= product.item.image %>" alt="" />
-        <div class="flex-1 ml-4">
+        <div class="flex-auto ml-4">
           <h1><%= product.item.name %></h1>
           <span><%= product.item.size %></span>
         </div>
-        <div class="flex-1">
+        <div class="flex-auto">
           <button
             data-cart="<%= JSON.stringify(product.item) %>"
             class="
@@ -48,8 +48,8 @@
             -
           </button>
           <span id="productQty<%= product.item._id %>"
-            ><%= product.qty %> Un</span
-          >
+            ><%= product.itemTotalQty %>
+          </span>
           <button
             data-cart="<%= JSON.stringify(product.item) %>"
             class="
@@ -69,16 +69,16 @@
         <span
           id="productItemTotal<%= product.item._id %>"
           class="font-bold text-lg"
-          >R$ <%= product.item.price * product.qty %></span
+          >R$ <%= product.item.saleSize.price * product.itemTotalQty %></span
         >
       </div>
       <% } %>
     </div>
     <hr />
     <div class="flex justify-between">
-      <div class="flex flex-col py-4">
-        <span class="text-lg font-bold ml-0 mr-aut">Observações</span>
-        <textarea class="h-24 flex-1"></textarea>
+      <div class="flex-1 flex-col py-4">
+        <span class="text-lg font-bold">Observações</span>
+        <textarea class="h-24 w-full"></textarea>
       </div>
       <div class="text-right py-4">
         <div class="justify-between grid-cols-2 align-center m-0">

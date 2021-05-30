@@ -18,9 +18,6 @@ function productController() {
         id: req.body.id ? req.body.id : '',
         name: req.body.name,
         image: req.body.image,
-        price: req.body.price,
-        sizes: req.body.sizes,
-        size: req.body.size,
         category: req.body.category,
       };
 

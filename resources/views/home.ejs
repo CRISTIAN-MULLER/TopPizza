@@ -43,14 +43,29 @@
         <span class="font-bold text-lg">R$ <%= saleSize.price %></span>
         <button
           type="button"
-          data-product="<%= saleSize.saleSize %>"
-          id="<%= saleSize.saleSize %>"
+          data-product="<%= JSON.stringify(product)
+            %>"
+          data-salesize="<%= JSON.stringify(saleSize) %>"
           class="size py-1 px-4 rounded-full uppercase text-xs"
         >
           <%= saleSize.saleSize %>
         </button>
 
         <% })%>
+        <input
+          type="number"
+          id="itemQuantity<%= product.id %>"
+          min="0"
+          data-product="<%= JSON.stringify(product)
+          %>"
+          placeholder="Quantidade"
+          class="itemQuantity flex border-b border-gray-500 mt-4 w-24 m-auto"
+        />
+        <span class="mt-4">Preço Total R$:</span>
+        <span id="totalPrice<%= product.id %>" class="totalPrice money"
+          >0.00</span
+        >
+
         <div class="flex flex-col tems-center justify-around mt-1">
           <button
             data-product="<%= JSON.stringify(product)%>"

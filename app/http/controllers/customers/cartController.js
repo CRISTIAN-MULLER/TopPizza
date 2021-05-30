@@ -1,9 +1,9 @@
-const { json } = require("express");
+const { json } = require('express');
 
 function cartController() {
   return {
     index(req, res) {
-      res.render("customers/cart");
+      res.render('customers/cart');
     },
     update(req, res) {
       if (!req.session.cart) {
@@ -14,29 +14,29 @@ function cartController() {
         };
       }
       let cart = req.session.cart;
-
       // Ver se existe o item no carrinho
       if (!cart.items[req.body._id]) {
         cart.items[req.body._id] = {
           item: req.body,
-          qty: 1,
-          itemTotalQty: 0,
-          totalItemprice: 0,
+          // qty: 1,
+          itemTotalQty: req.body.itemTotalQty,
+          totalItemprice: req.body.itemTotalQty * req.body.saleSize.price,
         };
         cart.totalQty = cart.totalQty + 1;
-        cart.totalPrice = cart.totalPrice + req.body.price;
-        cart.items[req.body._id].itemTotalQty =
-          cart.items[req.body._id].itemTotalQty + 1;
+        cart.totalPrice =
+          cart.totalPrice + req.body.itemTotalQty * req.body.saleSize.price;
         cart.items[req.body._id].totalItemprice =
-          req.body.price * cart.items[req.body._id].qty;
+          req.body.saleSize.price * cart.items[req.body._id].itemTotalQty;
       } else {
-        cart.items[req.body._id].qty = cart.items[req.body._id].qty + 1;
         cart.items[req.body._id].itemTotalQty =
-          cart.items[req.body._id].itemTotalQty + cart.items[req.body._id].qty;
+          cart.items[req.body._id].itemTotalQty + req.body.itemTotalQty;
+
         cart.items[req.body._id].totalItemprice =
-          req.body.price * cart.items[req.body._id].qty;
-        cart.totalQty = cart.totalQty + 1;
-        cart.totalPrice = cart.totalPrice + req.body.price;
+          cart.items[req.body._id].totalItemprice +
+          req.body.itemTotalQty * req.body.saleSize.price;
+
+        cart.totalPrice =
+          cart.totalPrice + req.body.itemTotalQty * req.body.saleSize.price;
       }
       return res.json({ totalQty: req.session.cart.totalQty });
     },
@@ -51,20 +51,22 @@ function cartController() {
       let cart = req.session.cart;
 
       // Ver se não existe o item no carrinho
-      if (cart.items[req.body._id].qty <= 1) {
+      if (cart.items[req.body._id].itemTotalQty <= 1) {
         return;
       } else {
-        cart.items[req.body._id].qty = cart.items[req.body._id].qty - 1;
-        cart.totalQty = cart.totalQty - 1;
-        cart.totalPrice = cart.totalPrice - req.body.price;
-        cart.items[req.body._id].totalItemprice =
-          req.body.price * cart.items[req.body._id].qty;
         cart.items[req.body._id].itemTotalQty =
-          cart.items[req.body._id].itemTotalQty - cart.items[req.body._id].qty;
+          cart.items[req.body._id].itemTotalQty - 1;
+        cart.totalQty = cart.totalQty - 1;
+        cart.totalPrice = cart.totalPrice - req.body.saleSize.price;
+        cart.items[req.body._id].totalItemprice =
+          req.body.saleSize.price * cart.items[req.body._id].itemTotalQty;
+        cart.items[req.body._id].itemTotalQty =
+          cart.items[req.body._id].itemTotalQty -
+          cart.items[req.body._id].itemTotalQty;
       }
       return res.json({
         totalQty: req.session.cart.totalQty,
-        itemTotalQty: cart.items[req.body._id].qty,
+        itemTotalQty: cart.items[req.body._id].itemTotalQty,
         itemTotalPrice: cart.items[req.body._id].totalItemprice,
         itemId: req.body._id,
         cartTotalPrice: cart.totalPrice,
@@ -73,19 +75,21 @@ function cartController() {
     increaseItemQty(req, res) {
       let cart = req.session.cart;
       // Ver se não existe o item no carrinho
-      cart.items[req.body._id].qty = cart.items[req.body._id].qty + 1;
+      cart.items[req.body._id].itemTotalQty =
+        cart.items[req.body._id].itemTotalQty + 1;
 
       cart.totalQty = cart.totalQty + 1;
-      cart.totalPrice = cart.totalPrice + req.body.price;
+      cart.totalPrice = cart.totalPrice + req.body.saleSize.price;
       cart.items[req.body._id].totalItemprice =
-        req.body.price * cart.items[req.body._id].qty;
+        req.body.saleSize.price * cart.items[req.body._id].itemTotalQty;
 
       cart.items[req.body._id].itemTotalQty =
-        cart.items[req.body._id].itemTotalQty + cart.items[req.body._id].qty;
+        cart.items[req.body._id].itemTotalQty +
+        cart.items[req.body._id].itemTotalQty;
 
       return res.json({
         totalQty: req.session.cart.totalQty,
-        itemTotalQty: cart.items[req.body._id].qty,
+        itemTotalQty: cart.items[req.body._id].itemTotalQty,
         itemTotalPrice: cart.items[req.body._id].totalItemprice,
         itemId: req.body._id,
         cartTotalPrice: cart.totalPrice,
@@ -94,14 +98,21 @@ function cartController() {
     removeItem(req, res) {
       let cart = req.session.cart;
       let productId = req.body._id;
-      cart.totalQty = cart.totalQty - cart.items[productId].qty;
+      cart.totalQty = cart.totalQty - 1;
+
+      if (cart.totalQty < 0) {
+        cart.totalQty = 0;
+      }
       let totalItemPrice = cart.items[req.body._id].totalItemprice;
       cart.totalPrice = cart.totalPrice - totalItemPrice;
+      if (isNaN(cart.totalPrice)) {
+        cart.totalPrice = 0.0;
+      }
       delete cart.items[productId];
 
       return res.json({
         itemId: req.body._id,
-        totalQty: req.session.cart.totalQty,
+        totalQty: cart.totalQty,
         cartTotalPrice: cart.totalPrice,
       });
     },

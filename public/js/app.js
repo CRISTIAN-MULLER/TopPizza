@@ -1934,6 +1934,7 @@ var increaseItemQty = document.querySelectorAll('.increaseItemQty');
 var removeItem = document.querySelectorAll('.removeItem');
 var categories = document.querySelectorAll('.categories');
 var sizeSelected = document.querySelectorAll('.size');
+var itemQuantity = document.querySelectorAll('.itemQuantity');
 
 function updateCart(product) {
   axios__WEBPACK_IMPORTED_MODULE_0___default().post('/update-cart', product).then(function (res) {
@@ -1993,8 +1994,15 @@ function removeItemFromCart(product) {
 
 addToCart.forEach(function (btn) {
   btn.addEventListener('click', function (e) {
-    var product = JSON.parse(btn.dataset.product);
-    updateCart(product);
+    var productData = JSON.parse(btn.dataset.product);
+    var isSelected = $('#itemQuantity' + productData._id).prevUntil().hasClass('Selected');
+
+    if (!isSelected) {
+      alert('Selecione uma Unidade de Venda');
+      return;
+    }
+
+    updateCart(productData);
   });
 });
 decreaseItemQty.forEach(function (btn) {
@@ -2087,6 +2095,54 @@ socket.on('orderUpdated', function (data) {
     text: 'Pedido Atualizado',
     progressBar: false
   }).show();
+});
+sizeSelected.forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    sizeSelected.forEach(function (btn) {
+      btn.classList.remove('Selected');
+    }), btn.classList.add('Selected');
+    var productData = JSON.parse(btn.dataset.product);
+    var addToCartBtn = document.getElementById(productData._id);
+    var product = JSON.parse(addToCartBtn.dataset.product);
+    product.saleSize = JSON.parse(btn.dataset.salesize);
+    product.itemTotalQty = 1;
+    $('#itemQuantity' + productData._id).val('1');
+    addToCartBtn.dataset.product = JSON.stringify(product);
+    $('#totalPrice' + productData._id).text(function () {
+      var totalItemprice = product.itemTotalQty * product.saleSize.price;
+
+      if (isNaN(totalItemprice)) {
+        return '0.00';
+      } else {
+        return totalItemprice;
+      }
+    });
+  });
+});
+itemQuantity.forEach(function (input) {
+  input.addEventListener('input', function () {
+    var productData = JSON.parse(input.dataset.product);
+    var isSelected = $('#itemQuantity' + productData._id).prevUntil().hasClass('Selected');
+
+    if (!isSelected) {
+      alert('Selecione uma Unidade de Venda');
+      return;
+    }
+
+    var addToCartBtn = document.getElementById(productData._id);
+    var product = JSON.parse(addToCartBtn.dataset.product);
+    product.itemTotalQty = parseFloat(input.value);
+    addToCartBtn.dataset.product = JSON.stringify(product);
+    $('#totalPrice' + productData._id).text(function () {
+      var totalItemprice = product.itemTotalQty * product.saleSize.price;
+
+      if (isNaN(totalItemprice)) {
+        return '0.00';
+      } else {
+        return totalItemprice;
+      }
+    });
+  });
 });
 
 /***/ }),

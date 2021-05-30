@@ -12,6 +12,7 @@ let removeItem = document.querySelectorAll('.removeItem');
 let categories = document.querySelectorAll('.categories');
 
 let sizeSelected = document.querySelectorAll('.size');
+let itemQuantity = document.querySelectorAll('.itemQuantity');
 
 function updateCart(product) {
   axios
@@ -92,8 +93,16 @@ function removeItemFromCart(product) {
 
 addToCart.forEach((btn) => {
   btn.addEventListener('click', (e) => {
-    let product = JSON.parse(btn.dataset.product);
-    updateCart(product);
+    let productData = JSON.parse(btn.dataset.product);
+    let isSelected = $('#itemQuantity' + productData._id)
+      .prevUntil()
+      .hasClass('Selected');
+    if (!isSelected) {
+      alert('Selecione uma Unidade de Venda');
+      return;
+    }
+
+    updateCart(productData);
   });
 });
 
@@ -190,4 +199,57 @@ socket.on('orderUpdated', (data) => {
     text: 'Pedido Atualizado',
     progressBar: false,
   }).show();
+});
+
+sizeSelected.forEach((btn) => {
+  btn.addEventListener('click', () => {
+    sizeSelected.forEach((btn) => {
+      btn.classList.remove('Selected');
+    }),
+      btn.classList.add('Selected');
+    let productData = JSON.parse(btn.dataset.product);
+    let addToCartBtn = document.getElementById(productData._id);
+    let product = JSON.parse(addToCartBtn.dataset.product);
+    product.saleSize = JSON.parse(btn.dataset.salesize);
+    product.itemTotalQty = 1;
+    $('#itemQuantity' + productData._id).val('1');
+    addToCartBtn.dataset.product = JSON.stringify(product);
+
+    $('#totalPrice' + productData._id).text(function () {
+      let totalItemprice = product.itemTotalQty * product.saleSize.price;
+      if (isNaN(totalItemprice)) {
+        return '0.00';
+      } else {
+        return totalItemprice;
+      }
+    });
+  });
+});
+
+itemQuantity.forEach((input) => {
+  input.addEventListener('input', () => {
+    let productData = JSON.parse(input.dataset.product);
+    let isSelected = $('#itemQuantity' + productData._id)
+      .prevUntil()
+      .hasClass('Selected');
+    if (!isSelected) {
+      alert('Selecione uma Unidade de Venda');
+      return;
+    }
+
+    let addToCartBtn = document.getElementById(productData._id);
+    let product = JSON.parse(addToCartBtn.dataset.product);
+    product.itemTotalQty = parseFloat(input.value);
+    addToCartBtn.dataset.product = JSON.stringify(product);
+
+    $('#totalPrice' + productData._id).text(function () {
+      let totalItemprice = product.itemTotalQty * product.saleSize.price;
+
+      if (isNaN(totalItemprice)) {
+        return '0.00';
+      } else {
+        return totalItemprice;
+      }
+    });
+  });
 });

@@ -12,6 +12,7 @@ function authController() {
     },
     postLogin(req, res, next) {
       const { email, password } = req.body;
+      console.log(req.body);
       // Validate request
       if (!email || !password) {
         req.flash('error', 'Todos os campos são obrigatórios');
@@ -41,10 +42,11 @@ function authController() {
     },
     async postRegister(req, res) {
       const { username, email, password } = req.body;
+
       // Validate request
-      if (!name || !email || !password) {
+      if (!username || !email || !password) {
         req.flash('error', 'Todos os campos são obrigatórios');
-        req.flash('name', name);
+        req.flash('username', username);
         req.flash('email', email);
         return res.redirect('/register');
       }
@@ -53,7 +55,7 @@ function authController() {
       User.exists({ email: email }, (err, result) => {
         if (result) {
           req.flash('error', 'Este email já está cadastrado');
-          req.flash('name', name);
+          req.flash('username', username);
           req.flash('email', email);
           return res.redirect('/register');
         }

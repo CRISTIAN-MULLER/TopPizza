@@ -18,7 +18,7 @@
     <button
       id="<%= category %>"
       type="button"
-      class="categories size py-1 px-4 rounded-full uppercase text-xs"
+      class="categories size py-1 px-4 rounded-full text-xs"
     >
       <%= category %>
     </button>
@@ -39,19 +39,25 @@
       <img class="h-40 mb-4 mx-auto" src="/img/<%= product.image %>" alt="" />
       <div class="text-center">
         <h2 class="mb-4 text-lg"><%= product.name %></h2>
-        <% product.saleSizes.forEach(function (saleSize){%>
-        <span class="font-bold text-lg">R$ <%= saleSize.price %></span>
-        <button
-          type="button"
-          data-product="<%= JSON.stringify(product)
+        <div class="flex gap-x-6">
+          <% product.saleSizes.forEach(function (saleSize){%>
+          <div>
+            <span class="font-bold text-lg w-40 mb-4"
+              ><%= saleSize.price.toLocaleString('pt-BR', { style: 'currency',
+              currency: 'BRL' }) %></span
+            >
+            <button
+              type="button"
+              data-product="<%= JSON.stringify(product)
             %>"
-          data-salesize="<%= JSON.stringify(saleSize) %>"
-          class="size py-1 px-4 rounded-full uppercase text-xs"
-        >
-          <%= saleSize.saleSize %>
-        </button>
-
-        <% })%>
+              data-salesize="<%= JSON.stringify(saleSize) %>"
+              class="size py-1 px-4 rounded-full text-xs mt-4"
+            >
+              <%= saleSize.saleSize %>
+            </button>
+          </div>
+          <% })%>
+        </div>
         <input
           type="number"
           id="itemQuantity<%= product.id %>"
@@ -59,11 +65,20 @@
           data-product="<%= JSON.stringify(product)
           %>"
           placeholder="Quantidade"
-          class="itemQuantity flex border-b border-gray-500 mt-4 w-24 m-auto"
+          class="
+            itemQuantity
+            flex
+            border-b border-gray-500
+            mt-4
+            w-24
+            m-auto
+            text-center
+          "
         />
-        <span class="mt-4">Preço Total R$:</span>
+        <span class="mt-4">Preço Total:</span>
         <span id="totalPrice<%= product.id %>" class="totalPrice money"
-          >0.00</span
+          >(0.00).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'
+          })</span
         >
 
         <div class="flex flex-col tems-center justify-around mt-1">

@@ -3,7 +3,7 @@ import Noty from 'noty';
 import { initAdmin } from './admin';
 import moment from 'moment';
 
-let addToCart = document.querySelectorAll('.add-to-cart');
+let addToCartBtn = document.querySelectorAll('.add-to-cart');
 let cartCounter = document.getElementById('cartCounter');
 let decreaseItemQty = document.querySelectorAll('.decreaseItemQty');
 let cartAmount = document.getElementById('amount');
@@ -13,10 +13,26 @@ let categories = document.querySelectorAll('.categories');
 
 let sizeSelected = document.querySelectorAll('.size');
 let itemQuantity = document.querySelectorAll('.itemQuantity');
+let cartItemQuantity = document.querySelectorAll('.cartItemQuantity');
 
 function updateCart(product) {
+  axios.post('/update-cart', product).then((res) => {
+    cartCounter.innerText = res.data.totalQty;
+    let productQty = document.getElementById('productQty' + res.data.itemId);
+    let cartItemTotal = document.getElementById(
+      'carItemTotal' + res.data.itemId
+    );
+    //cartItemTotal.innerText =  res.data.itemTotalPrice;
+    cartAmount.innerText = res.data.cartTotalPrice.toLocaleString('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+    });
+  });
+}
+
+function addToCart(product) {
   axios
-    .post('/update-cart', product)
+    .post('/add-to-cart', product)
     .then((res) => {
       cartCounter.innerText = res.data.totalQty;
       new Noty({
@@ -42,11 +58,11 @@ function decreaseItemCartQty(product) {
     .then((res) => {
       let productQty = document.getElementById('productQty' + res.data.itemId);
 
-      let productItemTotal = document.getElementById(
-        'productItemTotal' + res.data.itemId
+      let cartItemTotal = document.getElementById(
+        'cartItemTotal' + res.data.itemId
       );
 
-      productItemTotal.innerText = 'R$ ' + res.data.itemTotalPrice;
+      cartItemTotal.innerText = 'R$ ' + res.data.itemTotalPrice;
       productQty.innerText = res.data.itemTotalQty + ' UN';
       cartCounter.innerText = res.data.totalQty;
       cartAmount.innerText = 'R$ ' + res.data.cartTotalPrice;
@@ -60,11 +76,10 @@ function increaseItemCartQty(product) {
     .put('/increase-cart-item', product)
     .then((res) => {
       let productQty = document.getElementById('productQty' + res.data.itemId);
-      let productItemTotal = document.getElementById(
-        'productItemTotal' + res.data.itemId
+      let cartItemTotal = document.getElementById(
+        'carItemTotal' + res.data.itemId
       );
-
-      productItemTotal.innerText = 'R$ ' + res.data.itemTotalPrice;
+      cartItemTotal.innerText = 'R$ ' + res.data.itemTotalPrice;
       productQty.innerText = res.data.itemTotalQty + ' UN';
       cartCounter.innerText = res.data.totalQty;
       cartAmount.innerText = 'R$ ' + res.data.cartTotalPrice;
@@ -91,18 +106,18 @@ function removeItemFromCart(product) {
     });
 }
 
-addToCart.forEach((btn) => {
+addToCartBtn.forEach((btn) => {
   btn.addEventListener('click', (e) => {
     let productData = JSON.parse(btn.dataset.product);
-    let isSelected = $('#itemQuantity' + productData._id)
-      .prevUntil()
-      .hasClass('Selected');
-    if (!isSelected) {
-      alert('Selecione uma Unidade de Venda');
-      return;
-    }
+    // let isSelected = $('#itemQuantity' + productData._id)
+    //   .prevUntil()
+    //   .hasClass('Selected');
+    // if (!isSelected) {
+    //   alert('Selecione uma Unidade de Venda');
+    //   return;
+    // }
 
-    updateCart(productData);
+    addToCart(productData);
   });
 });
 
@@ -129,7 +144,7 @@ removeItem.forEach((btn) => {
 
 categories.forEach((btn) => {
   btn.addEventListener('click', (e) => {
-    console.log(addToCart);
+    console.log(addToCartBtn);
   });
 });
 
@@ -218,9 +233,15 @@ sizeSelected.forEach((btn) => {
     $('#totalPrice' + productData._id).text(function () {
       let totalItemprice = product.itemTotalQty * product.saleSize.price;
       if (isNaN(totalItemprice)) {
-        return '0.00';
+        return (0.0).toLocaleString('pt-BR', {
+          style: 'currency',
+          currency: 'BRL',
+        });
       } else {
-        return totalItemprice;
+        return totalItemprice.toLocaleString('pt-BR', {
+          style: 'currency',
+          currency: 'BRL',
+        });
       }
     });
   });
@@ -229,13 +250,12 @@ sizeSelected.forEach((btn) => {
 itemQuantity.forEach((input) => {
   input.addEventListener('input', () => {
     let productData = JSON.parse(input.dataset.product);
-    let isSelected = $('#itemQuantity' + productData._id)
-      .prevUntil()
-      .hasClass('Selected');
-    if (!isSelected) {
-      alert('Selecione uma Unidade de Venda');
-      return;
-    }
+
+    // let isSelected = $('.saleSize' + productData._id).hasClass('Selected');
+    // if (!isSelected) {
+    //   alert('Selecione uma Unidade de Venda');
+    //   return;
+    // }
 
     let addToCartBtn = document.getElementById(productData._id);
     let product = JSON.parse(addToCartBtn.dataset.product);
@@ -248,8 +268,37 @@ itemQuantity.forEach((input) => {
       if (isNaN(totalItemprice)) {
         return '0.00';
       } else {
-        return totalItemprice;
+        return totalItemprice.toLocaleString('pt-BR', {
+          style: 'currency',
+          currency: 'BRL',
+        });
       }
     });
+  });
+});
+
+cartItemQuantity.forEach((input) => {
+  input.addEventListener('input', () => {
+    let itemData = JSON.parse(input.dataset.item);
+    let itemTotalQty = parseFloat(input.value);
+
+    $('#cartItemTotal' + itemData._id).text(function () {
+      let totalItemprice = itemTotalQty * itemData.saleSize.price;
+      if (isNaN(totalItemprice)) {
+        return '0.00';
+      } else {
+        return totalItemprice.toLocaleString('pt-BR', {
+          style: 'currency',
+          currency: 'BRL',
+        });
+      }
+    });
+  });
+  input.addEventListener('change', () => {
+    let cart = JSON.parse(input.dataset.item);
+
+    cart.itemTotalQty = parseFloat(input.value);
+    //cart.dataset.item = JSON.stringify(product);
+    updateCart(cart);
   });
 });

@@ -5,7 +5,31 @@ function cartController() {
     index(req, res) {
       res.render('customers/cart');
     },
-    update(req, res) {
+    updateCart(req, res) {
+      let cart = req.session.cart;
+      let cartItems = Object.values(req.session.cart.items);
+
+      cart.items[req.body._id].itemTotalQty = req.body.itemTotalQty;
+
+      cart.items[req.body._id].totalItemprice =
+        req.body.itemTotalQty * req.body.saleSize.price;
+
+      let cartTotalPrice = cartItems.reduce((currentTotal, item) => {
+        return item.totalItemprice + currentTotal;
+      }, 0);
+
+      cart.totalPrice = cartTotalPrice;
+
+      return res.json({
+        totalQty: req.session.cart.totalQty,
+        itemTotalQty: cart.items[req.body._id].itemTotalQty,
+        itemTotalPrice: cart.items[req.body._id].totalItemprice,
+        itemId: req.body._id,
+        cartTotalPrice: cartTotalPrice,
+      });
+    },
+
+    addToCart(req, res) {
       if (!req.session.cart) {
         req.session.cart = {
           items: {},

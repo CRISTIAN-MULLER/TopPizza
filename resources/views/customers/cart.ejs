@@ -14,7 +14,7 @@
         <img class="w-24" src="/img/<%= product.item.image %>" alt="" />
         <div class="flex-auto ml-4">
           <h1><%= product.item.name %></h1>
-          <span><%= product.item.size %></span>
+          
         </div>
         <div class="flex-auto">
           <button
@@ -32,44 +32,21 @@
           >
             Remover
           </button>
-          <button
-            data-cart="<%= JSON.stringify(product.item) %>"
-            class="
-              decreaseItemQty
-              btn-primary
-              mx-4
-              px-4
-              text-white
-              rounded-md
-              font-size- font-bold
-            "
-            type="button"
-          >
-            -
-          </button>
-          <span id="productQty<%= product.item._id %>"
-            ><%= product.itemTotalQty %>
-          </span>
-          <button
-            data-cart="<%= JSON.stringify(product.item) %>"
-            class="
-              increaseItemQty
-              btn-primary
-              mx-4
-              px-4
-              text-white
-              rounded-md
-              font-size- font-bold
-            "
-            type="button"
-          >
-            +
-          </button>
+          <input type="number" 
+            data-item='<%= JSON.stringify(product.item) %>'
+            min="0"
+            value="<%= product.itemTotalQty %>" class="cartItemQuantity border-gray-500 w-24 mx-4 text-center">
+          </input>
+          <span class="text-sm mx-4"><%= product.item.saleSize.saleSize %></span>
+          <span class="text-sm mx-4">x</span>        
+          <span class="text-sm mx-4"><%= product.item.saleSize.price.toLocaleString('pt-BR', { style: 'currency',
+            currency: 'BRL' }) %></span>
         </div>
         <span
-          id="productItemTotal<%= product.item._id %>"
+          id="cartItemTotal<%= product.item._id %>"
           class="font-bold text-lg"
-          >R$ <%= product.item.saleSize.price * product.itemTotalQty %></span
+          ><%= (product.item.saleSize.price * product.itemTotalQty).toLocaleString('pt-BR', { style: 'currency',
+          currency: 'BRL' }) %></span
         >
       </div>
       <% } %>
@@ -85,7 +62,8 @@
           <div>
             <span class="text-lg font-bold">Total do pedido:</span>
             <span id="amount" class="amount text-2xl font-bold ml-2 mr-0"
-              >R$ <%= session.cart.totalPrice %></span
+              ><%= session.cart.totalPrice.toLocaleString('pt-BR', { style: 'currency',
+              currency: 'BRL' }) %></span
             >
           </div>
         </div>

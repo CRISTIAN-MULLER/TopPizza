@@ -30,7 +30,8 @@ function initRoutes(app) {
   app.get('/searchClientByPhone/:phone', usersController().searchClientByPhone);
 
   app.get('/cart', cartController().index);
-  app.post('/update-cart', cartController().update);
+  app.post('/update-cart', cartController().updateCart);
+  app.post('/add-to-cart', cartController().addToCart);
   app.put('/decrease-cart-item', cartController().decreaseItemQty);
   app.put('/increase-cart-item', cartController().increaseItemQty);
   app.put('/remove-cart-item', cartController().removeItem);

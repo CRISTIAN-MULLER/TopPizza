@@ -1875,13 +1875,13 @@ function initAdmin(socket) {
   function renderItems(items) {
     var parsedItems = Object.values(items);
     return parsedItems.map(function (menuItem) {
-      return "\n                <p>".concat(menuItem.item.name, " - ").concat(menuItem.qty, " Un</p>\n            ");
+      return "\n                <p>".concat(menuItem.item.name, " - ").concat(menuItem.itemTotalQty, " ").concat(menuItem.item.saleSize.saleSize, "</p>\n            ");
     }).join('');
   }
 
   function generateMarkup(orders) {
     return orders.map(function (order) {
-      return "\n                <tr>\n                <td class=\"border px-4 py-2 text-green-900\">\n                    <p>".concat(order._id, "</p>\n                    <div>").concat(renderItems(order.items), "</div>\n                </td>\n                <td class=\"border px-4 py-2\">").concat(order.customerId.username, "</td>\n                <td class=\"border px-4 py-2\">\n                ").concat(order.address.street, ",\n                ").concat(order.address.houseNumber, ", \n                ").concat(order.address.district, "</td>\n                <td class=\"border px-4 py-2\">").concat(order.phone, "</td>\n                <td class=\"border px-4 py-2\">\n                    ").concat(moment__WEBPACK_IMPORTED_MODULE_1___default()(order.createdAt).format('DD/MM/YYYY - HH:mm'), "\n                </td>\n                <td class=\"border px-4 py-2\">\n                    ").concat(order.paymentStatus ? 'paid' : 'Falta Pagamento', "\n                </td>\n                <td class=\"border px-4 py-2\">\n                    <div class=\"inline-block relative w-64\">\n                        <form action=\"/admin/order/status\" method=\"POST\">\n                            <input type=\"hidden\" name=\"orderId\" value=\"").concat(order._id, "\">\n                            <select name=\"status\" onchange=\"this.form.submit()\"\n                                class=\"block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline\">\n                                <option value=\"order_placed\"\n                                    ").concat(order.status === 'order_placed' ? 'selected' : '', ">\n                                    Aberto</option>\n                                <option value=\"confirmed\" ").concat(order.status === 'confirmed' ? 'selected' : '', ">\n                                    Confirmado</option>\n                                <option value=\"preparation\" ").concat(order.status === 'preparation' ? 'selected' : '', ">\n                                    Em Prepara\xE7\xE3o</option>\n                                <option value=\"outfordelivery\" ").concat(order.status === 'outfordelivery' ? 'selected' : '', ">\n                                    Saiu para entrega\n                                </option>\n                                <option value=\"delivered\" ").concat(order.status === 'delivered' ? 'selected' : '', ">\n                                    Entregue\n                                </option>\n                                <option value=\"completed\" ").concat(order.status === 'completed' ? 'selected' : '', ">\n                                    Completo\n                                </option>\n                            </select>\n                        </form>\n                        <div\n                            class=\"pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700\">\n                            <svg class=\"fill-current h-4 w-4\" xmlns=\"http://www.w3.org/2000/svg\"\n                                viewBox=\"0 0 20 20\">\n                                <path\n                                    d=\"M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z\" />\n                            </svg>\n                        </div>\n                    </div>\n                </td>\n                \n            </tr>\n        ");
+      return "\n                <tr>\n                <td class=\"border px-4 py-2 text-green-900\">\n                    <p>".concat(order._id, "</p>\n                    <div>").concat(renderItems(order.items), "</div>\n                </td>\n                <td class=\"border px-4 py-2\">").concat(order.customerId.username, "</td>\n                <td class=\"border px-4 py-2\">\n                ").concat(order.address.street, ",\n                ").concat(order.address.houseNumber, ", \n                ").concat(order.address.district, "</td>\n                <td class=\"border px-4 py-2\">").concat(order.phone, "</td>\n                <td class=\"border px-4 py-2\">\n                    ").concat(moment__WEBPACK_IMPORTED_MODULE_1___default()(order.createdAt).format('DD/MM/YYYY - HH:mm'), "\n                </td>\n                <td class=\"border px-4 py-2\">\n                    ").concat(order.paymentStatus ? 'paid' : 'Falta Pagamento', "\n                </td>\n                <td class=\"border px-4 py-2\">\n                    <div class=\"inline-block relative w-64\">\n                        <form action=\"/admin/order/status\" method=\"POST\">\n                            <input type=\"hidden\" name=\"orderId\" value=\"").concat(order._id, "\">\n                            <select name=\"status\" onchange=\"this.form.submit()\"\n                                class=\"block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline\">\n                                <option value=\"order_placed\"\n                                    ").concat(order.status === 'order_placed' ? 'selected' : '', ">\n                                    Aberto</option>\n                                <option value=\"confirmed\" ").concat(order.status === 'confirmed' ? 'selected' : '', ">\n                                    Confirmado</option>\n                                <option value=\"preparation\" ").concat(order.status === 'preparation' ? 'selected' : '', ">\n                                    Em Prepara\xE7\xE3o</option>\n                                <option value=\"outfordelivery\" ").concat(order.status === 'outfordelivery' ? 'selected' : '', ">\n                                    Saiu para entrega\n                                </option>\n                                <option value=\"delivered\" ").concat(order.status === 'delivered' ? 'selected' : '', ">\n                                    Entregue\n                                </option>\n                                <option value=\"completed\" ").concat(order.status === 'completed' ? 'selected' : '', ">\n                                    Completo\n                                </option>\n                            </select>\n                        </form>\n                        <div\n                            class=\"pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700\">\n                            <svg class=\"fill-current h-4 w-4\" xmlns=\"http://www.w3.org/2000/svg\"\n                                viewBox=\"0 0 20 20\">\n                                <path\n                                    d=\"M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z\" />\n                            </svg>\n                        </div>\n                         \n                    </div>\n                    \n                </td>\n                ").concat(order.observation ? '<tr class="table-row"><td ><textarea class="w-full border px-4 py-2 row-span-2">' + "".concat(order.observation) + '</textarea></td></tr>' : '', "\n                \n            </tr>\n        ");
     }).join('');
   } // Socket
 
@@ -2008,15 +2008,14 @@ function removeItemFromCart(product) {
 
 addToCartBtn.forEach(function (btn) {
   btn.addEventListener('click', function (e) {
-    var productData = JSON.parse(btn.dataset.product); // let isSelected = $('#itemQuantity' + productData._id)
-    //   .prevUntil()
-    //   .hasClass('Selected');
-    // if (!isSelected) {
-    //   alert('Selecione uma Unidade de Venda');
-    //   return;
-    // }
+    var productData = JSON.parse(btn.dataset.product);
+    var hasSaleSizeSelected = productData.saleSize;
 
-    addToCart(productData);
+    if (hasSaleSizeSelected === undefined || hasSaleSizeSelected === null) {
+      alert('Selecione uma Unidade de Venda EX: Kg  ou Un');
+    } else {
+      addToCart(productData);
+    }
   });
 });
 decreaseItemQty.forEach(function (btn) {
@@ -2141,28 +2140,32 @@ sizeSelected.forEach(function (btn) {
 });
 itemQuantity.forEach(function (input) {
   input.addEventListener('input', function () {
-    var productData = JSON.parse(input.dataset.product); // let isSelected = $('.saleSize' + productData._id).hasClass('Selected');
-    // if (!isSelected) {
-    //   alert('Selecione uma Unidade de Venda');
-    //   return;
-    // }
-
+    var productData = JSON.parse(input.dataset.product);
     var addToCartBtn = document.getElementById(productData._id);
     var product = JSON.parse(addToCartBtn.dataset.product);
-    product.itemTotalQty = parseFloat(input.value);
-    addToCartBtn.dataset.product = JSON.stringify(product);
-    $('#totalPrice' + productData._id).text(function () {
-      var totalItemprice = product.itemTotalQty * product.saleSize.price;
+    var hasSaleSizeSelected = product.saleSize;
 
-      if (isNaN(totalItemprice)) {
-        return '0.00';
-      } else {
-        return totalItemprice.toLocaleString('pt-BR', {
-          style: 'currency',
-          currency: 'BRL'
-        });
-      }
-    });
+    if (hasSaleSizeSelected === undefined || hasSaleSizeSelected === null) {
+      alert('Selecione uma Unidade de Venda EX: Kg  ou Un');
+    } else {
+      product.itemTotalQty = parseFloat(input.value);
+      addToCartBtn.dataset.product = JSON.stringify(product);
+      $('#totalPrice' + productData._id).text(function () {
+        var totalItemprice = product.itemTotalQty * product.saleSize.price;
+
+        if (isNaN(totalItemprice)) {
+          return 0.0.toLocaleString('pt-BR', {
+            style: 'currency',
+            currency: 'BRL'
+          });
+        } else {
+          return totalItemprice.toLocaleString('pt-BR', {
+            style: 'currency',
+            currency: 'BRL'
+          });
+        }
+      });
+    }
   });
 });
 cartItemQuantity.forEach(function (input) {

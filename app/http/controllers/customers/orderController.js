@@ -4,6 +4,7 @@ const moment = require('moment');
 function orderController(e) {
   return {
     store(req, res) {
+      console.log(req.body);
       const {
         phone,
         zipcode,
@@ -13,7 +14,8 @@ function orderController(e) {
         city,
         state,
         reference,
-        paymentMethod = req.body.paymentMethodValue,
+        observation,
+        paymentMethod,
         entryPoint = 'Site',
       } = req.body;
 
@@ -30,6 +32,7 @@ function orderController(e) {
           state,
           reference,
         },
+        observation,
         paymentMethod,
         entryPoint,
       });

@@ -39,13 +39,14 @@
       <img class="h-40 mb-4 mx-auto" src="/img/<%= product.image %>" alt="" />
       <div class="text-center">
         <h2 class="mb-4 text-lg"><%= product.name %></h2>
-        <div class="flex gap-x-6">
+        <div class="flex gap-x-6 flex-col">
           <% product.saleSizes.forEach(function (saleSize){%>
           <div>
             <span class="font-bold text-lg w-40 mb-4"
               ><%= saleSize.price.toLocaleString('pt-BR', { style: 'currency',
               currency: 'BRL' }) %></span
             >
+
             <button
               type="button"
               data-product="<%= JSON.stringify(product)

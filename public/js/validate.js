@@ -12,7 +12,7 @@ const reference = document.getElementById('reference');
 const entryPoint = document.getElementById('entryPoint');
 const hiddenEntryPoint = document.getElementById('entryPointValue');
 const paymentMethod = document.getElementById('paymentMethod');
-const hiddenPaymentMethod = document.getElementById('paymentMethodValue');
+const observation = document.getElementById('observation');
 
 if (orderForm !== null) {
   orderForm.addEventListener('submit', (e) => {
@@ -24,9 +24,7 @@ if (orderForm !== null) {
       } else {
         hiddenEntryPoint.value = entryPoint.value;
       }
-      const paymentMethodValue = paymentMethod.value;
 
-      hiddenPaymentMethod.value = paymentMethodValue;
       document.orderForm.submit();
     }
   });

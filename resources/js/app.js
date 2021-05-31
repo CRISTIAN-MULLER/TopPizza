@@ -109,15 +109,14 @@ function removeItemFromCart(product) {
 addToCartBtn.forEach((btn) => {
   btn.addEventListener('click', (e) => {
     let productData = JSON.parse(btn.dataset.product);
-    // let isSelected = $('#itemQuantity' + productData._id)
-    //   .prevUntil()
-    //   .hasClass('Selected');
-    // if (!isSelected) {
-    //   alert('Selecione uma Unidade de Venda');
-    //   return;
-    // }
 
-    addToCart(productData);
+    let hasSaleSizeSelected = productData.saleSize;
+
+    if (hasSaleSizeSelected === undefined || hasSaleSizeSelected === null) {
+      alert('Selecione uma Unidade de Venda EX: Kg  ou Un');
+    } else {
+      addToCart(productData);
+    }
   });
 });
 
@@ -251,29 +250,32 @@ itemQuantity.forEach((input) => {
   input.addEventListener('input', () => {
     let productData = JSON.parse(input.dataset.product);
 
-    // let isSelected = $('.saleSize' + productData._id).hasClass('Selected');
-    // if (!isSelected) {
-    //   alert('Selecione uma Unidade de Venda');
-    //   return;
-    // }
-
     let addToCartBtn = document.getElementById(productData._id);
     let product = JSON.parse(addToCartBtn.dataset.product);
-    product.itemTotalQty = parseFloat(input.value);
-    addToCartBtn.dataset.product = JSON.stringify(product);
+    let hasSaleSizeSelected = product.saleSize;
 
-    $('#totalPrice' + productData._id).text(function () {
-      let totalItemprice = product.itemTotalQty * product.saleSize.price;
+    if (hasSaleSizeSelected === undefined || hasSaleSizeSelected === null) {
+      alert('Selecione uma Unidade de Venda EX: Kg  ou Un');
+    } else {
+      product.itemTotalQty = parseFloat(input.value);
+      addToCartBtn.dataset.product = JSON.stringify(product);
 
-      if (isNaN(totalItemprice)) {
-        return '0.00';
-      } else {
-        return totalItemprice.toLocaleString('pt-BR', {
-          style: 'currency',
-          currency: 'BRL',
-        });
-      }
-    });
+      $('#totalPrice' + productData._id).text(function () {
+        let totalItemprice = product.itemTotalQty * product.saleSize.price;
+
+        if (isNaN(totalItemprice)) {
+          return (0.0).toLocaleString('pt-BR', {
+            style: 'currency',
+            currency: 'BRL',
+          });
+        } else {
+          return totalItemprice.toLocaleString('pt-BR', {
+            style: 'currency',
+            currency: 'BRL',
+          });
+        }
+      });
+    }
   });
 });
 

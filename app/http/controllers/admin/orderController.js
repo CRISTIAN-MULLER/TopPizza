@@ -85,6 +85,7 @@ function orderController() {
             state: user.address.state,
             reference: user.address.reference,
           },
+
           paymentMethod: req.body.paymentMethodValue,
           entryPoint: req.body.entryPointValue,
         });

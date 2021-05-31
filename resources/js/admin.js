@@ -29,7 +29,7 @@ export function initAdmin(socket) {
     return parsedItems
       .map((menuItem) => {
         return `
-                <p>${menuItem.item.name} - ${menuItem.qty} Un</p>
+                <p>${menuItem.item.name} - ${menuItem.itemTotalQty} ${menuItem.item.saleSize.saleSize}</p>
             `;
       })
       .join('');
@@ -108,8 +108,17 @@ export function initAdmin(socket) {
                                     d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
                             </svg>
                         </div>
+                         
                     </div>
+                    
                 </td>
+                ${
+                  order.observation
+                    ? '<tr class="table-row"><td ><textarea class="w-full border px-4 py-2 row-span-2">' +
+                      `${order.observation}` +
+                      '</textarea></td></tr>'
+                    : ''
+                }
                 
             </tr>
         `;

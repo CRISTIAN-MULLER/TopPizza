@@ -54,8 +54,8 @@
     <hr />
     <div class="flex justify-between">
       <div class="flex-1 flex-col py-4">
-        <span class="text-lg font-bold">Observações</span>
-        <textarea class="h-24 w-full"></textarea>
+        <span  class="text-lg font-bold">Observações</span>
+        <textarea id="observation" name="observation" form="orderForm" class="h-24 w-full"></textarea>
       </div>
       <div class="text-right py-4">
         <div class="justify-between grid-cols-2 align-center m-0">
@@ -70,6 +70,7 @@
 
         <div class="paymentMethod">
           <select
+          form="orderForm"
             id="paymentMethod"
             name="paymentMethod"
             class="
@@ -281,14 +282,7 @@
             type="hidden"
           />
         </div>
-        <div class="form-control">
-          <input
-            type="hidden"
-            name="paymentMethodValue"
-            id="paymentMethodValue"
-            value=""
-          />
-        </div>
+     
         <div id="order-btn" class="mt-4">
           <button
             id="ordernowbtn"

@@ -39,14 +39,13 @@
       <img class="h-40 mb-4 mx-auto" src="/img/<%= product.image %>" alt="" />
       <div class="text-center">
         <h2 class="mb-4 text-lg"><%= product.name %></h2>
-        <div class="flex gap-x-6 flex-col">
+        <div class="flex flex-row justify-evenly">
           <% product.saleSizes.forEach(function (saleSize){%>
-          <div>
-            <span class="font-bold text-lg w-40 mb-4"
+          <div class="flex flex-col">
+            <span class="font-bold text-lg"
               ><%= saleSize.price.toLocaleString('pt-BR', { style: 'currency',
               currency: 'BRL' }) %></span
             >
-
             <button
               type="button"
               data-product="<%= JSON.stringify(product)
@@ -59,6 +58,7 @@
           </div>
           <% })%>
         </div>
+
         <input
           type="number"
           id="itemQuantity<%= product.id %>"
@@ -77,9 +77,9 @@
           "
         />
         <span class="mt-4">Preço Total:</span>
-        <span id="totalPrice<%= product.id %>" class="totalPrice money"
-          >(0.00).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'
-          })</span
+        <span id="totalPrice<%= product.id %>" class="totalPrice"
+          ><%= (0.00).toLocaleString('pt-BR', { style: 'currency', currency:
+          'BRL' })%></span
         >
 
         <div class="flex flex-col tems-center justify-around mt-1">

@@ -70,7 +70,10 @@
                 <%= saleSize.saleSize %>
               </button>
 
-              <span class="text-md">R$ <%= saleSize.price %></span>
+              <span class="text-md"
+                ><%= saleSize.price.toLocaleString('pt-BR', { style: 'currency',
+                currency: 'BRL' }) %></span
+              >
             </div>
             <% })%>
           </td>

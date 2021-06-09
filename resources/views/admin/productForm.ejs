@@ -1,0 +1,122 @@
+<form name="handleProductForm" id="handleProductForm">
+  <input id="id" name="id" value="" style="display: none" />
+  <div class="firstline">
+    <div class="form-control">
+      <label for="name">Nome:</label>
+      <input
+        id="name"
+        name="name"
+        class="border pl-6 mr-10 px-4 py-2 border-gray-400 rounded-md"
+        type="text"
+        value=""
+        placeholder="Produto"
+      />
+      <i class="fas fa-check-circle"></i>
+      <i class="fas fa-exclamation-circle"></i>
+      <small></small>
+    </div>
+    <div class="form-control">
+      <span>Ativo</span>
+      <label class="switch">
+        <input id="productActiveBtn" type="checkbox" checked />
+        <span class="slider round"></span>
+      </label>
+    </div>
+  </div>
+  <div class="secondline">
+    <div class="form-control">
+      <label for="image">Imagem</label>
+      <input
+        id="image"
+        value=""
+        name="image"
+        class="border pl-6 px-4 py-2 border-gray-400 rounded-md"
+        type="text"
+        placeholder="Imagem"
+      />
+      <i class="fas fa-check-circle"></i>
+      <i class="fas fa-exclamation-circle"></i>
+      <small></small>
+    </div>
+  </div>
+  <div class="thirdline">
+    <!-- <div class="form-control">
+      <label for="saleUnits">Unidades de Venda</label>
+      <ul
+        id="saleUnits"
+        name="saleUnits"
+        class="
+          border
+          flex flex-col
+          pl-6
+          mr-10
+          px-4
+          py-2
+          border-gray-400
+          rounded-md
+        "
+        type="text"
+        value=""
+        placeholder="Unidades de Venda"
+      >
+        <div class="flex flex-row">
+          <lh class="ml-0 mr-auto">Unidades de Venda</lh>
+          <lh class="ml-0 mr-auto">Preço</lh>
+          <lh class="ml-0 mr-auto">Descrição</lh>
+        </div>
+      </ul>
+      <i class="fas fa-check-circle"></i>
+      <i class="fas fa-exclamation-circle"></i>
+      <small></small>
+    </div> -->
+    <div class="form-control">
+      <span>Unidades de Venda</span>
+      <table
+        id="productSaleUnits"
+        class="
+          form-control
+          border
+          flex flex-col
+          pl-6
+          mr-10
+          px-4
+          py-2
+          border-gray-400
+          rounded-md
+        "
+      >
+        <tr>
+          <th>Unidade de Venda</th>
+          <th>Preço</th>
+          <th>Descrição</th>
+        </tr>
+      </table>
+    </div>
+    <div class="flex flex-col ml-4">
+      <label for="category">Categorias</label>
+      <input
+        id="category"
+        name="category"
+        class="border pl-6 px-4 py-2 border-gray-400 rounded-md"
+        type="text"
+        value=""
+        placeholder="Categorias"
+      />
+    </div>
+  </div>
+  <div class="">
+    <h2
+      id="small-message"
+      name="small-message"
+      class="small-message text-md font-bold mb-4"
+    ></h2>
+  </div>
+
+  <button
+    id="saveProductBtn"
+    class="btn-primary rounded-full px-4 py-2 mx-4 text-white font-bold"
+  >
+    Salvar
+  </button>
+  <button type="button" class="modal-close">Fechar</button>
+</form>

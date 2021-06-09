@@ -12,7 +12,7 @@ function authController() {
     },
     postLogin(req, res, next) {
       const { email, password } = req.body;
-      console.log(req.body);
+
       // Validate request
       if (!email || !password) {
         req.flash('error', 'Todos os campos são obrigatórios');

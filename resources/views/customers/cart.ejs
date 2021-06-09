@@ -37,15 +37,15 @@
             min="0"
             value="<%= product.itemTotalQty %>" class="cartItemQuantity border-gray-500 w-24 mx-4 text-center">
           </input>
-          <span class="text-sm mx-4"><%= product.item.saleSize.saleSize %></span>
+          <span class="text-sm mx-4"><%= product.item.saleUnit.saleUnit %></span>
           <span class="text-sm mx-4">x</span>        
-          <span class="text-sm mx-4"><%= product.item.saleSize.price.toLocaleString('pt-BR', { style: 'currency',
+          <span class="text-sm mx-4"><%= product.item.saleUnit.price.toLocaleString('pt-BR', { style: 'currency',
             currency: 'BRL' }) %></span>
         </div>
         <span
           id="cartItemTotal<%= product.item._id %>"
           class="font-bold text-lg"
-          ><%= (product.item.saleSize.price * product.itemTotalQty).toLocaleString('pt-BR', { style: 'currency',
+          ><%= (product.item.saleUnit.price * product.itemTotalQty).toLocaleString('pt-BR', { style: 'currency',
           currency: 'BRL' }) %></span
         >
       </div>

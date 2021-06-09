@@ -48,6 +48,15 @@ function initRoutes(app) {
   app.post('/admin/clients/handleUser', clientController().handleUser);
   app.get('/admin/products', productController().index);
   app.post('/admin/products/handleProduct', productController().handleProduct);
+
+  app.get(
+    '/searchProductById/:productid',
+    productController().searchProductById
+  );
+  app.get(
+    '/searchProductByName/:productname',
+    productController().searchProductByName
+  );
 }
 
 module.exports = initRoutes;

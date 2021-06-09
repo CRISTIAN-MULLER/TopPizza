@@ -47,16 +47,15 @@
         <tr>
           <th class="px-4 py-2 text-left">Produto</th>
           <th class="px-4 py-2 text-left">Nome</th>
-
-          <th class="px-4 py-2 text-left">Tamanho</th>
-          <th class="px-4 py-2 text-left">Preço</th>
-
+          <th class="px-4 py-2 text-left">Un. Venda - Preço</th>
           <th class="px-4 py-2 text-left">Categoria</th>
         </tr>
       </thead>
       <tbody id="productTableBody">
         <% products.forEach(function (product){%>
+
         <tr>
+          <td class="id" style="display: none"><%= product._id%></td>
           <td class="productData">
             <img class="h-12 mx-auto" src="/img/<%= product.image %>" alt="" />
           </td>
@@ -64,14 +63,14 @@
             <h2 class="text-lg"><%= product.name %></h2>
           </td>
           <td class="productData">
-            <% product.saleSizes.forEach(function (saleSize){%>
-            <div>
+            <% product.saleUnits.forEach(function (saleUnit){%>
+            <div class="flex justify-between">
               <button type="button" class="size px-4 mx-4 rounded-full text-xs">
-                <%= saleSize.saleSize %>
+                <%= saleUnit.saleUnit %>
               </button>
 
               <span class="text-md"
-                ><%= saleSize.price.toLocaleString('pt-BR', { style: 'currency',
+                ><%= saleUnit.price.toLocaleString('pt-BR', { style: 'currency',
                 currency: 'BRL' }) %></span
               >
             </div>
@@ -80,6 +79,16 @@
 
           <td class="productData">
             <span class="text-lg"><%= product.category %></span>
+          </td>
+
+          <td>
+            <button type="button">
+              <i
+                id="editProduct"
+                name="editProduct"
+                class="editProduct fas fa-pencil-alt"
+              ></i>
+            </button>
           </td>
         </tr>
         <% })%>
@@ -115,178 +124,7 @@
       <div class="modalinputs">
         <div class="inputModal">
           <!--Body-->
-
-          <form name="handleProductForm" id="handleProductForm">
-            <input id="id" name="id" value="" style="display: none" />
-            <div class="firstline">
-              <div class="form-control">
-                <label for="name">Nome:</label>
-                <input
-                  id="name"
-                  name="name"
-                  class="border pl-6 mr-10 px-4 py-2 border-gray-400 rounded-md"
-                  type="text"
-                  value=""
-                  placeholder="Nome do Produto"
-                />
-                <i class="fas fa-check-circle"></i>
-                <i class="fas fa-exclamation-circle"></i>
-                <small></small>
-              </div>
-              <div class="form-control">
-                <label for="phone">Telefone:</label>
-                <input
-                  id="phone"
-                  type="text"
-                  value=""
-                  name="phone"
-                  class="border pl-6 px-4 py-2 border-gray-400 rounded-md"
-                  type="text"
-                  placeholder="Telefone"
-                />
-                <i class="fas fa-check-circle"></i>
-                <i class="fas fa-exclamation-circle"></i>
-                <small></small>
-              </div>
-            </div>
-            <div class="secondline">
-              <div class="form-control">
-                <label for="zipcode">Cep:</label>
-                <input
-                  id="zipcode"
-                  type="text"
-                  value=""
-                  name="zipcode"
-                  class="border pl-6 px-4 py-2 border-gray-400 rounded-md"
-                  type="number"
-                  placeholder="Cep"
-                />
-                <i class="fas fa-check-circle"></i>
-                <i class="fas fa-exclamation-circle"></i>
-                <small></small>
-              </div>
-
-              <button
-                class="btn-primary rounded-full text-white font-bold"
-                id="searchzipcodebtn"
-                name="searchzipcodebtn"
-                type="button"
-              >
-                Buscar Cep
-              </button>
-              <a href="descobrir-cep">Nao sei meu Cep</a>
-            </div>
-            <div class="thirdline">
-              <div class="form-control">
-                <label for="street">Rua:</label>
-                <input
-                  id="street"
-                  name="street"
-                  class="border pl-6 mr-10 px-4 py-2 border-gray-400 rounded-md"
-                  type="text"
-                  value=""
-                  placeholder="Rua"
-                />
-                <i class="fas fa-check-circle"></i>
-                <i class="fas fa-exclamation-circle"></i>
-                <small></small>
-              </div>
-              <div class="form-control">
-                <label for="houseNumber">Número:</label>
-                <input
-                  id="houseNumber"
-                  name="houseNumber"
-                  class="border pl-6 px-4 py-2 border-gray-400 rounded-md"
-                  type="number"
-                  value=""
-                  placeholder="Num"
-                />
-                <i class="fas fa-check-circle"></i>
-                <i class="fas fa-exclamation-circle"></i>
-                <small></small>
-              </div>
-            </div>
-            <div class="fourthline">
-              <div class="form-control">
-                <label for="district">Bairro:</label>
-                <input
-                  id="district"
-                  name="district"
-                  value=""
-                  class="border pl-6 px-4 py-2 border-gray-400 rounded-md"
-                  type="text"
-                  placeholder="Bairro"
-                />
-                <i class="fas fa-check-circle"></i>
-                <i class="fas fa-exclamation-circle"></i>
-                <small></small>
-              </div>
-              <div class="form-control">
-                <label for="city">Cidade:</label>
-                <input
-                  id="city"
-                  name="city"
-                  value=""
-                  class="border pl-6 px-4 py-2 border-gray-400 rounded-md"
-                  type="text"
-                  placeholder="Cidade"
-                />
-                <i class="fas fa-check-circle"></i>
-                <i class="fas fa-exclamation-circle"></i>
-                <small></small>
-              </div>
-              <div class="form-control">
-                <label for="state">Estado:</label>
-                <input
-                  id="state"
-                  name="state"
-                  value=""
-                  class="border pl-6 px-4 py-2 border-gray-400 rounded-md"
-                  type="text"
-                  placeholder="Estado"
-                />
-                <i class="fas fa-check-circle"></i>
-                <i class="fas fa-exclamation-circle"></i>
-                <small></small>
-              </div>
-            </div>
-            <div class="form-control">
-              <label for="reference">Ponto de referência:</label>
-              <input
-                id="reference"
-                name="reference"
-                value=""
-                class="border pl-6 px-4 py-2 border-gray-400 rounded-md"
-                type="text"
-                placeholder="Ponto de referencia"
-              />
-              <i class="fas fa-check-circle"></i>
-              <i class="fas fa-exclamation-circle"></i>
-              <small></small>
-            </div>
-
-            <h2
-              id="small-message"
-              name="small-message"
-              class="small-message text-md font-bold mb-4"
-            ></h2>
-
-            <button
-              id="saveClientBtn"
-              class="
-                btn-primary
-                rounded-full
-                px-4
-                py-2
-                mx-4
-                text-white
-                font-bold
-              "
-            >
-              Salvar
-            </button>
-            <button type="button" class="modal-close">Fechar</button>
-          </form>
+          <%- include('./productForm.ejs') %>
         </div>
       </div>
       <!--Footer-->

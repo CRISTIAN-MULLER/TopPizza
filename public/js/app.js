@@ -1875,7 +1875,7 @@ function initAdmin(socket) {
   function renderItems(items) {
     var parsedItems = Object.values(items);
     return parsedItems.map(function (menuItem) {
-      return "\n                <p>".concat(menuItem.item.name, " - ").concat(menuItem.itemTotalQty, " ").concat(menuItem.item.saleSize.saleSize, "</p>\n            ");
+      return "\n                <p>".concat(menuItem.item.name, " - ").concat(menuItem.itemTotalQty, " ").concat(menuItem.item.saleUnit.saleUnit, "</p>\n            ");
     }).join('');
   }
 
@@ -2009,9 +2009,9 @@ function removeItemFromCart(product) {
 addToCartBtn.forEach(function (btn) {
   btn.addEventListener('click', function (e) {
     var productData = JSON.parse(btn.dataset.product);
-    var hasSaleSizeSelected = productData.saleSize;
+    var hassaleUnitSelected = productData.saleUnit;
 
-    if (hasSaleSizeSelected === undefined || hasSaleSizeSelected === null) {
+    if (hassaleUnitSelected === undefined || hassaleUnitSelected === null) {
       alert('Selecione uma Unidade de Venda EX: Kg  ou Un');
     } else {
       addToCart(productData);
@@ -2117,12 +2117,12 @@ sizeSelected.forEach(function (btn) {
     var productData = JSON.parse(btn.dataset.product);
     var addToCartBtn = document.getElementById(productData._id);
     var product = JSON.parse(addToCartBtn.dataset.product);
-    product.saleSize = JSON.parse(btn.dataset.salesize);
+    product.saleUnit = JSON.parse(btn.dataset.saleUnit);
     product.itemTotalQty = 1;
     $('#itemQuantity' + productData._id).val('1');
     addToCartBtn.dataset.product = JSON.stringify(product);
     $('#totalPrice' + productData._id).text(function () {
-      var totalItemprice = product.itemTotalQty * product.saleSize.price;
+      var totalItemprice = product.itemTotalQty * product.saleUnit.price;
 
       if (isNaN(totalItemprice)) {
         return 0.0.toLocaleString('pt-BR', {
@@ -2143,15 +2143,15 @@ itemQuantity.forEach(function (input) {
     var productData = JSON.parse(input.dataset.product);
     var addToCartBtn = document.getElementById(productData._id);
     var product = JSON.parse(addToCartBtn.dataset.product);
-    var hasSaleSizeSelected = product.saleSize;
+    var hassaleUnitSelected = product.saleUnit;
 
-    if (hasSaleSizeSelected === undefined || hasSaleSizeSelected === null) {
+    if (hassaleUnitSelected === undefined || hassaleUnitSelected === null) {
       alert('Selecione uma Unidade de Venda EX: Kg  ou Un');
     } else {
       product.itemTotalQty = parseFloat(input.value);
       addToCartBtn.dataset.product = JSON.stringify(product);
       $('#totalPrice' + productData._id).text(function () {
-        var totalItemprice = product.itemTotalQty * product.saleSize.price;
+        var totalItemprice = product.itemTotalQty * product.saleUnit.price;
 
         if (isNaN(totalItemprice)) {
           return 0.0.toLocaleString('pt-BR', {
@@ -2173,7 +2173,7 @@ cartItemQuantity.forEach(function (input) {
     var itemData = JSON.parse(input.dataset.item);
     var itemTotalQty = parseFloat(input.value);
     $('#cartItemTotal' + itemData._id).text(function () {
-      var totalItemprice = itemTotalQty * itemData.saleSize.price;
+      var totalItemprice = itemTotalQty * itemData.saleUnit.price;
 
       if (isNaN(totalItemprice)) {
         return '0.00';

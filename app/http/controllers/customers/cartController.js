@@ -12,7 +12,7 @@ function cartController() {
       cart.items[req.body._id].itemTotalQty = req.body.itemTotalQty;
 
       cart.items[req.body._id].totalItemprice =
-        req.body.itemTotalQty * req.body.saleSize.price;
+        req.body.itemTotalQty * req.body.saleUnit.price;
 
       let cartTotalPrice = cartItems.reduce((currentTotal, item) => {
         return item.totalItemprice + currentTotal;
@@ -44,23 +44,23 @@ function cartController() {
           item: req.body,
           // qty: 1,
           itemTotalQty: req.body.itemTotalQty,
-          totalItemprice: req.body.itemTotalQty * req.body.saleSize.price,
+          totalItemprice: req.body.itemTotalQty * req.body.saleUnit.price,
         };
         cart.totalQty = cart.totalQty + 1;
         cart.totalPrice =
-          cart.totalPrice + req.body.itemTotalQty * req.body.saleSize.price;
+          cart.totalPrice + req.body.itemTotalQty * req.body.saleUnit.price;
         cart.items[req.body._id].totalItemprice =
-          req.body.saleSize.price * cart.items[req.body._id].itemTotalQty;
+          req.body.saleUnit.price * cart.items[req.body._id].itemTotalQty;
       } else {
         cart.items[req.body._id].itemTotalQty =
           cart.items[req.body._id].itemTotalQty + req.body.itemTotalQty;
 
         cart.items[req.body._id].totalItemprice =
           cart.items[req.body._id].totalItemprice +
-          req.body.itemTotalQty * req.body.saleSize.price;
+          req.body.itemTotalQty * req.body.saleUnit.price;
 
         cart.totalPrice =
-          cart.totalPrice + req.body.itemTotalQty * req.body.saleSize.price;
+          cart.totalPrice + req.body.itemTotalQty * req.body.saleUnit.price;
       }
       return res.json({ totalQty: req.session.cart.totalQty });
     },
@@ -81,9 +81,9 @@ function cartController() {
         cart.items[req.body._id].itemTotalQty =
           cart.items[req.body._id].itemTotalQty - 1;
         cart.totalQty = cart.totalQty - 1;
-        cart.totalPrice = cart.totalPrice - req.body.saleSize.price;
+        cart.totalPrice = cart.totalPrice - req.body.saleUnit.price;
         cart.items[req.body._id].totalItemprice =
-          req.body.saleSize.price * cart.items[req.body._id].itemTotalQty;
+          req.body.saleUnit.price * cart.items[req.body._id].itemTotalQty;
         cart.items[req.body._id].itemTotalQty =
           cart.items[req.body._id].itemTotalQty -
           cart.items[req.body._id].itemTotalQty;
@@ -103,9 +103,9 @@ function cartController() {
         cart.items[req.body._id].itemTotalQty + 1;
 
       cart.totalQty = cart.totalQty + 1;
-      cart.totalPrice = cart.totalPrice + req.body.saleSize.price;
+      cart.totalPrice = cart.totalPrice + req.body.saleUnit.price;
       cart.items[req.body._id].totalItemprice =
-        req.body.saleSize.price * cart.items[req.body._id].itemTotalQty;
+        req.body.saleUnit.price * cart.items[req.body._id].itemTotalQty;
 
       cart.items[req.body._id].itemTotalQty =
         cart.items[req.body._id].itemTotalQty +

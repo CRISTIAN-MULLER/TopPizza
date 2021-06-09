@@ -40,20 +40,19 @@
       <div class="text-center">
         <h2 class="mb-4 text-lg"><%= product.name %></h2>
         <div class="flex flex-row justify-evenly">
-          <% product.saleSizes.forEach(function (saleSize){%>
+          <% product.saleUnits.forEach(function (saleUnit){%>
           <div class="flex flex-col">
             <span class="font-bold text-lg"
-              ><%= saleSize.price.toLocaleString('pt-BR', { style: 'currency',
+              ><%= saleUnit.price.toLocaleString('pt-BR', { style: 'currency',
               currency: 'BRL' }) %></span
             >
             <button
               type="button"
-              data-product="<%= JSON.stringify(product)
-            %>"
-              data-salesize="<%= JSON.stringify(saleSize) %>"
+              data-product="<%= JSON.stringify(product)%>"
+              data-saleUnit="<%= JSON.stringify(saleUnit)%>"
               class="size py-1 px-4 rounded-full text-xs mt-4"
             >
-              <%= saleSize.saleSize %>
+              <%= saleUnit.saleUnit %>
             </button>
           </div>
           <% })%>

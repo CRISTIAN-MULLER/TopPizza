@@ -29,7 +29,7 @@ export function initAdmin(socket) {
     return parsedItems
       .map((menuItem) => {
         return `
-                <p>${menuItem.item.name} - ${menuItem.itemTotalQty} ${menuItem.item.saleSize.saleSize}</p>
+                <p>${menuItem.item.name} - ${menuItem.itemTotalQty} ${menuItem.item.saleUnit.saleUnit}</p>
             `;
       })
       .join('');

@@ -110,9 +110,9 @@ addToCartBtn.forEach((btn) => {
   btn.addEventListener('click', (e) => {
     let productData = JSON.parse(btn.dataset.product);
 
-    let hasSaleSizeSelected = productData.saleSize;
+    let hassaleUnitSelected = productData.saleUnit;
 
-    if (hasSaleSizeSelected === undefined || hasSaleSizeSelected === null) {
+    if (hassaleUnitSelected === undefined || hassaleUnitSelected === null) {
       alert('Selecione uma Unidade de Venda EX: Kg  ou Un');
     } else {
       addToCart(productData);
@@ -224,13 +224,13 @@ sizeSelected.forEach((btn) => {
     let productData = JSON.parse(btn.dataset.product);
     let addToCartBtn = document.getElementById(productData._id);
     let product = JSON.parse(addToCartBtn.dataset.product);
-    product.saleSize = JSON.parse(btn.dataset.salesize);
+    product.saleUnit = JSON.parse(btn.dataset.saleUnit);
     product.itemTotalQty = 1;
     $('#itemQuantity' + productData._id).val('1');
     addToCartBtn.dataset.product = JSON.stringify(product);
 
     $('#totalPrice' + productData._id).text(function () {
-      let totalItemprice = product.itemTotalQty * product.saleSize.price;
+      let totalItemprice = product.itemTotalQty * product.saleUnit.price;
       if (isNaN(totalItemprice)) {
         return (0.0).toLocaleString('pt-BR', {
           style: 'currency',
@@ -252,16 +252,16 @@ itemQuantity.forEach((input) => {
 
     let addToCartBtn = document.getElementById(productData._id);
     let product = JSON.parse(addToCartBtn.dataset.product);
-    let hasSaleSizeSelected = product.saleSize;
+    let hassaleUnitSelected = product.saleUnit;
 
-    if (hasSaleSizeSelected === undefined || hasSaleSizeSelected === null) {
+    if (hassaleUnitSelected === undefined || hassaleUnitSelected === null) {
       alert('Selecione uma Unidade de Venda EX: Kg  ou Un');
     } else {
       product.itemTotalQty = parseFloat(input.value);
       addToCartBtn.dataset.product = JSON.stringify(product);
 
       $('#totalPrice' + productData._id).text(function () {
-        let totalItemprice = product.itemTotalQty * product.saleSize.price;
+        let totalItemprice = product.itemTotalQty * product.saleUnit.price;
 
         if (isNaN(totalItemprice)) {
           return (0.0).toLocaleString('pt-BR', {
@@ -285,7 +285,7 @@ cartItemQuantity.forEach((input) => {
     let itemTotalQty = parseFloat(input.value);
 
     $('#cartItemTotal' + itemData._id).text(function () {
-      let totalItemprice = itemTotalQty * itemData.saleSize.price;
+      let totalItemprice = itemTotalQty * itemData.saleUnit.price;
       if (isNaN(totalItemprice)) {
         return '0.00';
       } else {

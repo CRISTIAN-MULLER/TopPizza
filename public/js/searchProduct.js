@@ -63,18 +63,36 @@ if (productTableBody) {
     if (e.target && e.target.matches('.editProduct')) {
       toggleModal();
       var selrowid = getRow().text();
-      // $.get(`/searchClientById/${selrowid}`, function (client) {
-      //   $('#id').val(client._id);
-      //   $('#username').val(client.username);
-      //   $('#phone').val(client.phone);
-      //   $('#zipcode').val(client.address.zipcode);
-      //   $('#street').val(client.address.street);
-      //   $('#houseNumber').val(client.address.houseNumber);
-      //   $('#district').val(client.address.district);
-      //   $('#city').val(client.address.city);
-      //   $('#state').val(client.address.state);
-      //   $('#reference').val(client.address.reference);
-      // });
+
+      $.get(`/searchProductById/${selrowid}`, function (product) {
+        $('#id').val(product._id);
+        $('#name').val(product.name);
+
+        $('#image').val(product.image);
+        $('#category').val(product.category);
+        var table = $('#productSaleUnits');
+        $('#productSaleUnits td').remove();
+
+        product.saleUnits.forEach(function (saleUnit) {
+          table.append(
+            '<tr><td><input type="text" class="border pl-6 mr-10 px-4 py-2 border-gray-400 rounded-md" value="' +
+              saleUnit.saleUnit +
+              '"></input></td><td><input type="text" class="border pl-6 mr-10 px-4 py-2 border-gray-400 rounded-md" value="' +
+              saleUnit.price.toLocaleString('pt-BR', {
+                style: 'currency',
+                currency: 'BRL',
+              }) +
+              '"></input></td><td><input type="text" class="border pl-6 mr-10 px-4 py-2 border-gray-400 rounded-md" value="' +
+              saleUnit.description +
+              '"></input></td></tr>'
+          );
+        });
+        if (product.active == true) {
+          $('#productActiveBtn').prop('checked', true);
+        } else {
+          $('#productActiveBtn').prop('checked', false);
+        }
+      });
     }
   });
 }

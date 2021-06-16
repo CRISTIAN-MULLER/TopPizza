@@ -51,6 +51,15 @@ $('#handleClientForm').on('submit', function (event) {
   }
 });
 
+$('#handleProductForm').on('submit', function (event) {
+  event.preventDefault();
+  $.ajax({
+    url: '/admin/products/handleProduct',
+    data: $('#handleProductForm').serialize(),
+    method: 'POST',
+  });
+});
+
 function checkInputs() {
   // trim para remover espaços em branco
   const usernameValue = username.value.trim();

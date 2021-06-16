@@ -1,4 +1,15 @@
 const Product = require('../../../models/product');
+const multer = require('multer');
+const path = require('path');
+const console = require('console');
+const imageMimeTypes = ['image/jpeg', 'image/png', 'image/gif'];
+
+const upload = multer({
+  dest: path.join(__dirname, 'public/img'),
+  fileFilter: (req, file, callback) => {
+    callback(null);
+  },
+});
 
 function productController() {
   return {
@@ -15,10 +26,19 @@ function productController() {
 
     async handleProduct(req, res) {
       const productData = {
-        id: req.body.id ? req.body.id : '',
+        id: req.body.id,
         name: req.body.name,
         image: req.body.image,
+        saleUnits: req.body.saleUnit.map((unit, i) => ({
+          saleUnit: unit,
+          price: parseFloat(
+            req.body.price[i].replace(/,/, '.').replace(/[^0-9.]+/, '')
+          ),
+          description: req.body.description[i],
+          active: req.body.active[i] == 1 ? true : false,
+        })),
         category: req.body.category,
+        active: req.body.productActive == 1 ? true : false,
       };
 
       //checa se tem id no body da requisição, se tiver atualiza o cliente
@@ -72,7 +92,20 @@ function productController() {
     async searchProductByName(req, res) {
       const productToSearch = req.params.productname;
 
-      Product.find({ name: { $regex: new RegExp(productToSearch, 'i') } })
+      if (productToSearch == 'all') {
+        await Product.find()
+          .then((products) => {
+            res.send(products);
+          })
+          .catch((err) => {
+            res
+              .status(500)
+              .send({ message: err.message || 'Produto não encontrado.' });
+          });
+        return;
+      }
+
+      await Product.find({ name: { $regex: new RegExp(productToSearch, 'i') } })
         .then((product) => {
           res.send(product);
         })

@@ -10,6 +10,7 @@ const productSchema = new Schema({
       saleUnit: { type: String, required: true },
       price: { type: Float, required: true },
       description: { type: String },
+      active: { type: Boolean, default: true },
     },
   ],
   category: { type: String, required: true },

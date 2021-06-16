@@ -47,8 +47,11 @@
         <tr>
           <th class="px-4 py-2 text-left">Produto</th>
           <th class="px-4 py-2 text-left">Nome</th>
-          <th class="px-4 py-2 text-left">Un. Venda - Preço</th>
+          <th class="px-4 py-2 text-left" style="text-align-last: justify">
+            Un. Venda - Preço - Ativo
+          </th>
           <th class="px-4 py-2 text-left">Categoria</th>
+          <th class="px-4 py-2 text-left">Editar</th>
         </tr>
       </thead>
       <tbody id="productTableBody">
@@ -73,6 +76,11 @@
                 ><%= saleUnit.price.toLocaleString('pt-BR', { style: 'currency',
                 currency: 'BRL' }) %></span
               >
+              <label class="switch-small">
+                <input type="checkbox" <%= saleUnit.active === true ? 'checked'
+                : ''%> />
+                <span class="slider-small round-small"></span>
+              </label>
             </div>
             <% })%>
           </td>
@@ -86,7 +94,7 @@
               <i
                 id="editProduct"
                 name="editProduct"
-                class="editProduct fas fa-pencil-alt"
+                class="editProduct fas fa-edit"
               ></i>
             </button>
           </td>

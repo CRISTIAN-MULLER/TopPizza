@@ -27,6 +27,9 @@ if (overlay !== null) {
 var closemodal = document.querySelectorAll('.modal-close');
 for (var i = 0; i < closemodal.length; i++) {
   closemodal[i].addEventListener('click', function (event) {
+    $('input[type=checkbox]').each(function () {
+      $(this).off();
+    });
     toggleModal();
     $('#searchUserBtn').trigger('click');
   });

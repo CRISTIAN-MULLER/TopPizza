@@ -18,6 +18,12 @@
     <div class="form-control">
       <span>Ativo</span>
       <label class="switch">
+        <input
+          id="productActive"
+          type="hidden"
+          name="productActive"
+          value="1"
+        />
         <input id="productActiveBtn" type="checkbox" checked />
         <span class="slider round"></span>
       </label>
@@ -40,39 +46,11 @@
     </div>
   </div>
   <div class="thirdline">
-    <!-- <div class="form-control">
-      <label for="saleUnits">Unidades de Venda</label>
-      <ul
-        id="saleUnits"
-        name="saleUnits"
-        class="
-          border
-          flex flex-col
-          pl-6
-          mr-10
-          px-4
-          py-2
-          border-gray-400
-          rounded-md
-        "
-        type="text"
-        value=""
-        placeholder="Unidades de Venda"
-      >
-        <div class="flex flex-row">
-          <lh class="ml-0 mr-auto">Unidades de Venda</lh>
-          <lh class="ml-0 mr-auto">Preço</lh>
-          <lh class="ml-0 mr-auto">Descrição</lh>
-        </div>
-      </ul>
-      <i class="fas fa-check-circle"></i>
-      <i class="fas fa-exclamation-circle"></i>
-      <small></small>
-    </div> -->
     <div class="form-control">
       <span>Unidades de Venda</span>
       <table
         id="productSaleUnits"
+        name="productSaleUnits[]"
         class="
           form-control
           border
@@ -89,6 +67,7 @@
           <th>Unidade de Venda</th>
           <th>Preço</th>
           <th>Descrição</th>
+          <th>Ativo</th>
         </tr>
       </table>
     </div>

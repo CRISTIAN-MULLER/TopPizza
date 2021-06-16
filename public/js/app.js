@@ -2113,11 +2113,12 @@ sizeSelected.forEach(function (btn) {
   btn.addEventListener('click', function () {
     sizeSelected.forEach(function (btn) {
       btn.classList.remove('Selected');
-    }), btn.classList.add('Selected');
+    });
+    btn.classList.add('Selected');
     var productData = JSON.parse(btn.dataset.product);
     var addToCartBtn = document.getElementById(productData._id);
     var product = JSON.parse(addToCartBtn.dataset.product);
-    product.saleUnit = JSON.parse(btn.dataset.saleUnit);
+    product.saleUnit = JSON.parse(btn.dataset.saleunit);
     product.itemTotalQty = 1;
     $('#itemQuantity' + productData._id).val('1');
     addToCartBtn.dataset.product = JSON.stringify(product);

@@ -3,7 +3,7 @@ const Product = require('../../models/product');
 function homeController() {
   return {
     async index(req, res) {
-      const products = await Product.find();
+      const products = await Product.find({ active: true });
 
       const categories = [
         ...new Set(products.map((product) => product.category)),

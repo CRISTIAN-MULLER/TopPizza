@@ -4,29 +4,81 @@ const editProductBtn = document.querySelectorAll('#editProduct');
 
 $('#searchProductBtn').on('click', function (event) {
   event.preventDefault();
+  let productsToSearch = productToSearch.value;
+  if (productsToSearch == '') {
+    productsToSearch = 'all';
+  }
 
-  if (productToSearch.value) {
-    $.get(`/searchProductByName/${productToSearch.value}`, function (products) {
-      if (products.length > 0) {
-        let markup;
-        markup = generateMarkup(products);
-        productTableBody.innerHTML = markup;
-      } else {
-        productTableBody.innerHTML = `
+  $.get(`/searchProductByName/${productsToSearch}`, function (products) {
+    if (products.length > 0) {
+      let markup;
+      markup = generateMarkup(products);
+      productTableBody.innerHTML = markup;
+    } else {
+      productTableBody.innerHTML = `
        <tr>
         <td">
           <p>Produto não encontrado.</p>
         </td>
        </tr>`;
-      }
-    });
+    }
     return;
-  }
+  });
 
   function generateMarkup(products) {
     return products
       .map((product) => {
         return `
+          <tr>
+            <td class="id" style="display: none">${product._id}</td>
+            <td class="productData">
+              <img class="h-12 mx-auto" src="/img/${product.image}" alt="" />
+            </td>
+            <td class="productData">
+              <h2 class="text-lg">${product.name}</h2>
+            </td>
+            <td class="productData">
+              ${Object.keys(product.saleUnits)
+                .map(
+                  (key) =>
+                    `<div class="flex justify-between">
+                          <button type="button" class="size px-4 mx-4 rounded-full text-xs">
+                          ${product.saleUnits[key].saleUnit}
+                          </button>
+                          <span class="text-md">${product.saleUnits[
+                            key
+                          ].price.toLocaleString('pt-BR', {
+                            style: 'currency',
+                            currency: 'BRL',
+                          })}</span>
+                          <label class="switch-small">
+                            <input type="checkbox"  ${
+                              product.saleUnits[key].active === true
+                                ? 'checked'
+                                : ''
+                            }/>
+                            <span class="slider-small round-small"></span>
+                          </label> 
+                      </div>`
+                )
+                .join('')}
+            </td>
+            <td class="productData">
+              <span class="text-lg">${product.category}</span>
+            </td>
+
+            <td>
+              <button type="button">
+                <i
+                  id="editProduct"
+                  name="editProduct"
+                  class="editProduct fas fa-edit"
+                ></i>
+              </button>
+            </td>
+          </tr>`;
+
+        /*return `
                  <tr>
               <td class ="id" style="display: none">${product._id}</td>
               <td class ="name">${product.name}</td>
@@ -38,7 +90,7 @@ $('#searchProductBtn').on('click', function (event) {
               </button>  
               </td>             
               </tr>
-              `;
+              `;*/
       })
       .join('');
   }
@@ -68,30 +120,56 @@ if (productTableBody) {
         $('#id').val(product._id);
         $('#name').val(product.name);
 
+        if (product.active == true) {
+          $('#productActive').val(1);
+          $('#productActiveBtn').prop('checked', true);
+        } else {
+          $('#productActive').val(0);
+          $('#productActiveBtn').prop('checked', false);
+        }
+
         $('#image').val(product.image);
         $('#category').val(product.category);
         var table = $('#productSaleUnits');
         $('#productSaleUnits td').remove();
 
         product.saleUnits.forEach(function (saleUnit) {
-          table.append(
-            '<tr><td><input type="text" class="border pl-6 mr-10 px-4 py-2 border-gray-400 rounded-md" value="' +
-              saleUnit.saleUnit +
-              '"></input></td><td><input type="text" class="border pl-6 mr-10 px-4 py-2 border-gray-400 rounded-md" value="' +
-              saleUnit.price.toLocaleString('pt-BR', {
-                style: 'currency',
-                currency: 'BRL',
-              }) +
-              '"></input></td><td><input type="text" class="border pl-6 mr-10 px-4 py-2 border-gray-400 rounded-md" value="' +
-              saleUnit.description +
-              '"></input></td></tr>'
-          );
+          if (saleUnit.active) {
+            table.append(
+              '<tr><td><input type="text" name="saleUnit[]" class="border saleUnit pl-6 mr-10 px-4 py-2 border-gray-400 rounded-md" value="' +
+                saleUnit.saleUnit +
+                '"></input></td><td><input type="text" name="price[]" class="price border pl-6 mr-10 px-4 py-2 border-gray-400 rounded-md" value="' +
+                saleUnit.price.toLocaleString('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                }) +
+                '"></input></td><td><input type="text" name="description[]"class="border pl-6 mr-10 px-4 py-2 border-gray-400 rounded-md" value="' +
+                saleUnit.description +
+                '"></input></td><td><label class="switch"><input type="hidden" name="active" value="1"><input type="checkbox" checked/><span class="slider round"></span></label></td></tr>'
+            );
+          } else {
+            table.append(
+              '<tr><td><input type="text" name="saleUnit[]" class="saleUnit border pl-6 mr-10 px-4 py-2 border-gray-400 rounded-md" value="' +
+                saleUnit.saleUnit +
+                '"></input></td><td><input type="text" name="price[]" class="price border pl-6 mr-10 px-4 py-2 border-gray-400 rounded-md" value="' +
+                saleUnit.price.toLocaleString('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                }) +
+                '"></input></td><td><input type="text" name="description[]" class="border pl-6 mr-10 px-4 py-2 border-gray-400 rounded-md" value="' +
+                saleUnit.description +
+                '"></input></td><td><label class="switch"><input type="hidden" name="active" value="0"><input type="checkbox" "/><span class="slider round"></span></label></td></tr>'
+            );
+          }
         });
-        if (product.active == true) {
-          $('#productActiveBtn').prop('checked', true);
-        } else {
-          $('#productActiveBtn').prop('checked', false);
-        }
+        $('input[type=checkbox]').each(function () {
+          $(this).on('click', function () {
+            let ativo = Number($(this).prev().val());
+            $(this)
+              .prev()
+              .val(1 - ativo);
+          });
+        });
       });
     }
   });

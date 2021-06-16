@@ -52,6 +52,7 @@ function toggleModal() {
   const body = document.querySelector('body');
   const modal = document.querySelector('.modal');
   $('#handleProductForm').trigger('reset');
+  $('#productSaleUnits td.productSaleUnit').remove();
   modal.classList.toggle('opacity-0');
   modal.classList.toggle('pointer-events-none');
   body.classList.toggle('modal-active');

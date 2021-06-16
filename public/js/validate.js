@@ -60,6 +60,31 @@ $('#handleProductForm').on('submit', function (event) {
   });
 });
 
+$('#addSaleUnitBtn').on('click', function (event) {
+  event.preventDefault();
+  var table = $('#productSaleUnits');
+  let saleUnit = $(this).closest('tr').find('.saleUnit').val();
+  let price = parseFloat(
+    $(this).closest('tr').find('.price').val().replace(/,/, '.')
+  );
+  let description = $(this).closest('tr').find('.description').val();
+
+  table.append(
+    '<tr><td class="productSaleUnit"><input type="text" name="saleUnit[]" class="border saleUnit pl-6 mr-4 px-4 py-2 border-gray-400 rounded-md" value="' +
+      saleUnit +
+      '"></input></td><td class="productSaleUnit"><input type="text" name="price[]" class="price border pl-6 mr-4 px-4 py-2 border-gray-400 rounded-md" value="' +
+      price.toLocaleString('pt-BR', {
+        style: 'currency',
+        currency: 'BRL',
+      }) +
+      '"></input></td><td class="productSaleUnit"><input type="text" name="description[]"class="border pl-6 mr-4 px-4 py-2 border-gray-400 rounded-md" value="' +
+      description +
+      '"></input></td><td class="productSaleUnit"><label class="switch mb-auto mt-auto"><input type="hidden" name="active" value="1">' +
+      '<input type="checkbox" checked/><span class="slider round"></span></label></td>' +
+      '<td class="productSaleUnit"><button type="button"><i name="deleteSaleUnit" class="deleteSaleUnit fas fa-trash-alt"></i></button></td></tr>'
+  );
+});
+
 function checkInputs() {
   // trim para remover espaços em branco
   const usernameValue = username.value.trim();

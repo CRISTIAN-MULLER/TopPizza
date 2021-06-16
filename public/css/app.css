@@ -629,6 +629,15 @@ section.status {
   visibility: visible;
 }
 
+i.fa-trash-alt {
+  color: #65ee4d;
+  visibility: visible;
+  position: relative;
+  top: 0;
+  outline: none;
+  font-size: 1.6rem;
+}
+
 .form-control small {
   color: #e74c3c;
   position: absolute;

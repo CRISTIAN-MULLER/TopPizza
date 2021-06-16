@@ -77,20 +77,6 @@ $('#searchProductBtn').on('click', function (event) {
               </button>
             </td>
           </tr>`;
-
-        /*return `
-                 <tr>
-              <td class ="id" style="display: none">${product._id}</td>
-              <td class ="name">${product.name}</td>
-              <td ">${product.category},
-              <td ">${product.size}</td>
-              <td ">
-              <button  type="button">
-              <i id="editProduct" name="editProduct" class="modal-open editProduct fas fa-pencil-alt"></i>
-              </button>  
-              </td>             
-              </tr>
-              `;*/
       })
       .join('');
   }
@@ -131,34 +117,38 @@ if (productTableBody) {
         $('#image').val(product.image);
         $('#category').val(product.category);
         var table = $('#productSaleUnits');
-        $('#productSaleUnits td').remove();
+        // $('#productSaleUnits td.productSaleUnit').remove();
 
         product.saleUnits.forEach(function (saleUnit) {
           if (saleUnit.active) {
             table.append(
-              '<tr><td><input type="text" name="saleUnit[]" class="border saleUnit pl-6 mr-10 px-4 py-2 border-gray-400 rounded-md" value="' +
+              '<tr><td class="productSaleUnit"><input type="text" name="saleUnit[]" class="border saleUnit pl-6 mr-4 px-4 py-2 border-gray-400 rounded-md" value="' +
                 saleUnit.saleUnit +
-                '"></input></td><td><input type="text" name="price[]" class="price border pl-6 mr-10 px-4 py-2 border-gray-400 rounded-md" value="' +
+                '"></input></td><td class="productSaleUnit"><input type="text" name="price[]" class="price border pl-6 mr-4 px-4 py-2 border-gray-400 rounded-md" value="' +
                 saleUnit.price.toLocaleString('pt-BR', {
                   style: 'currency',
                   currency: 'BRL',
                 }) +
-                '"></input></td><td><input type="text" name="description[]"class="border pl-6 mr-10 px-4 py-2 border-gray-400 rounded-md" value="' +
+                '"></input></td><td class="productSaleUnit"><input type="text" name="description[]"class="border pl-6 mr-4 px-4 py-2 border-gray-400 rounded-md" value="' +
                 saleUnit.description +
-                '"></input></td><td><label class="switch"><input type="hidden" name="active" value="1"><input type="checkbox" checked/><span class="slider round"></span></label></td></tr>'
+                '"></input></td><td class="productSaleUnit"><label class="switch mb-auto mt-auto"><input type="hidden" name="active" value="1">' +
+                '<input type="checkbox" checked/><span class="slider round"></span></label></td>' +
+                '<td class="productSaleUnit"><button type="button"><i name="deleteSaleUnit" class="deleteSaleUnit fas fa-trash-alt"></i></button></td></tr>'
             );
           } else {
             table.append(
-              '<tr><td><input type="text" name="saleUnit[]" class="saleUnit border pl-6 mr-10 px-4 py-2 border-gray-400 rounded-md" value="' +
+              '<tr><td class="productSaleUnit"><input type="text" name="saleUnit[]" class="saleUnit border pl-6 mr-4 px-4 py-2 border-gray-400 rounded-md" value="' +
                 saleUnit.saleUnit +
-                '"></input></td><td><input type="text" name="price[]" class="price border pl-6 mr-10 px-4 py-2 border-gray-400 rounded-md" value="' +
+                '"></input></td><td class="productSaleUnit"><input type="text" name="price[]" class="price border pl-6 mr-4 px-4 py-2 border-gray-400 rounded-md" value="' +
                 saleUnit.price.toLocaleString('pt-BR', {
                   style: 'currency',
                   currency: 'BRL',
                 }) +
-                '"></input></td><td><input type="text" name="description[]" class="border pl-6 mr-10 px-4 py-2 border-gray-400 rounded-md" value="' +
+                '"></input></td><td class="productSaleUnit"><input type="text" name="description[]" class="border pl-6 mr-4 px-4 py-2 border-gray-400 rounded-md" value="' +
                 saleUnit.description +
-                '"></input></td><td><label class="switch"><input type="hidden" name="active" value="0"><input type="checkbox" "/><span class="slider round"></span></label></td></tr>'
+                '"></input></td><td class="productSaleUnit "><label class="switch mb-auto mt-auto"><input type="hidden" name="active" value="0">' +
+                '<input type="checkbox"/><span class="slider round"></span></label></td>' +
+                '<td class="productSaleUnit"><button type="button"><i name="deleteSaleUnit" class="deleteSaleUnit fas fa-trash-alt"></i></button></td></tr>'
             );
           }
         });
@@ -168,6 +158,12 @@ if (productTableBody) {
             $(this)
               .prev()
               .val(1 - ativo);
+          });
+        });
+        $('.deleteSaleUnit').each(function () {
+          $(this).on('click', function () {
+            $(this).closest('tr').remove();
+            alert('Delete');
           });
         });
       });

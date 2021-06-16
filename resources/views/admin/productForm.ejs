@@ -6,7 +6,7 @@
       <input
         id="name"
         name="name"
-        class="border pl-6 mr-10 px-4 py-2 border-gray-400 rounded-md"
+        class="border pl-6 mr-4 px-4 py-2 border-gray-400 rounded-md"
         type="text"
         value=""
         placeholder="Produto"
@@ -48,6 +48,7 @@
   <div class="thirdline">
     <div class="form-control">
       <span>Unidades de Venda</span>
+     
       <table
         id="productSaleUnits"
         name="productSaleUnits[]"
@@ -56,46 +57,66 @@
           border
           flex flex-col
           pl-6
-          mr-10
+          mr-4
           px-4
           py-2
           border-gray-400
           rounded-md
-        "
-      >
-        <tr>
-          <th>Unidade de Venda</th>
-          <th>Preço</th>
-          <th>Descrição</th>
-          <th>Ativo</th>
-        </tr>
+        ">
+        
+          <tr class="addSaleUnit">
+            <td>
+              <input type="text" class="saleUnit border mr-4 border-gray-400 rounded-md">
+              </input>
+            </td>
+            <td>
+              <input type="text" class="price border mr-4 border-gray-400 rounded-md">
+              </input>
+            </td>
+            <td>
+              <input type="text" class="description border mr-4 border-gray-400 rounded-md">
+              </input>
+            </td>
+          
+            <td>
+              <button
+                  id="addSaleUnitBtn"
+                  class="btn-primary rounded-full px-2 py-1 mx-4 text-white font-bold"
+                >
+                  Adicionar
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <th>Unidade de Venda</th>
+            <th>Preço</th>
+            <th>Descrição</th>
+            <th>Ativo</th>
+          </tr>
       </table>
+    
     </div>
     <div class="flex flex-col ml-4">
-      <label for="category">Categorias</label>
-      <input
-        id="category"
-        name="category"
-        class="border pl-6 px-4 py-2 border-gray-400 rounded-md"
-        type="text"
-        value=""
-        placeholder="Categorias"
-      />
+        <label for="category">Categorias</label>
+        <div class="flex mb-4">
+          <input type="text" name="description[]"class="border mr-4 border-gray-400 rounded-md"></input>  
+          <button id="addCategoryeBtn" class="btn-primary rounded-full px-2 py-1 mx-4 text-white font-bold">
+          Adicionar
+          </button> 
+        </div>
+        <input
+          id="category"
+          name="category"
+          class="border pl-6 px-4 py-2 border-gray-400 rounded-md"
+          type="text"
+          value=""
+          placeholder="Categorias"
+        />
     </div>
   </div>
   <div class="">
-    <h2
-      id="small-message"
-      name="small-message"
-      class="small-message text-md font-bold mb-4"
-    ></h2>
+    <h2 id="small-message" name="small-message" class="small-message text-md font-bold mb-4" ></h2>
   </div>
-
-  <button
-    id="saveProductBtn"
-    class="btn-primary rounded-full px-4 py-2 mx-4 text-white font-bold"
-  >
-    Salvar
-  </button>
+  <button id="saveProductBtn" class="btn-primary rounded-full px-4 py-2 mx-4 text-white font-bold"> Salvar </button>
   <button type="button" class="modal-close">Fechar</button>
 </form>

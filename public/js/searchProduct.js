@@ -99,7 +99,7 @@ if (productTableBody) {
     // e.target is the clicked element!
     // If it was a list item
     if (e.target && e.target.matches('.editProduct')) {
-      toggleModal();
+      toggleProductModal();
       var selrowid = getRow().text();
 
       $.get(`/searchProductById/${selrowid}`, function (product) {
@@ -114,7 +114,8 @@ if (productTableBody) {
           $('#productActiveBtn').prop('checked', false);
         }
 
-        $('#image').val(product.image);
+        $('#image').attr('src', '/img/' + product.image);
+        $('#imageName').val(product.image);
         $('#category').val(product.category);
         var table = $('#productSaleUnits');
         // $('#productSaleUnits td.productSaleUnit').remove();

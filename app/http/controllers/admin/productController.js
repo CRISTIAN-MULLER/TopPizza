@@ -1,15 +1,6 @@
+const { default: slugify } = require('slugify');
 const Product = require('../../../models/product');
-const multer = require('multer');
 const path = require('path');
-const console = require('console');
-const imageMimeTypes = ['image/jpeg', 'image/png', 'image/gif'];
-
-const upload = multer({
-  dest: path.join(__dirname, 'public/img'),
-  fileFilter: (req, file, callback) => {
-    callback(null);
-  },
-});
 
 function productController() {
   return {
@@ -24,11 +15,22 @@ function productController() {
       });
     },
 
-    async handleProduct(req, res) {
-      const productData = {
+    async handleProduct(req, file) {
+      const productName = req.body.name;
+      const fileExtension =
+        req.file !== undefined ? path.extname(req.file.filename) : '';
+
+      const image =
+        req.file !== undefined
+          ? slugify(productName, {
+              lower: true, // convert to lower case, defaults to `false`
+            }) + fileExtension
+          : req.body.imageName;
+
+      let productData = {
         id: req.body.id,
         name: req.body.name,
-        image: req.body.image,
+        image: image,
         saleUnits: req.body.saleUnit.map((unit, i) => ({
           saleUnit: unit,
           price: parseFloat(
@@ -40,7 +42,6 @@ function productController() {
         category: req.body.category,
         active: req.body.productActive == 1 ? true : false,
       };
-
       //checa se tem id no body da requisição, se tiver atualiza o cliente
       //se não, cria um novo.
       if (!req.body.id) {

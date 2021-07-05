@@ -15,10 +15,7 @@ const config = {
 ///////////////////////////////////
 // Making the Database Connection
 ///////////////////////////////////
-mongoose.connect(
-  'mongodb+srv://admin:greenfood@cluster0.vzrkn.mongodb.net/greenfood?retryWrites=true&w=majority',
-  config
-);
+mongoose.connect(MONGO_URL, config);
 
 ///////////////////////////////////
 // Handling Connection Events

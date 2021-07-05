@@ -11,7 +11,7 @@ const userSchema = new Schema(
       sparse: true,
       partialFilterExpression: { email: { $type: 'string' } },
     },
-    phone: { type: String, required: false },
+    phone: { type: String, required: true },
     address: {
       zipcode: { type: String, required: false },
       street: { type: String, required: false },

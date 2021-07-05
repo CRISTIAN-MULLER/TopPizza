@@ -67,7 +67,6 @@ function orderController() {
             reference: req.body.reference,
           },
         };
-
         putOrder(user);
       }
 

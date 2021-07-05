@@ -13,7 +13,7 @@
       >
         <img class="w-24" src="/img/<%= product.item.image %>" alt="" />
         <div class="flex-auto ml-4">
-          <h1><%= product.item.name %></h1>
+          <h1 style="width: 150px" ><%= product.item.name %></h1>
           
         </div>
         <div class="flex-auto">
@@ -22,7 +22,7 @@
             class="
               removeItem
               btn-primary
-              mx-4
+              mx-2
               px-4
               text-white
               rounded-md
@@ -35,11 +35,11 @@
           <input type="number" 
             data-item='<%= JSON.stringify(product.item) %>'
             min="0"
-            value="<%= product.itemTotalQty %>" class="cartItemQuantity border-gray-500 w-24 mx-4 text-center">
+            value="<%= product.itemTotalQty %>" style="width: 3rem" class="cartItemQuantity border-gray-500 w-12 mx-2 text-center">
           </input>
-          <span class="text-sm mx-4"><%= product.item.saleUnit.saleUnit %></span>
-          <span class="text-sm mx-4">x</span>        
-          <span class="text-sm mx-4"><%= product.item.saleUnit.price.toLocaleString('pt-BR', { style: 'currency',
+          <span class="text-sm mx-2"><%= product.item.saleUnit.saleUnit %></span>
+          <span class="text-sm mx-2">x</span>        
+          <span class="text-sm mx-2"><%= product.item.saleUnit.price.toLocaleString('pt-BR', { style: 'currency',
             currency: 'BRL' }) %></span>
         </div>
         <span

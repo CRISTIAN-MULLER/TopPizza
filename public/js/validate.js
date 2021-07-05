@@ -53,9 +53,14 @@ $('#handleClientForm').on('submit', function (event) {
 
 $('#handleProductForm').on('submit', function (event) {
   event.preventDefault();
+  var form = $('#handleProductForm')[0];
+  var data = new FormData(form);
   $.ajax({
     url: '/admin/products/handleProduct',
-    data: $('#handleProductForm').serialize(),
+    enctype: 'multipart/form-data',
+    processData: false,
+    contentType: false,
+    data: data,
     method: 'POST',
   });
 });

@@ -2,7 +2,14 @@
   <div class="product container mx-auto xl:w-1/2">
     <div id="addProduct" class="mt-4">
       <button
-        class="btn-primary modal-open rounded-full mb-4 text-white font-bold"
+        class="
+          btn-primary
+          modal-product-open
+          rounded-full
+          mb-4
+          text-white
+          font-bold
+        "
         id="addProductBtn"
         name="addProductBtn"
         type="button"
@@ -106,7 +113,7 @@
 </section>
 <div
   class="
-    modal
+    productModal
     opacity-0
     pointer-events-none
     fixed
@@ -120,17 +127,25 @@
   "
 >
   <div
-    class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"
+    class="modal-product-overlay absolute w-full h-full bg-gray-900 opacity-50"
   ></div>
 
   <div
-    class="modal-container bg-white m-0 rounded shadow-lg z-50 overflow-y-auto"
+    class="
+      modal-product-container
+      bg-white
+      m-0
+      rounded
+      shadow-lg
+      z-50
+      overflow-y-auto
+    "
   >
     <!-- Add margin if you want to see some of the overlay behind the modal-->
-    <div class="modal-content py-4 text-left px-6">
+    <div class="modal-product-content py-4 text-left px-6">
       <!--Title-->
-      <div class="modalinputs">
-        <div class="inputModal">
+      <div class="modaProductInputs">
+        <div class="productInputModal">
           <!--Body-->
           <%- include('./productForm.ejs') %>
         </div>

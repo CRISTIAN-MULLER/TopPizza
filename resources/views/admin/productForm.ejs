@@ -1,4 +1,4 @@
-<form name="handleProductForm" id="handleProductForm">
+<form name="handleProductForm" id="handleProductForm" enctype='multipart/form-data'>
   <input id="id" name="id" value="" style="display: none" />
   <div class="firstline">
     <div class="form-control">
@@ -31,13 +31,22 @@
   </div>
   <div class="secondline">
     <div class="form-control">
-      <label for="image">Imagem</label>
       <input
-        id="image"
+          id="imageName"
+          type="hidden"
+          name="imageName"
+          />
+      <img id="image" name="image" class="h-40 mb-4 mx-auto" src="" alt="" />
+    </div>
+    <div class="form-control">
+      <label for="productImage">Imagem</label>
+      <input
+        id="productImage"
         value=""
-        name="image"
+        name="productImage"
         class="border pl-6 px-4 py-2 border-gray-400 rounded-md"
-        type="text"
+        type="file"
+        accept="image/*"
         placeholder="Imagem"
       />
       <i class="fas fa-check-circle"></i>
@@ -118,5 +127,5 @@
     <h2 id="small-message" name="small-message" class="small-message text-md font-bold mb-4" ></h2>
   </div>
   <button id="saveProductBtn" class="btn-primary rounded-full px-4 py-2 mx-4 text-white font-bold"> Salvar </button>
-  <button type="button" class="modal-close">Fechar</button>
+  <button type="button" class="product-modal-close">Fechar</button>
 </form>

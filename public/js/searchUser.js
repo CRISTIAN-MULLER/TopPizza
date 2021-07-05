@@ -50,17 +50,35 @@ $('#searchUserBtn').on('click', function (event) {
   function generateMarkup(clients) {
     return clients
       .map((client) => {
+        let clientId = client._id;
+        let clientUserName = client.username;
+        let clientAddressStreet;
+        let clientAddressHouseNumber;
+        let clientAddressDistrict;
+
+        if (client.address == undefined) {
+          clientAddressStreet = '';
+          clientAddressHouseNumber = '';
+          clientAddressDistrict = '';
+        } else {
+          clientAddressStreet = client.address.street;
+          clientAddressHouseNumber = client.address.houseNumber;
+          clientAddressDistrict = client.address.district;
+        }
+
+        let clientPhone = client.phone == undefined ? '' : client.phone;
+
         return `
                  <tr>
-              <td class ="id" style="display: none">${client._id}</td>
-              <td class ="name">${client.username}</td>
-              <td ">${client.address.street},
-              ${client.address.houseNumber}, 
-              ${client.address.district}</td>
-              <td ">${client.phone}</td>
+              <td class ="id" style="display: none">${clientId}</td>
+              <td class ="name">${clientUserName}</td>
+              <td ">${clientAddressStreet} ,
+              ${clientAddressHouseNumber} , 
+              ${clientAddressDistrict}</td>
+              <td ">${clientPhone}</td>
               <td ">
               <button  type="button">
-              <i id="editUser" name="editUser" class="modal-open editUser fas fa-pencil-alt"></i>
+              <i id="editUser" name="editUser" class="modal-client-open editUser fas fa-pencil-alt"></i>
               </button>  
               </td>             
               </tr>
@@ -87,7 +105,7 @@ if (userTableBody) {
     // e.target is the clicked element!
     // If it was a list item
     if (e.target && e.target.matches('.editUser')) {
-      toggleModal();
+      toggleClientModal();
       $('.form-control').removeClass('success error');
       $('small').text('');
       $('.small-message').text('');

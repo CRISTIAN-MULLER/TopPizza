@@ -1,10 +1,40 @@
 const Order = require('../../../models/order');
+const User = require('../../../models/user');
 const moment = require('moment');
 
 function orderController(e) {
   return {
-    store(req, res) {
-      console.log(req.body);
+    async store(req, res) {
+      let userAddress = req.user.address;
+
+      if (JSON.stringify(userAddress) === '{}') {
+        const userData = {
+          phone: req.body.phone,
+          address: {
+            zipcode: req.body.zipcode,
+            street: req.body.street,
+            houseNumber: req.body.houseNumber,
+            district: req.body.district,
+            city: req.body.city,
+            state: req.body.state,
+            reference: req.body.reference,
+          },
+        };
+
+        await User.findByIdAndUpdate(
+          req.user._id,
+          userData,
+          function (err, user) {
+            if (err) {
+              console.log(err);
+              // return res.redirect('/admin/clients');
+            } else {
+              return user;
+            }
+          }
+        );
+      }
+
       const {
         phone,
         zipcode,

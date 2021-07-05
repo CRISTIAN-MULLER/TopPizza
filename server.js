@@ -1,36 +1,18 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
-const ejs = require('ejs');
 const path = require('path');
 const expressLayout = require('express-ejs-layouts');
 const PORT = process.env.PORT || 3000;
 const SECRET = process.env.SECRET || 'secret';
 const MONGO_URL = process.env.MONGO_URL;
-//const mongoose = require('mongoose');
 const session = require('express-session');
 const flash = require('express-flash');
-//const MongoDbStore = require('connect-mongodb-session');
 const passport = require('passport');
 const Emitter = require('events');
 const mongoose = require('./app/database/connection');
 const connect = require('connect-mongodb-session')(session);
 
-// Database connection
-// mongoose.connect(process.env.MONGO_CONNECTION_URL, {
-//   useNewUrlParser: true,
-//   useCreateIndex: true,
-//   useUnifiedTopology: true,
-//   useFindAndModify: true,
-// });
-
-// Session store
-// let mongoStore = new MongoDbStore({
-//   //mongooseConnection: connection,
-//   collection: 'sessions',
-// });
-
-// Event emitter
 const eventEmitter = new Emitter();
 app.set('eventEmitter', eventEmitter);
 
@@ -39,7 +21,7 @@ app.set('eventEmitter', eventEmitter);
 // Session config
 
 var store = new connect({
-  uri: 'mongodb+srv://admin:greenfood@cluster0.vzrkn.mongodb.net/greenfood?retryWrites=true&w=majority',
+  uri: MONGO_URL,
   collection: 'Sessions',
 });
 

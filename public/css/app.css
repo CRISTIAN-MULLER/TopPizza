@@ -529,6 +529,11 @@ section.status {
   grid-template-columns: 3fr 1fr;
 }
 
+.orderFormFirstline {
+  display: grid;
+  grid-template-columns: 3fr 1fr 1fr;
+}
+
 .secondline {
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
@@ -657,7 +662,9 @@ i.fa-trash-alt {
   padding: 10px;
 }
 
-.modal {
+.orderModal,
+.clientModal,
+.productModal {
   transition: opacity 0.25s ease;
 }
 

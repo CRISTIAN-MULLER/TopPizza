@@ -42,6 +42,42 @@ section.hero {
   }
 }
 
+.size {
+  border: 2px solid $primary;
+  //color: $primary;
+  transition: $smooth;
+  &:hover {
+    background: $primary;
+    border-color: $pure;
+    color: $pure;
+  }
+  // &:focus {
+  //   background: $primary;
+  //   border-color: $pure;
+  //   color: $pure;
+  //   outline: none;
+  // }
+}
+
+.size.Selected {
+  background: $primary;
+  border-color: $pure;
+  color: $pure;
+  outline: none;
+
+  // &:hover {
+  //   background: $primary;
+  //   border-color: $pure;
+  //   color: $pure;
+  // }
+  // &:focus {
+  //   background: $primary;
+  //   border-color: $pure;
+  //   color: $pure;
+  //   outline: none;
+  // }
+}
+
 .btn-primary {
   background: $primary;
   transition: $smooth;
@@ -193,7 +229,6 @@ section.status {
 }
 
 .paymentMethod {
-  display: grid;
   grid-template-columns: 1fr 1fr;
   justify-content: space-between;
   align-items: center;
@@ -359,6 +394,10 @@ table {
 .table th {
   padding: 0.75em;
   vertical-align: top;
+}
+.table tr.selected {
+  color: #fff;
+  background-color: #ff7d49;
 }
 
 .thead-dark th {

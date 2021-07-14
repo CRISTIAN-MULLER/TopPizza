@@ -352,6 +352,24 @@ section.hero {
   outline: none;
 }
 
+.size {
+  border: 2px solid #fe5f1e;
+  transition: all 0.3s ease-in-out;
+}
+
+.size:hover {
+  background: #fe5f1e;
+  border-color: #fff;
+  color: #fff;
+}
+
+.size.Selected {
+  background: #fe5f1e;
+  border-color: #fff;
+  color: #fff;
+  outline: none;
+}
+
 .btn-primary {
   background: #fe5f1e;
   transition: all 0.3s ease-in-out;
@@ -509,7 +527,6 @@ section.status {
 }
 
 .paymentMethod {
-  display: grid;
   grid-template-columns: 1fr 1fr;
   justify-content: space-between;
   align-items: center;
@@ -683,6 +700,11 @@ table {
 .table th {
   padding: 0.75em;
   vertical-align: top;
+}
+
+.table tr.selected {
+  color: #fff;
+  background-color: #ff7d49;
 }
 
 .thead-dark th {

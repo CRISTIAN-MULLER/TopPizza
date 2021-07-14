@@ -3,7 +3,7 @@ import Noty from 'noty';
 
 export function placeOrder(formObject) {
   axios
-    .post('/orders', formObject)
+    .post('/customer/order', formObject)
     .then((res) => {
       new Noty({
         type: 'success',

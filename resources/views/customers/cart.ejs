@@ -1,121 +1,163 @@
 <section class="cart py-16">
-  <% if(session.cart) { %>
+  <% if(session.cart && session.cart.totalPrice !== 0) { %>
   <div class="order container mx-auto xl:w-1/2">
     <div class="flex items-center border-b border-gray-300 pb-4">
       <img src="/img/cart-black.png" alt="" />
       <h1 class="font-bold ml-4 text-2xl">Resumo do pedido</h1>
     </div>
-    <div class="pizza-list">
-      <% for(let pizza of Object.values(session.cart.items)) { %>
-      <div class="flex items-center my-8">
-        <img class="w-24" src="/img/<%= pizza.item.image %>" alt="" />
-        <div class="flex-1 ml-4">
-          <h1><%= pizza.item.name %></h1>
-          <!-- <span><%= pizza.item.size %></span> -->
+    <div class="product-list">
+      <% for(let product of Object.values(session.cart.items)) { %>
+      <div
+        id="productData<%= product.item._id %>"
+        class="flex items-center my-8"
+      >
+        <img class="w-24" src="/img/<%= product.item.image %>" alt="" />
+        <div class="flex-auto ml-4">
+          <h1><%= product.item.name %></h1>
+          <span><%= product.item.size %></span>
         </div>
-        <span class="flex-1"><%= pizza.qty %> Un</span>
-        <span class="font-bold text-lg"
-          >R$ <%= pizza.item.price * pizza.qty %></span
+        <div class="flex-auto">
+          <button
+            data-cart="<%= JSON.stringify(product.item) %>"
+            class="
+              removeItem
+              btn-primary
+              mx-4
+              px-4
+              text-white
+              rounded-md
+              font-bold
+            "
+            type="button"
+          >
+            Remover
+          </button>
+          <button
+            data-cart="<%= JSON.stringify(product.item) %>"
+            class="
+              decreaseItemQty
+              btn-primary
+              mx-4
+              px-4
+              text-white
+              rounded-md
+              font-size- font-bold
+            "
+            type="button"
+          >
+            -
+          </button>
+          <span id="productQty<%= product.item._id %>"
+            ><%= product.itemTotalQty %>
+          </span>
+          <button
+            data-cart="<%= JSON.stringify(product.item) %>"
+            class="
+              increaseItemQty
+              btn-primary
+              mx-4
+              px-4
+              text-white
+              rounded-md
+              font-size- font-bold
+            "
+            type="button"
+          >
+            +
+          </button>
+        </div>
+        <span
+          id="productItemTotal<%= product.item._id %>"
+          class="font-bold text-lg"
+          >R$ <%= product.item.saleSize.price * product.itemTotalQty %></span
         >
       </div>
       <% } %>
     </div>
     <hr />
-    <div class="text-right py-4">
-      <div class="grid justify-between grid-cols-2 align-center m-0">
-        <span class="ml-0 mr-auto text-lg font-bold">Tipo de abertura:</span>
-        <div>
-          <span class="text-lg font-bold">Total do pedido:</span>
-          <span class="amount text-2xl font-bold ml-2"
-            >R$ <%= session.cart.totalPrice %></span
-          >
-        </div>
+    <div class="flex justify-between">
+      <div class="flex-1 flex-col py-4">
+        <span class="text-lg font-bold">Observações</span>
+        <textarea class="h-24 w-full"></textarea>
       </div>
-
-      <div class="paymentMethod">
-        <select
-          id="entryPoint"
-          name="entryPoint"
-          class="block appearance-none ml-0 mr-auto bg-white border border-gray-400 hover:border-gray-500 mb-4 px-4 py-2 pr-8 rounded leading-tight focus:outline-none focus:shadow-outline"
-        >
-          <option value="whatsapp">WhatsApp</option>
-          <option value="phone">Telefone</option>
-          <option value="table">Mesa / Balcão</option>
-          <option value="site">Site</option>
-        </select>
-        <div
-          class="pointer-entry pointer-events-none inset-y-0 left-12 px-2 text-gray-700"
-        >
-          <svg
-            class="fill-current h-4 w-4"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-          >
-            <path
-              d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
-            />
-          </svg>
+      <div class="text-right py-4">
+        <div class="justify-between grid-cols-2 align-center m-0">
+          <div>
+            <span class="text-lg font-bold">Total do pedido:</span>
+            <span id="amount" class="amount text-2xl font-bold ml-2 mr-0"
+              >R$ <%= session.cart.totalPrice %></span
+            >
+          </div>
         </div>
-        <select
-          id="paymentMethod"
-          name="paymentMethod"
-          class="block appearance-none ml-auto mr-0 bg-white border border-gray-400 hover:border-gray-500 mb-4 px-4 py-2 pr-8 rounded leading-tight focus:outline-none focus:shadow-outline"
-        >
-          <option value="currency">Pagar em dinheiro</option>
-          <option value="credit-card">Pagar com cartão</option>
-        </select>
 
-        <div
-          class="pointer-payment pointer-events-none inset-y-0 right-0 px-2 text-gray-700"
-        >
-          <svg
-            class="fill-current h-4 w-4"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
+        <div class="paymentMethod">
+          <select
+            id="paymentMethod"
+            name="paymentMethod"
+            class="
+              ml-auto
+              mr-0
+              bg-white
+              border border-gray-400
+              hover:border-gray-500
+              mb-4
+              px-4
+              py-2
+              pr-8
+              rounded
+              leading-tight
+              focus:outline-none
+              focus:shadow-outline
+            "
           >
-            <path
-              d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
-            />
-          </svg>
+            <option value="currency">Pagar em dinheiro</option>
+            <option value="credit-card">Pagar com cartão</option>
+          </select>
         </div>
-      </div>
-      <div id="currencyChange" class="currencyChange flex flex-col">
-        <span class="text-lg color-primary">Precisa de troco? pra quanto?</span>
-        <span class="text-sm mb-4">Se não precisa, só deixar em branco.</span>
-        <input
-          class=" ml-auto mr-0 border border-gray-400 px-12 py-2 w-1/4 rounded-md"
-          type="text"
-          placeholder="R$ 0,00"
-        />
+        <div id="currencyChange" class="currencyChange flex flex-col">
+          <span class="text-lg color-primary"
+            >Precisa de troco? pra quanto?</span
+          >
+          <span class="text-sm mb-4">Se não precisa, só deixar em branco.</span>
+          <input
+            class="
+              ml-auto
+              mr-0
+              border border-gray-400
+              px-12
+              py-2
+              w-1/4
+              rounded-md
+            "
+            type="text"
+            placeholder="R$ 0,00"
+          />
+        </div>
       </div>
     </div>
+
     <% if(user) { %>
     <div>
       <form
-        action="/orders"
+        action="/customer/order"
         method="POST"
         class=""
         name="orderForm"
         id="orderForm"
       >
-        <button
-          class="btn-primary modal-open rounded-full mb-4 text-white font-bold"
-          id="searchclientbtn"
-          name="searchclientbtn"
-          type="button"
-        >
-          Buscar Cliente
-        </button>
-
         <div class="firstline">
+          <input id="id" type="hidden" name="id" value="<%= user._id%>" />
+
           <div class="form-control">
             <label for="username">Nome:</label>
+
             <input
               id="username"
               name="username"
               class="border pl-6 mr-10 px-4 py-2 border-gray-400 rounded-md"
               type="text"
-              value="<%= user.name%>"
+              value="<%= user.username%>"
+              placeholder="Nome"
             />
             <i class="fas fa-check-circle"></i>
             <i class="fas fa-exclamation-circle"></i>
@@ -125,10 +167,11 @@
             <label for="phone">Telefone:</label>
             <input
               id="phone"
+              type="text"
               value="<%= user.phone%>"
               name="phone"
               class="border pl-6 px-4 py-2 border-gray-400 rounded-md"
-              type="number"
+              type="text"
               placeholder="Telefone"
             />
             <i class="fas fa-check-circle"></i>
@@ -141,6 +184,7 @@
             <label for="zipcode">Cep:</label>
             <input
               id="zipcode"
+              type="text"
               value="<%= user.address.zipcode%>"
               name="zipcode"
               class="border pl-6 px-4 py-2 border-gray-400 rounded-md"
@@ -183,9 +227,9 @@
             <input
               id="houseNumber"
               name="houseNumber"
-              class="border pl-6 px-4 py-2 border-gray-400  rounded-md"
+              class="border pl-6 px-4 py-2 border-gray-400 rounded-md"
               type="number"
-              value="<%= user.address.housenumber%>"
+              value="<%= user.address.houseNumber%>"
               placeholder="Num"
             />
             <i class="fas fa-check-circle"></i>
@@ -200,7 +244,7 @@
               id="district"
               name="district"
               value="<%= user.address.district%>"
-              class="border pl-6  px-4 py-2 border-gray-400 rounded-md"
+              class="border pl-6 px-4 py-2 border-gray-400 rounded-md"
               type="text"
               placeholder="Bairro"
             />
@@ -281,7 +325,17 @@
     <% } else { %>
     <a
       href="/login"
-      class="inline-block cursor-pointer btn-primary px-6 py-2 rounded-full text-white font-bold mt-6"
+      class="
+        inline-block
+        cursor-pointer
+        btn-primary
+        px-6
+        py-2
+        rounded-full
+        text-white
+        font-bold
+        mt-6
+      "
       >Entrar para continuar</a
     >
     <% } %>
@@ -298,105 +352,19 @@
       <img class="w-2/5 mx-auto" src="/img/empty-cart.png" alt="empty-cart" />
       <a
         href="/"
-        class="inline-block px-6 py-2 rounded-full btn-primary text-white font-bold mt-12"
+        class="
+          inline-block
+          px-6
+          py-2
+          rounded-full
+          btn-primary
+          text-white
+          font-bold
+          mt-12
+        "
         >Voltar</a
       >
     </div>
   </div>
   <% } %>
 </section>
-<div
-  class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center"
->
-  <div
-    class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"
-  ></div>
-
-  <div
-    class="modal-container bg-white m-0  rounded shadow-lg z-50 overflow-y-auto"
-  >
-    <!-- Add margin if you want to see some of the overlay behind the modal-->
-    <div class="modal-content py-4 text-left px-6">
-      <!--Title-->
-
-      <!--Body-->
-      <div class="modalinputs">
-        <div class="inputModal">
-          <span>Telefone:</span>
-          <input
-            class=" border pl-6 px-4 py-2 mt-2 mb-4 border-gray-400 rounded-md"
-            type="text"
-            name="searchuserphone"
-            id="searchuserphone"
-            placeholder="Telefone"
-          />
-          <span>Nome:</span>
-
-          <input
-            class=" border pl-6 px-4 py-2 mt-2 mb-4 border-gray-400 rounded-md"
-            type="text"
-            name="searchusername"
-            id="searchusername"
-            placeholder="Nome do Cliente"
-          />
-
-          <button
-            class="btn-primary rounded-full text-white font-bold"
-            id="searchUserBtn"
-            name="searchUserBtn"
-            type="button"
-          >
-            Buscar Cliente
-          </button>
-        </div>
-        <form action="/" method="POST">
-          <div>
-            <table class="table">
-              <thead class="thead-dark">
-                <th>
-                  Nome
-                </th>
-                <th>
-                  Telefone
-                </th>
-                <th>
-                  Endereço
-                </th>
-              </thead>
-              <tbody>
-                <td>
-                  Nome
-                </td>
-                <td>
-                  Telefone
-                </td>
-                <td>
-                  Endereço
-                </td>
-              </tbody>
-            </table>
-          </div>
-        </form>
-      </div>
-
-      <!--Footer-->
-      <div class="flex justify-end pt-2">
-        <button
-          class="px-4 bg-transparent p-3 rounded-lg text-indigo-500 hover:bg-gray-100 hover:text-indigo-400 mr-2"
-        >
-          Action
-        </button>
-        <button
-          class="modal-close px-4 bg-indigo-500 p-3 rounded-lg text-white hover:bg-indigo-400"
-        >
-          Close
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script src="../js/searchzipcode.js"></script>
-<script src="../js/searchUserName.js"></script>
-<script src="../js/hideElements.js"></script>
-<script src="../js/validate.js"></script>

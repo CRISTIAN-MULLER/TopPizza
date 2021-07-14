@@ -5,6 +5,10 @@ import moment from 'moment';
 
 let addToCart = document.querySelectorAll('.add-to-cart');
 let cartCounter = document.querySelector('#cartCounter');
+let decreaseItemQty = document.querySelectorAll('.decreaseItemQty');
+let increaseItemQty = document.querySelectorAll('.increaseItemQty');
+let sizeSelected = document.querySelectorAll('.size');
+let halfSelected = document.querySelectorAll('input[type="checkbox"]');
 
 function updateCart(pizza) {
   axios
@@ -28,10 +32,28 @@ function updateCart(pizza) {
     });
 }
 
+function decrease(pizza) {
+  axios
+    .post('/update-cart', pizza)
+    .then((res) => {
+      cartCounter.innerText = res.data.totalQty;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
 addToCart.forEach((btn) => {
   btn.addEventListener('click', (e) => {
     let pizza = JSON.parse(btn.dataset.pizza);
     updateCart(pizza);
+  });
+});
+
+decreaseItemQty.forEach((btn) => {
+  btn.addEventListener('click', (e) => {
+    let cart = btn.dataset.cart;
+    console.log(cart);
   });
 });
 
@@ -98,4 +120,40 @@ socket.on('orderUpdated', (data) => {
     text: 'Order updated',
     progressBar: false,
   }).show();
+});
+
+sizeSelected.forEach((btn) => {
+  btn.addEventListener('click', () => {
+    sizeSelected.forEach((btn) => {
+      btn.classList.remove('Selected');
+    }),
+      btn.classList.add('Selected');
+    let pizzaData = JSON.parse(btn.dataset.pizza);
+    let addToCartBtn = document.getElementById(pizzaData._id);
+    let pizza = JSON.parse(addToCartBtn.dataset.pizza);
+    pizza.size = btn.id;
+
+    halfSelected.forEach((btn) => {
+      btn.dataset.pizza = JSON.stringify(pizza);
+    });
+    addToCartBtn.dataset.pizza = JSON.stringify(pizza);
+  });
+});
+
+halfSelected.forEach((btn) => {
+  btn.addEventListener('change', (btn) => {
+    let pizzaData = JSON.parse(btn.target.dataset.pizza);
+
+    if (btn.target.checked) {
+      let pizzaData = JSON.parse(btn.target.dataset.pizza);
+
+      $('input[type="checkbox"]').prop('checked', true);
+      //$('.size').removeClass('Selected');
+      $('.size#' + pizzaData.size).addClass('Selected');
+      return;
+    }
+    $('input[type="checkbox"]').prop('checked', false);
+    //$('.size').removeClass('Selected');
+    $('.size#' + pizzaData.size).removeClass('Selected');
+  });
 });

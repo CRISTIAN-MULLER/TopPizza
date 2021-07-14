@@ -9,9 +9,9 @@ const orderSchema = new Schema(
       required: true,
     },
     items: { type: Object, required: true },
-    phone: { type: Number, required: true },
+    phone: { type: String, required: true },
     address: {
-      zipcode: { type: Number, required: true },
+      zipcode: { type: String, required: true },
       street: { type: String, required: true },
       houseNumber: { type: Number, required: true },
       district: { type: String, required: true },

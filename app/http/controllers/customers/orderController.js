@@ -14,14 +14,9 @@ function orderController(e) {
         state,
         reference,
         paymentMethod = req.body.paymentMethodValue,
-        entryPoint = req.body.entryPointValue,
+        entryPoint = 'Site',
       } = req.body;
 
-      // if (!phone || !zipcode || !street || !houseNumber || !district || !city) {
-      //   req.flash('error', 'Todos os campos são obrigatórios');
-      //   return res.redirect('/cart');
-      // }
-      //console.log(entryPoint);
       const order = new Order({
         customerId: req.user._id,
         items: req.session.cart.items,

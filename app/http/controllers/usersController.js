@@ -1,13 +1,45 @@
 const Users = require('../../models/user');
+
 function usersController() {
   return {
-    async searchUser(req, res) {
-      const userToSearch = req.params.username;
-      const user = await Users.find({
-        name: { $regex: new RegExp(userToSearch, 'i') },
-      });
-      return user;
-      console.log(user);
+    async searchClientById(req, res) {
+      const idToSearch = req.params.clientid;
+
+      Users.findById(idToSearch)
+        .then((client) => {
+          res.send(client);
+        })
+        .catch((err) => {
+          res
+            .status(500)
+            .send({ message: err.message || 'usuário não encontrado.' });
+        });
+    },
+
+    async searchClientByName(req, res) {
+      const userToSearch = req.params.clientname;
+      Users.find({ name: { $regex: new RegExp(userToSearch, 'i') } })
+        .then((client) => {
+          res.send(client);
+        })
+        .catch((err) => {
+          res
+            .status(500)
+            .send({ message: err.message || 'usuário não encontrado.' });
+        });
+    },
+
+    async searchClientByPhone(req, res) {
+      const phoneToSearch = req.params.phone;
+      Users.find({ phone: { $regex: new RegExp(phoneToSearch, 'i') } })
+        .then((client) => {
+          res.send(client);
+        })
+        .catch((err) => {
+          res
+            .status(500)
+            .send({ message: err.message || 'usuário não encontrado.' });
+        });
     },
   };
 }

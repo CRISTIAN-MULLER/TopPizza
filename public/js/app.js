@@ -26539,6 +26539,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 var addToCart = document.querySelectorAll('.add-to-cart');
 var cartCounter = document.querySelector('#cartCounter');
+var decreaseItemQty = document.querySelectorAll('.decreaseItemQty');
+var increaseItemQty = document.querySelectorAll('.increaseItemQty');
+var sizeSelected = document.querySelectorAll('.size');
+var halfSelected = document.querySelectorAll('input[type="checkbox"]');
 
 function updateCart(pizza) {
   axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/update-cart', pizza).then(function (res) {
@@ -26559,10 +26563,24 @@ function updateCart(pizza) {
   });
 }
 
+function decrease(pizza) {
+  axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/update-cart', pizza).then(function (res) {
+    cartCounter.innerText = res.data.totalQty;
+  })["catch"](function (err) {
+    console.log(err);
+  });
+}
+
 addToCart.forEach(function (btn) {
   btn.addEventListener('click', function (e) {
     var pizza = JSON.parse(btn.dataset.pizza);
     updateCart(pizza);
+  });
+});
+decreaseItemQty.forEach(function (btn) {
+  btn.addEventListener('click', function (e) {
+    var cart = btn.dataset.cart;
+    console.log(cart);
   });
 }); // Remove alert message after X seconds
 
@@ -26633,6 +26651,39 @@ socket.on('orderUpdated', function (data) {
     text: 'Order updated',
     progressBar: false
   }).show();
+});
+sizeSelected.forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    sizeSelected.forEach(function (btn) {
+      btn.classList.remove('Selected');
+    }), btn.classList.add('Selected');
+    var pizzaData = JSON.parse(btn.dataset.pizza);
+    var addToCartBtn = document.getElementById(pizzaData._id);
+    var pizza = JSON.parse(addToCartBtn.dataset.pizza);
+    pizza.size = btn.id;
+    halfSelected.forEach(function (btn) {
+      btn.dataset.pizza = JSON.stringify(pizza);
+    });
+    addToCartBtn.dataset.pizza = JSON.stringify(pizza);
+  });
+});
+halfSelected.forEach(function (btn) {
+  btn.addEventListener('change', function (btn) {
+    var pizzaData = JSON.parse(btn.target.dataset.pizza);
+
+    if (btn.target.checked) {
+      var _pizzaData = JSON.parse(btn.target.dataset.pizza);
+
+      $('input[type="checkbox"]').prop('checked', true); //$('.size').removeClass('Selected');
+
+      $('.size#' + _pizzaData.size).addClass('Selected');
+      return;
+    }
+
+    $('input[type="checkbox"]').prop('checked', false); //$('.size').removeClass('Selected');
+
+    $('.size#' + pizzaData.size).removeClass('Selected');
+  });
 });
 
 /***/ }),

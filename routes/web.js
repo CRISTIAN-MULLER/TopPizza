@@ -20,19 +20,24 @@ function initRoutes(app) {
   app.post('/register', authController().postRegister);
   app.post('/logout', authController().logout);
 
-  app.get('/usersearch/:username', usersController().searchUser);
+  app.get('/searchClientById/:clientid', usersController().searchClientById);
+  app.get(
+    '/searchClientByName/:clientname',
+    usersController().searchClientByName
+  );
+  app.get('/searchClientByPhone/:phone', usersController().searchClientByPhone);
 
   app.get('/cart', cartController().index);
   app.post('/update-cart', cartController().update);
 
   // Customer routes
-  app.post('/orders', auth, orderController().store);
+  app.post('/customer/order', auth, orderController().store);
   app.get('/customer/orders', auth, orderController().index);
   app.get('/customer/orders/:id', auth, orderController().show);
 
   // Admin routes
+  app.post('/admin/order', admin, adminOrderController().store);
   app.get('/admin/orders', admin, adminOrderController().index);
-
   app.post('/admin/order/status', admin, statusController().update);
 }
 

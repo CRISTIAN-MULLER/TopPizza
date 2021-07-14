@@ -29,11 +29,15 @@ function checkInputs() {
   const cityValue = city.value.trim();
   const stateValue = state.value.trim();
   const referenceValue = reference.value.trim();
-  const entryPointValue = entryPoint.value;
+  if (entryPoint === null || entryPoint === undefined) {
+    const entryPointValue = 'Site';
+    hiddenEntryPoint.value = entryPointValue;
+  } else {
+    hiddenEntryPoint.value = entryPoint.value;
+  }
   const paymentMethodValue = paymentMethod.value;
 
   hiddenPaymentMethod.value = paymentMethodValue;
-  hiddenEntryPoint.value = entryPointValue;
 
   if (usernameValue === '') {
     setErrorFor(username, 'Nome não pode ficar em branco.');

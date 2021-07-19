@@ -3,16 +3,36 @@ import Noty from 'noty';
 import { initAdmin } from './admin';
 import moment from 'moment';
 
-let addToCart = document.querySelectorAll('.add-to-cart');
-let cartCounter = document.querySelector('#cartCounter');
+let addToCartBtn = document.querySelectorAll('.add-to-cart');
+let cartCounter = document.getElementById('cartCounter');
 let decreaseItemQty = document.querySelectorAll('.decreaseItemQty');
+let cartAmount = document.getElementById('amount');
 let increaseItemQty = document.querySelectorAll('.increaseItemQty');
-let sizeSelected = document.querySelectorAll('.size');
-let halfSelected = document.querySelectorAll('input[type="checkbox"]');
+let removeItem = document.querySelectorAll('.removeItem');
+let categories = document.querySelectorAll('.categories');
 
-function updateCart(pizza) {
+let sizeSelected = document.querySelectorAll('.size');
+let itemQuantity = document.querySelectorAll('.itemQuantity');
+let cartItemQuantity = document.querySelectorAll('.cartItemQuantity');
+
+function updateCart(product) {
+  axios.post('/update-cart', product).then((res) => {
+    cartCounter.innerText = res.data.totalQty;
+    let productQty = document.getElementById('productQty' + res.data.itemId);
+    let cartItemTotal = document.getElementById(
+      'carItemTotal' + res.data.itemId
+    );
+    //cartItemTotal.innerText =  res.data.itemTotalPrice;
+    cartAmount.innerText = res.data.cartTotalPrice.toLocaleString('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+    });
+  });
+}
+
+function addToCart(product) {
   axios
-    .post('/update-cart', pizza)
+    .post('/add-to-cart', product)
     .then((res) => {
       cartCounter.innerText = res.data.totalQty;
       new Noty({
@@ -32,32 +52,132 @@ function updateCart(pizza) {
     });
 }
 
-function decrease(pizza) {
+function decreaseItemCartQty(product) {
   axios
-    .post('/update-cart', pizza)
+    .put('/decrease-cart-item', product)
     .then((res) => {
+      let productQty = document.getElementById('productQty' + res.data.itemId);
+
+      let cartItemTotal = document.getElementById(
+        'cartItemTotal' + res.data.itemId
+      );
+
+      cartItemTotal.innerText = res.data.itemTotalPrice.toLocaleString(
+        'pt-BR',
+        {
+          style: 'currency',
+          currency: 'BRL',
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        }
+      );
+      productQty.innerText = res.data.itemTotalQty + ' UN';
       cartCounter.innerText = res.data.totalQty;
+      cartAmount.innerText = res.data.cartTotalPrice.toLocaleString('pt-BR', {
+        style: 'currency',
+        currency: 'BRL',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+function increaseItemCartQty(product) {
+  axios
+    .put('/increase-cart-item', product)
+    .then((res) => {
+      let productQty = document.getElementById('productQty' + res.data.itemId);
+      let cartItemTotal = document.getElementById(
+        'carItemTotal' + res.data.itemId
+      );
+      cartItemTotal.innerText = res.data.itemTotalPrice.toLocaleString(
+        'pt-BR',
+        {
+          style: 'currency',
+          currency: 'BRL',
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        }
+      );
+      productQty.innerText = res.data.itemTotalQty + ' UN';
+      cartCounter.innerText = res.data.totalQty;
+      cartAmount.innerText = res.data.cartTotalPrice.toLocaleString('pt-BR', {
+        style: 'currency',
+        currency: 'BRL',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+function removeItemFromCart(product) {
+  axios
+    .put('/remove-cart-item', product)
+    .then((res) => {
+      let productData = document.getElementById(
+        'productData' + res.data.itemId
+      );
+      productData.remove();
+
+      cartCounter.innerText = res.data.totalQty;
+      cartAmount.innerText = res.data.cartTotalPrice.toLocaleString('pt-BR', {
+        style: 'currency',
+        currency: 'BRL',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
     })
     .catch((err) => {
       console.log(err);
     });
 }
 
-addToCart.forEach((btn) => {
+addToCartBtn.forEach((btn) => {
   btn.addEventListener('click', (e) => {
-    let pizza = JSON.parse(btn.dataset.pizza);
-    updateCart(pizza);
+    let productData = JSON.parse(btn.dataset.product);
+
+    let hassaleUnitSelected = productData.saleUnit;
+
+    if (hassaleUnitSelected === undefined || hassaleUnitSelected === null) {
+      alert('Selecione uma Unidade de Venda EX: Kg  ou Un');
+    } else {
+      addToCart(productData);
+    }
   });
 });
 
 decreaseItemQty.forEach((btn) => {
   btn.addEventListener('click', (e) => {
-    let cart = btn.dataset.cart;
-    console.log(cart);
+    let product = JSON.parse(btn.dataset.cart);
+    decreaseItemCartQty(product);
   });
 });
 
-// Remove alert message after X seconds
+increaseItemQty.forEach((btn) => {
+  btn.addEventListener('click', (e) => {
+    let product = JSON.parse(btn.dataset.cart);
+    increaseItemCartQty(product);
+  });
+});
+
+removeItem.forEach((btn) => {
+  btn.addEventListener('click', (e) => {
+    let product = JSON.parse(btn.dataset.cart);
+    removeItemFromCart(product);
+  });
+});
+
+categories.forEach((btn) => {
+  btn.addEventListener('click', (e) => {
+    console.log(addToCartBtn);
+  });
+});
+
+// Remove menssagem alerta depois X segundos
 const alertMsg = document.querySelector('#success-alert');
 if (alertMsg) {
   setTimeout(() => {
@@ -65,9 +185,10 @@ if (alertMsg) {
   }, 2000);
 }
 
-// Change order status
+// Altera status do pedido
 let statuses = document.querySelectorAll('.status_line');
-let hiddenInput = document.querySelector('#hiddenInput');
+let hiddenInput = document.getElementById('hiddenInput');
+
 let order = hiddenInput ? hiddenInput.value : null;
 order = JSON.parse(order);
 let time = document.createElement('small');
@@ -87,9 +208,10 @@ function updateStatus(order) {
       stepCompleted = false;
       time.innerText = moment(order.updatedAt).format('HH:mm');
       status.appendChild(time);
-      if (status.nextElementSibling) {
-        status.nextElementSibling.classList.add('current');
-      }
+      status.classList.add('current');
+      // if (status.nextElementSibling) {
+      //   status.nextElementSibling.classList.add('current');
+      // }
     }
   });
 }
@@ -97,6 +219,7 @@ function updateStatus(order) {
 updateStatus(order);
 
 // Socket
+
 let socket = io();
 
 // Join
@@ -117,7 +240,7 @@ socket.on('orderUpdated', (data) => {
   new Noty({
     type: 'success',
     timeout: 1000,
-    text: 'Order updated',
+    text: 'Pedido Atualizado',
     progressBar: false,
   }).show();
 });
@@ -126,34 +249,99 @@ sizeSelected.forEach((btn) => {
   btn.addEventListener('click', () => {
     sizeSelected.forEach((btn) => {
       btn.classList.remove('Selected');
-    }),
-      btn.classList.add('Selected');
-    let pizzaData = JSON.parse(btn.dataset.pizza);
-    let addToCartBtn = document.getElementById(pizzaData._id);
-    let pizza = JSON.parse(addToCartBtn.dataset.pizza);
-    pizza.size = btn.id;
-
-    halfSelected.forEach((btn) => {
-      btn.dataset.pizza = JSON.stringify(pizza);
     });
-    addToCartBtn.dataset.pizza = JSON.stringify(pizza);
+    btn.classList.add('Selected');
+    let productData = JSON.parse(btn.dataset.product);
+    let addToCartBtn = document.getElementById(productData._id);
+    let product = JSON.parse(addToCartBtn.dataset.product);
+
+    product.saleUnit = JSON.parse(btn.dataset.saleunit);
+    product.itemTotalQty = 1;
+    $('#itemQuantity' + productData._id).val('1');
+    addToCartBtn.dataset.product = JSON.stringify(product);
+
+    $('#totalPrice' + productData._id).text(function () {
+      let totalItemprice = product.itemTotalQty * product.saleUnit.price;
+      if (isNaN(totalItemprice)) {
+        return (0.0).toLocaleString('pt-BR', {
+          style: 'currency',
+          currency: 'BRL',
+        });
+      } else {
+        return totalItemprice.toLocaleString('pt-BR', {
+          style: 'currency',
+          currency: 'BRL',
+        });
+      }
+    });
   });
 });
 
-halfSelected.forEach((btn) => {
-  btn.addEventListener('change', (btn) => {
-    let pizzaData = JSON.parse(btn.target.dataset.pizza);
+itemQuantity.forEach((input) => {
+  input.addEventListener('input', () => {
+    let productData = JSON.parse(input.dataset.product);
 
-    if (btn.target.checked) {
-      let pizzaData = JSON.parse(btn.target.dataset.pizza);
+    let addToCartBtn = document.getElementById(productData._id);
+    let product = JSON.parse(addToCartBtn.dataset.product);
+    let hassaleUnitSelected = product.saleUnit;
 
-      $('input[type="checkbox"]').prop('checked', true);
-      //$('.size').removeClass('Selected');
-      $('.size#' + pizzaData.size).addClass('Selected');
-      return;
+    if (hassaleUnitSelected === undefined || hassaleUnitSelected === null) {
+      alert('Selecione uma Unidade de Venda EX: Kg  ou Un');
+    } else {
+      product.itemTotalQty = parseFloat(input.value);
+      addToCartBtn.dataset.product = JSON.stringify(product);
+
+      $('#totalPrice' + productData._id).text(function () {
+        let totalItemprice = product.itemTotalQty * product.saleUnit.price;
+
+        if (isNaN(totalItemprice)) {
+          return (0.0).toLocaleString('pt-BR', {
+            style: 'currency',
+            currency: 'BRL',
+          });
+        } else {
+          return totalItemprice.toLocaleString('pt-BR', {
+            style: 'currency',
+            currency: 'BRL',
+          });
+        }
+      });
     }
-    $('input[type="checkbox"]').prop('checked', false);
-    //$('.size').removeClass('Selected');
-    $('.size#' + pizzaData.size).removeClass('Selected');
   });
+});
+
+cartItemQuantity.forEach((input) => {
+  input.addEventListener('input', () => {
+    let itemData = JSON.parse(input.dataset.item);
+    let itemTotalQty = parseFloat(input.value);
+
+    $('#cartItemTotal' + itemData._id).text(function () {
+      let totalItemprice = itemTotalQty * itemData.saleUnit.price;
+      if (isNaN(totalItemprice)) {
+        return '0.00';
+      } else {
+        return totalItemprice.toLocaleString('pt-BR', {
+          style: 'currency',
+          currency: 'BRL',
+        });
+      }
+    });
+  });
+  input.addEventListener('change', () => {
+    let cart = JSON.parse(input.dataset.item);
+
+    cart.itemTotalQty = parseFloat(input.value);
+    //cart.dataset.item = JSON.stringify(product);
+    updateCart(cart);
+  });
+});
+
+$('#orderNow').on('click', function (event) {
+  event.preventDefault();
+  $('html,body').animate(
+    {
+      scrollTop: $('#container').offset().top,
+    },
+    'slow'
+  );
 });

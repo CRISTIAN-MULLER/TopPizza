@@ -1,11 +1,16 @@
-const Menu = require('../../models/menu')
+const Product = require('../../models/product');
+
 function homeController() {
-    return {
-        async index(req, res) {
-            const pizzas = await Menu.find()
-            return res.render('home', { pizzas: pizzas })
-        }
-    }
+  return {
+    async index(req, res) {
+      const products = await Product.find({ active: true });
+
+      const categories = [
+        ...new Set(products.map((product) => product.category)),
+      ];
+      return res.render('home', { products: products, categories: categories });
+    },
+  };
 }
 
-module.exports = homeController
+module.exports = homeController;

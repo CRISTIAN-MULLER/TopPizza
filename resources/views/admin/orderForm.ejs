@@ -1,0 +1,51 @@
+<form
+  action="/admin/clients"
+  method="POST"
+  class=""
+  name="searchClientForm"
+  id="searchClientForm"
+>
+  <div class="orderFormFirstline">
+    <div class="form-control">
+      <label for="searchUserName">Nome:</label>
+      <input
+        type="text"
+        name="searchUserName"
+        id="searchUserName"
+        placeholder="Nome do Cliente"
+        class="border pl-6 mr-10 px-4 py-2 border-gray-400 rounded-md"
+      />
+    </div>
+    <div class="form-control">
+      <label for="searchUserPhone">Telefone:</label>
+      <input
+        type="text"
+        name="searchUserPhone"
+        id="searchUserPhone"
+        value=""
+        class="border pl-6 px-4 py-2 border-gray-400 rounded-md"
+        placeholder="Telefone"
+      />
+    </div>
+    <div id="clientSearch-btn" class="form-control mt-4">
+      <button
+        class="btn-primary rounded-full mt-4 text-white font-bold"
+        id="searchUserBtn"
+        name="searchUserBtn"
+        type="button"
+      >
+        Buscar Cliente
+      </button>
+    </div>
+  </div>
+</form>
+<table class="table userstable">
+  <thead>
+    <tr>
+      <th class="px-4 py-2 text-left">Nome</th>
+      <th class="px-4 py-2 text-left">Endereço</th>
+      <th class="px-4 py-2 text-left">Telefone</th>
+    </tr>
+  </thead>
+  <tbody id="userTableBody"></tbody>
+</table>

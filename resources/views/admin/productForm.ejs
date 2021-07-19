@@ -1,0 +1,131 @@
+<form name="handleProductForm" id="handleProductForm" enctype='multipart/form-data'>
+  <input id="id" name="id" value="" style="display: none" />
+  <div class="firstline">
+    <div class="form-control">
+      <label for="name">Nome:</label>
+      <input
+        id="name"
+        name="name"
+        class="border pl-6 mr-4 px-4 py-2 border-gray-400 rounded-md"
+        type="text"
+        value=""
+        placeholder="Produto"
+      />
+      <i class="fas fa-check-circle"></i>
+      <i class="fas fa-exclamation-circle"></i>
+      <small></small>
+    </div>
+    <div class="form-control">
+      <span>Ativo</span>
+      <label class="switch">
+        <input
+          id="productActive"
+          type="hidden"
+          name="productActive"
+          value="1"
+        />
+        <input id="productActiveBtn" type="checkbox" checked />
+        <span class="slider round"></span>
+      </label>
+    </div>
+  </div>
+  <div class="secondline">
+    <div class="form-control">
+      <input
+          id="imageName"
+          type="hidden"
+          name="imageName"
+          />
+      <img id="image" name="image" class="h-40 mb-4 mx-auto" src="" alt="" />
+    </div>
+    <div class="form-control">
+      <label for="productImage">Imagem</label>
+      <input
+        id="productImage"
+        value=""
+        name="productImage"
+        class="border pl-6 px-4 py-2 border-gray-400 rounded-md"
+        type="file"
+        accept="image/*"
+        placeholder="Imagem"
+      />
+      <i class="fas fa-check-circle"></i>
+      <i class="fas fa-exclamation-circle"></i>
+      <small></small>
+    </div>
+  </div>
+  <div class="thirdline">
+    <div class="form-control">
+      <span>Unidades de Venda</span>
+     
+      <table
+        id="productSaleUnits"
+        name="productSaleUnits[]"
+        class="
+          form-control
+          border
+          flex flex-col
+          pl-6
+          mr-4
+          px-4
+          py-2
+          border-gray-400
+          rounded-md
+        ">
+        
+          <tr class="addSaleUnit">
+            <td>
+              <input type="text" class="saleUnit border mr-4 border-gray-400 rounded-md">
+              </input>
+            </td>
+            <td>
+              <input type="text" class="price border mr-4 border-gray-400 rounded-md">
+              </input>
+            </td>
+            <td>
+              <input type="text" class="description border mr-4 border-gray-400 rounded-md">
+              </input>
+            </td>
+          
+            <td>
+              <button
+                  id="addSaleUnitBtn"
+                  class="btn-primary rounded-full px-2 py-1 mx-4 text-white font-bold"
+                >
+                  Adicionar
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <th>Unidade de Venda</th>
+            <th>Preço</th>
+            <th>Descrição</th>
+            <th>Ativo</th>
+          </tr>
+      </table>
+    
+    </div>
+    <div class="flex flex-col ml-4">
+        <label for="category">Categorias</label>
+        <div class="flex mb-4">
+          <input type="text" name="description[]"class="border mr-4 border-gray-400 rounded-md"></input>  
+          <button id="addCategoryeBtn" class="btn-primary rounded-full px-2 py-1 mx-4 text-white font-bold">
+          Adicionar
+          </button> 
+        </div>
+        <input
+          id="category"
+          name="category"
+          class="border pl-6 px-4 py-2 border-gray-400 rounded-md"
+          type="text"
+          value=""
+          placeholder="Categorias"
+        />
+    </div>
+  </div>
+  <div class="">
+    <h2 id="small-message" name="small-message" class="small-message text-md font-bold mb-4" ></h2>
+  </div>
+  <button id="saveProductBtn" class="btn-primary rounded-full px-4 py-2 mx-4 text-white font-bold"> Salvar </button>
+  <button type="button" class="product-modal-close">Fechar</button>
+</form>

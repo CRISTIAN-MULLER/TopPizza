@@ -3,14 +3,15 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema(
   {
-    name: { type: String, required: true },
+    username: { type: String, required: true },
     email: {
       type: String,
       trim: true,
       unique: true,
-      spare: true,
+      sparse: true,
+      partialFilterExpression: { email: { $type: 'string' } },
     },
-    phone: { type: String, required: false },
+    phone: { type: String, required: true },
     address: {
       zipcode: { type: String, required: false },
       street: { type: String, required: false },

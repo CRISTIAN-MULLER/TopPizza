@@ -1,9 +1,40 @@
 const Order = require('../../../models/order');
+const User = require('../../../models/user');
 const moment = require('moment');
 
 function orderController(e) {
   return {
-    store(req, res) {
+    async store(req, res) {
+      let userAddress = req.user.address;
+
+      if (JSON.stringify(userAddress) === '{}') {
+        const userData = {
+          phone: req.body.phone,
+          address: {
+            zipcode: req.body.zipcode,
+            street: req.body.street,
+            houseNumber: req.body.houseNumber,
+            district: req.body.district,
+            city: req.body.city,
+            state: req.body.state,
+            reference: req.body.reference,
+          },
+        };
+
+        await User.findByIdAndUpdate(
+          req.user._id,
+          userData,
+          function (err, user) {
+            if (err) {
+              console.log(err);
+              // return res.redirect('/admin/clients');
+            } else {
+              return user;
+            }
+          }
+        );
+      }
+
       const {
         phone,
         zipcode,
@@ -13,7 +44,8 @@ function orderController(e) {
         city,
         state,
         reference,
-        paymentMethod = req.body.paymentMethodValue,
+        observation,
+        paymentMethod,
         entryPoint = 'Site',
       } = req.body;
 
@@ -30,6 +62,7 @@ function orderController(e) {
           state,
           reference,
         },
+        observation,
         paymentMethod,
         entryPoint,
       });
@@ -57,6 +90,7 @@ function orderController(e) {
     async show(req, res) {
       const order = await Order.findById(req.params.id);
       // Authorize user
+      // @ts-ignore
       if (req.user._id.toString() === order.customerId.toString()) {
         return res.render('customers/singleOrder', { order });
       }

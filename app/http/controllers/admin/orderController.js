@@ -1,6 +1,5 @@
 const Order = require('../../../models/order');
 const User = require('../../../models/user');
-const moment = require('moment');
 
 function orderController() {
   return {
@@ -20,7 +19,7 @@ function orderController() {
     store(req, res) {
       if (req.body.id === '' || req.body.id === undefined) {
         const {
-          name = req.body.username,
+          username,
           phone,
           zipcode,
           street,
@@ -33,7 +32,7 @@ function orderController() {
 
         //Create a user
         const user = new User({
-          name,
+          username,
           phone,
           address: {
             zipcode,
@@ -68,7 +67,6 @@ function orderController() {
             reference: req.body.reference,
           },
         };
-
         putOrder(user);
       }
 
@@ -86,6 +84,7 @@ function orderController() {
             state: user.address.state,
             reference: user.address.reference,
           },
+
           paymentMethod: req.body.paymentMethodValue,
           entryPoint: req.body.entryPointValue,
         });

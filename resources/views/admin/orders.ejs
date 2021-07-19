@@ -1,6 +1,22 @@
 <section class="orders light-section">
   <div class="container mx-auto pt-12">
+    <button
+      type="button"
+      class="
+        btn-primary
+        modal-order-open
+        py-1
+        px-6
+        rounded-full
+        my-4
+        text-white
+        font-bold
+      "
+    >
+      Novo Pedido
+    </button>
     <h1 class="font-bold text-lg mb-4">Pedidos</h1>
+
     <table class="w-full table-auto bg-white">
       <thead>
         <tr>
@@ -8,12 +24,48 @@
           <th class="px-4 py-2 text-left">Cliente</th>
           <th class="px-4 py-2 text-left">Endereço</th>
           <th class="px-4 py-2 text-left">Telefone</th>
-          <th class="px-4 py-2 text-left">Status</th>
           <th class="px-4 py-2 text-left">Data/Hora</th>
           <th class="px-4 py-2 text-left">Status do Pagamento</th>
+          <th class="px-4 py-2 text-left">Status do Pedido</th>
         </tr>
       </thead>
       <tbody id="orderTableBody"></tbody>
     </table>
   </div>
 </section>
+<div
+  class="
+    orderModal
+    opacity-0
+    pointer-events-none
+    fixed
+    w-full
+    h-full
+    top-0
+    left-0
+    flex
+    items-center
+    justify-center
+  "
+>
+  <div
+    class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"
+  ></div>
+
+  <div
+    class="modal-container bg-white m-0 rounded shadow-lg z-50 overflow-y-auto"
+  >
+    <!-- Add margin if you want to see some of the overlay behind the modal-->
+    <div class="modal-content py-4 text-left px-6">
+      <!--Title-->
+      <div class="modalOrderInputs">
+        <div class="orderInputModal">
+          <!--Body-->
+          <%- include('./orderForm.ejs') %>
+        </div>
+      </div>
+      <!--Footer-->
+      <div class="flex justify-end pt-2"></div>
+    </div>
+  </div>
+</div>

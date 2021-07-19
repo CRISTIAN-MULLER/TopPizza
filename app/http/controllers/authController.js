@@ -11,10 +11,13 @@ function authController() {
       res.render('auth/login');
     },
     postLogin(req, res, next) {
-      const { email, password } = req.body;
+      const { email, password, username, phone } = req.body;
+
       // Validate request
       if (!email || !password) {
         req.flash('error', 'Todos os campos são obrigatórios');
+        req.flash('email', email);
+
         return res.redirect('/login');
       }
       passport.authenticate('local', (err, user, info) => {
@@ -31,7 +34,6 @@ function authController() {
             req.flash('error', info.message);
             return next(err);
           }
-
           return res.redirect(_getRedirectUrl(req));
         });
       })(req, res, next);
@@ -40,20 +42,23 @@ function authController() {
       res.render('auth/register');
     },
     async postRegister(req, res) {
-      const { name, email, password } = req.body;
+      const { username, email, password, phone } = req.body;
       // Validate request
-      if (!name || !email || !password) {
+      if (!username || !email || !password || !phone) {
         req.flash('error', 'Todos os campos são obrigatórios');
-        req.flash('name', name);
+        req.flash('username', username);
+        req.flash('phone', phone);
         req.flash('email', email);
+
         return res.redirect('/register');
       }
 
       // Check if email exists
-      User.exists({ email: email }, (err, result) => {
+      await User.exists({ email: email }, (err, result) => {
         if (result) {
           req.flash('error', 'Este email já está cadastrado');
-          req.flash('name', name);
+          req.flash('username', username);
+          req.flash('phone', phone);
           req.flash('email', email);
           return res.redirect('/register');
         }
@@ -63,8 +68,9 @@ function authController() {
       const hashedPassword = await bcrypt.hash(password, 10);
       // Create a user
       const user = new User({
-        name,
+        username,
         email,
+        phone,
         password: hashedPassword,
       });
 

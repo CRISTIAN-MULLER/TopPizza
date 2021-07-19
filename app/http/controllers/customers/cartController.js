@@ -5,17 +5,31 @@ function cartController() {
     index(req, res) {
       res.render('customers/cart');
     },
-    update(req, res) {
-      // let cart = {
-      //     items: {
-      //         pizzaId: { item: pizzaObject, qty:0 },
-      //         pizzaId: { item: pizzaObject, qty:0 },
-      //         pizzaId: { item: pizzaObject, qty:0 },
-      //     },
-      //     totalQty: 0,
-      //     totalPrice: 0
-      // }
-      // for the first time creating cart and adding basic object structure
+    updateCart(req, res) {
+      let cart = req.session.cart;
+      let cartItems = Object.values(req.session.cart.items);
+
+      cart.items[req.body._id].itemTotalQty = req.body.itemTotalQty;
+
+      cart.items[req.body._id].totalItemprice =
+        req.body.itemTotalQty * req.body.saleUnit.price;
+
+      let cartTotalPrice = cartItems.reduce((currentTotal, item) => {
+        return item.totalItemprice + currentTotal;
+      }, 0);
+
+      cart.totalPrice = cartTotalPrice;
+
+      return res.json({
+        totalQty: req.session.cart.totalQty,
+        itemTotalQty: cart.items[req.body._id].itemTotalQty,
+        itemTotalPrice: cart.items[req.body._id].totalItemprice,
+        itemId: req.body._id,
+        cartTotalPrice: cartTotalPrice,
+      });
+    },
+
+    addToCart(req, res) {
       if (!req.session.cart) {
         req.session.cart = {
           items: {},
@@ -24,21 +38,107 @@ function cartController() {
         };
       }
       let cart = req.session.cart;
-
-      // Check if item does not exist in cart
+      // Ver se existe o item no carrinho
       if (!cart.items[req.body._id]) {
         cart.items[req.body._id] = {
           item: req.body,
-          qty: 1,
+          // qty: 1,
+          itemTotalQty: req.body.itemTotalQty,
+          totalItemprice: req.body.itemTotalQty * req.body.saleUnit.price,
         };
         cart.totalQty = cart.totalQty + 1;
-        cart.totalPrice = cart.totalPrice + req.body.price;
+        cart.totalPrice =
+          cart.totalPrice + req.body.itemTotalQty * req.body.saleUnit.price;
+        cart.items[req.body._id].totalItemprice =
+          req.body.saleUnit.price * cart.items[req.body._id].itemTotalQty;
       } else {
-        cart.items[req.body._id].qty = cart.items[req.body._id].qty + 1;
-        cart.totalQty = cart.totalQty + 1;
-        cart.totalPrice = cart.totalPrice + req.body.price;
+        cart.items[req.body._id].itemTotalQty =
+          cart.items[req.body._id].itemTotalQty + req.body.itemTotalQty;
+
+        cart.items[req.body._id].totalItemprice =
+          cart.items[req.body._id].totalItemprice +
+          req.body.itemTotalQty * req.body.saleUnit.price;
+
+        cart.totalPrice =
+          cart.totalPrice + req.body.itemTotalQty * req.body.saleUnit.price;
       }
       return res.json({ totalQty: req.session.cart.totalQty });
+    },
+    decreaseItemQty(req, res) {
+      // if (!req.session.cart) {
+      //   req.session.cart = {
+      //     items: {},
+      //     totalQty: 0,
+      //     totalPrice: 0,
+      //   };
+      // }
+      let cart = req.session.cart;
+
+      // Ver se não existe o item no carrinho
+      if (cart.items[req.body._id].itemTotalQty <= 1) {
+        return;
+      } else {
+        cart.items[req.body._id].itemTotalQty =
+          cart.items[req.body._id].itemTotalQty - 1;
+        cart.totalQty = cart.totalQty - 1;
+        cart.totalPrice = cart.totalPrice - req.body.saleUnit.price;
+        cart.items[req.body._id].totalItemprice =
+          req.body.saleUnit.price * cart.items[req.body._id].itemTotalQty;
+        cart.items[req.body._id].itemTotalQty =
+          cart.items[req.body._id].itemTotalQty -
+          cart.items[req.body._id].itemTotalQty;
+      }
+      return res.json({
+        totalQty: req.session.cart.totalQty,
+        itemTotalQty: cart.items[req.body._id].itemTotalQty,
+        itemTotalPrice: cart.items[req.body._id].totalItemprice,
+        itemId: req.body._id,
+        cartTotalPrice: cart.totalPrice,
+      });
+    },
+    increaseItemQty(req, res) {
+      let cart = req.session.cart;
+      // Ver se não existe o item no carrinho
+      cart.items[req.body._id].itemTotalQty =
+        cart.items[req.body._id].itemTotalQty + 1;
+
+      cart.totalQty = cart.totalQty + 1;
+      cart.totalPrice = cart.totalPrice + req.body.saleUnit.price;
+      cart.items[req.body._id].totalItemprice =
+        req.body.saleUnit.price * cart.items[req.body._id].itemTotalQty;
+
+      cart.items[req.body._id].itemTotalQty =
+        cart.items[req.body._id].itemTotalQty +
+        cart.items[req.body._id].itemTotalQty;
+
+      return res.json({
+        totalQty: req.session.cart.totalQty,
+        itemTotalQty: cart.items[req.body._id].itemTotalQty,
+        itemTotalPrice: cart.items[req.body._id].totalItemprice,
+        itemId: req.body._id,
+        cartTotalPrice: cart.totalPrice,
+      });
+    },
+    removeItem(req, res) {
+      let cart = req.session.cart;
+      let productId = req.body._id;
+      cart.totalQty = cart.totalQty - 1;
+
+      if (cart.totalQty < 0) {
+        cart.totalQty = 0;
+      }
+      let totalItemPrice = cart.items[req.body._id].totalItemprice;
+      cart.totalPrice = cart.totalPrice - totalItemPrice;
+      if (isNaN(cart.totalPrice)) {
+        cart.totalPrice = 0.0;
+      }
+      delete cart.items[productId];
+
+      return res.json({
+        itemId: req.body._id,
+        totalQty: cart.totalQty,
+        cartTotalPrice: cart.totalPrice,
+      });
     },
   };
 }

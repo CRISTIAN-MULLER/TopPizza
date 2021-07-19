@@ -1,59 +1,42 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
-const ejs = require('ejs');
 const path = require('path');
 const expressLayout = require('express-ejs-layouts');
 const PORT = process.env.PORT || 3000;
-const mongoose = require('mongoose');
+const SECRET = process.env.SECRET || 'secret';
+const MONGO_URL = process.env.MONGO_URL;
 const session = require('express-session');
 const flash = require('express-flash');
-const MongoDbStore = require('connect-mongo')(session);
 const passport = require('passport');
 const Emitter = require('events');
+const mongoose = require('./app/database/connection');
+const connect = require('connect-mongodb-session')(session);
 
-const Cors = require('cors');
-
-// Database connection
-mongoose.connect(process.env.MONGO_CONNECTION_URL, {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useUnifiedTopology: true,
-  useFindAndModify: true,
-});
-const connection = mongoose.connection;
-connection
-  .once('open', () => {
-    console.log('Database connected...');
-  })
-  .catch((err) => {
-    console.log('Connection failed...');
-  });
-
-// Session store
-let mongoStore = new MongoDbStore({
-  mongooseConnection: connection,
-  collection: 'sessions',
-});
-
-// Event emitter
 const eventEmitter = new Emitter();
 app.set('eventEmitter', eventEmitter);
 
 //body parsererror
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(Cors());
-
 // Session config
+
+var store = new connect({
+  uri: MONGO_URL,
+  collection: 'Sessions',
+});
+
+// Catch errors
+store.on('error', function(error) {
+  console.log(error);
+});
+
 app.use(
   session({
-    secret: process.env.COOKIE_SECRET,
-    resave: false,
-    store: mongoStore,
-    saveUninitialized: false,
-    cookie: { maxAge: 1000 * 60 * 60 * 24 }, // 24 hour
+    secret: SECRET,
+    saveUninitialized: false, // don't create session until something stored
+    resave: false, //don't save session if unmodified
+    store: store,
+    cookie: { maxAge: 12 * 60 * 60 * 1000 }, // 12 horas
   })
 );
 
@@ -66,8 +49,8 @@ app.use(passport.session());
 app.use(flash());
 // Assets
 app.use(express.static('public'));
-app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Global middleware
 app.use((req, res, next) => {

@@ -14,10 +14,11 @@ export function initAdmin(socket) {
       },
     })
     .then((res) => {
-      orders = res.data;
-
-      markup = generateMarkup(orders);
-      orderTableBody.innerHTML = markup;
+      if (orderTableBody) {
+        orders = res.data;
+        markup = generateMarkup(orders);
+        orderTableBody.innerHTML = markup;
+      }
     })
     .catch((err) => {
       console.log(err);
@@ -28,7 +29,7 @@ export function initAdmin(socket) {
     return parsedItems
       .map((menuItem) => {
         return `
-                <p>${menuItem.item.name} - ${menuItem.qty} Un</p>
+                <p>${menuItem.item.name} - ${menuItem.itemTotalQty} ${menuItem.item.saleUnit.saleUnit}</p>
             `;
       })
       .join('');
@@ -43,7 +44,7 @@ export function initAdmin(socket) {
                     <p>${order._id}</p>
                     <div>${renderItems(order.items)}</div>
                 </td>
-                <td class="border px-4 py-2">${order.customerId.name}</td>
+                <td class="border px-4 py-2">${order.customerId.username}</td>
                 <td class="border px-4 py-2">
                 ${order.address.street},
                 ${order.address.houseNumber}, 
@@ -74,10 +75,19 @@ export function initAdmin(socket) {
                                   order.status === 'confirmed' ? 'selected' : ''
                                 }>
                                     Confirmado</option>
-                                <option value="prepared" ${
-                                  order.status === 'prepared' ? 'selected' : ''
+                                <option value="preparation" ${
+                                  order.status === 'preparation'
+                                    ? 'selected'
+                                    : ''
                                 }>
-                                    Preparado</option>
+                                    Em Preparação</option>
+                                <option value="outfordelivery" ${
+                                  order.status === 'outfordelivery'
+                                    ? 'selected'
+                                    : ''
+                                }>
+                                    Saiu para entrega
+                                </option>
                                 <option value="delivered" ${
                                   order.status === 'delivered' ? 'selected' : ''
                                 }>
@@ -98,8 +108,17 @@ export function initAdmin(socket) {
                                     d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
                             </svg>
                         </div>
+                         
                     </div>
+                    
                 </td>
+                ${
+                  order.observation
+                    ? '<tr class="table-row"><td ><textarea class="w-full border px-4 py-2 row-span-2">' +
+                      `${order.observation}` +
+                      '</textarea></td></tr>'
+                    : ''
+                }
                 
             </tr>
         `;
@@ -111,7 +130,7 @@ export function initAdmin(socket) {
     new Noty({
       type: 'success',
       timeout: 1000,
-      text: 'New order!',
+      text: 'Novo Pedido!',
       progressBar: false,
     }).show();
     orders.unshift(order);

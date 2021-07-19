@@ -1,11 +1,13 @@
-const Users = require('../../models/user');
+const User = require('../../models/user');
 
 function usersController() {
   return {
     async searchClientById(req, res) {
       const idToSearch = req.params.clientid;
 
-      Users.findById(idToSearch)
+      User.findById(idToSearch)
+        .select('-password')
+
         .then((client) => {
           res.send(client);
         })
@@ -18,7 +20,9 @@ function usersController() {
 
     async searchClientByName(req, res) {
       const userToSearch = req.params.clientname;
-      Users.find({ name: { $regex: new RegExp(userToSearch, 'i') } })
+
+      User.find({ username: { $regex: new RegExp(userToSearch, 'i') } })
+        .select('-password')
         .then((client) => {
           res.send(client);
         })
@@ -31,7 +35,7 @@ function usersController() {
 
     async searchClientByPhone(req, res) {
       const phoneToSearch = req.params.phone;
-      Users.find({ phone: { $regex: new RegExp(phoneToSearch, 'i') } })
+      User.find({ phone: { $regex: new RegExp(phoneToSearch, 'i') } })
         .then((client) => {
           res.send(client);
         })

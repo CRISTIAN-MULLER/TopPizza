@@ -1,4 +1,5 @@
 const orderForm = document.getElementById('orderForm');
+const handleClientForm = document.getElementById('handleClientForm');
 const username = document.getElementById('username');
 const phone = document.getElementById('phone');
 const zipcode = document.getElementById('zipcode');
@@ -11,15 +12,86 @@ const reference = document.getElementById('reference');
 const entryPoint = document.getElementById('entryPoint');
 const hiddenEntryPoint = document.getElementById('entryPointValue');
 const paymentMethod = document.getElementById('paymentMethod');
-const hiddenPaymentMethod = document.getElementById('paymentMethodValue');
+const observation = document.getElementById('observation');
 
-orderForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-  checkInputs();
+if (orderForm !== null) {
+  orderForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (checkInputs()) {
+      if (entryPoint === null || entryPoint === undefined) {
+        const entryPointValue = 'Site';
+        hiddenEntryPoint.value = entryPointValue;
+      } else {
+        hiddenEntryPoint.value = entryPoint.value;
+      }
+
+      document.orderForm.submit();
+    }
+  });
+}
+
+// if (handleClientForm !== null) {
+//   handleClientForm.addEventListener('submit', (e) => {
+//     e.preventDefault();
+//     if (checkInputs()) {
+//       document.handleClientForm.submit();
+//     }
+//   });
+// }
+
+$('#handleClientForm').on('submit', function (event) {
+  event.preventDefault();
+  if (checkInputs()) {
+    $.ajax({
+      url: '/admin/clients/handleUser',
+      data: $('#handleClientForm').serialize(),
+      method: 'POST',
+    });
+    $('#small-message').html('Dados Salvos com sucesso');
+  }
+});
+
+$('#handleProductForm').on('submit', function (event) {
+  event.preventDefault();
+  var form = $('#handleProductForm')[0];
+  var data = new FormData(form);
+  $.ajax({
+    url: '/admin/products/handleProduct',
+    enctype: 'multipart/form-data',
+    processData: false,
+    contentType: false,
+    data: data,
+    method: 'POST',
+  });
+});
+
+$('#addSaleUnitBtn').on('click', function (event) {
+  event.preventDefault();
+  var table = $('#productSaleUnits');
+  let saleUnit = $(this).closest('tr').find('.saleUnit').val();
+  let price = parseFloat(
+    $(this).closest('tr').find('.price').val().replace(/,/, '.')
+  );
+  let description = $(this).closest('tr').find('.description').val();
+
+  table.append(
+    '<tr><td class="productSaleUnit"><input type="text" name="saleUnit[]" class="border saleUnit pl-6 mr-4 px-4 py-2 border-gray-400 rounded-md" value="' +
+      saleUnit +
+      '"></input></td><td class="productSaleUnit"><input type="text" name="price[]" class="price border pl-6 mr-4 px-4 py-2 border-gray-400 rounded-md" value="' +
+      price.toLocaleString('pt-BR', {
+        style: 'currency',
+        currency: 'BRL',
+      }) +
+      '"></input></td><td class="productSaleUnit"><input type="text" name="description[]"class="border pl-6 mr-4 px-4 py-2 border-gray-400 rounded-md" value="' +
+      description +
+      '"></input></td><td class="productSaleUnit"><label class="switch mb-auto mt-auto"><input type="hidden" name="active" value="1">' +
+      '<input type="checkbox" checked/><span class="slider round"></span></label></td>' +
+      '<td class="productSaleUnit"><button type="button"><i name="deleteSaleUnit" class="deleteSaleUnit fas fa-trash-alt"></i></button></td></tr>'
+  );
 });
 
 function checkInputs() {
-  // trim to remove the whitespaces
+  // trim para remover espaços em branco
   const usernameValue = username.value.trim();
   const phoneValue = phone.value.trim();
   const zipcodeValue = zipcode.value.trim();
@@ -29,15 +101,6 @@ function checkInputs() {
   const cityValue = city.value.trim();
   const stateValue = state.value.trim();
   const referenceValue = reference.value.trim();
-  if (entryPoint === null || entryPoint === undefined) {
-    const entryPointValue = 'Site';
-    hiddenEntryPoint.value = entryPointValue;
-  } else {
-    hiddenEntryPoint.value = entryPoint.value;
-  }
-  const paymentMethodValue = paymentMethod.value;
-
-  hiddenPaymentMethod.value = paymentMethodValue;
 
   if (usernameValue === '') {
     setErrorFor(username, 'Nome não pode ficar em branco.');
@@ -99,7 +162,7 @@ function checkInputs() {
     stateValue !== '' &&
     referenceValue !== ''
   ) {
-    document.orderForm.submit();
+    return true;
   }
 }
 

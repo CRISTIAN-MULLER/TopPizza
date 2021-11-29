@@ -1,3 +1,5 @@
+var cloudinary = require('cloudinary').v2;
+
 const homeController = require('../app/http/controllers/homeController');
 const authController = require('../app/http/controllers/authController');
 const usersController = require('../app/http/controllers/usersController');
@@ -36,6 +38,7 @@ const upload = multer({ storage });
 
 function initRoutes(app) {
   app.get('/', homeController().index);
+  app.get('/products', homeController().mobielIndex);
   app.get('/login', guest, authController().login);
   app.post('/login', authController().postLogin);
   app.get('/register', guest, authController().register);

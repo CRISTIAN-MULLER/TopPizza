@@ -53,6 +53,7 @@ $('#handleClientForm').on('submit', function (event) {
 
 $('#handleProductForm').on('submit', function (event) {
   event.preventDefault();
+
   var form = $('#handleProductForm')[0];
   var data = new FormData(form);
   $.ajax({
@@ -61,6 +62,7 @@ $('#handleProductForm').on('submit', function (event) {
     processData: false,
     contentType: false,
     data: data,
+    dataType: 'json',
     method: 'POST',
   });
 });

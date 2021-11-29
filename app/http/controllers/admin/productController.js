@@ -2,6 +2,8 @@ const { default: slugify } = require('slugify');
 const Product = require('../../../models/product');
 const path = require('path');
 
+var cloudinary = require('cloudinary').v2;
+
 function productController() {
   return {
     async index(req, res) {
@@ -27,10 +29,22 @@ function productController() {
             }) + fileExtension
           : req.body.imageName;
 
+      let imageUrl = '';
+
+      await cloudinary.uploader.upload(
+        `public/img/${image}`,
+        function (error, result) {
+          if (error) {
+            console.warn(error);
+          }
+          imageUrl = result.url;
+        }
+      );
+
       let productData = {
         id: req.body.id,
         name: req.body.name,
-        image: image,
+        image: imageUrl,
         saleUnits: req.body.saleUnit.map((unit, i) => ({
           saleUnit: unit,
           price: parseFloat(

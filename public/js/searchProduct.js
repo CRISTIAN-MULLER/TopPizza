@@ -32,7 +32,7 @@ $('#searchProductBtn').on('click', function (event) {
           <tr>
             <td class="id" style="display: none">${product._id}</td>
             <td class="productData">
-              <img class="h-12 mx-auto" src="/img/${product.image}" alt="" />
+              <img class="h-12 mx-auto" src="${product.image}" alt="" />
             </td>
             <td class="productData">
               <h2 class="text-lg">${product.name}</h2>
@@ -114,7 +114,7 @@ if (productTableBody) {
           $('#productActiveBtn').prop('checked', false);
         }
 
-        $('#image').attr('src', '/img/' + product.image);
+        $('#image').attr('src', product.image);
         $('#imageName').val(product.image);
         $('#category').val(product.category);
         var table = $('#productSaleUnits');

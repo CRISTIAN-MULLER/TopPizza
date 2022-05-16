@@ -49,7 +49,8 @@ function orderController(e) {
 					}
 				}
 			`
-			const endpoint = 'http://192.168.100.3:4000/graphql'
+			//const endpoint = 'http://192.168.100.3:4000/graphql'
+			const endpoint = 'https://green-foodie-api.herokuapp.com/graphql'
 
 			const graphQLClient = new GraphQLClient(endpoint)
 

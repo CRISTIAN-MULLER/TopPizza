@@ -1,46 +1,46 @@
 <section class="status">
-  <div class="container mx-auto">
-    <div class="status-box w-full lg:w-2/3 mx-auto">
-      <div class="flex items-center justify-between mb-12">
-        <h1 class="text-xl font-bold">Status do seu pedido</h1>
-        <h6 class="bg-white py-1 rounded-full px-4 text-green-600 text-xs">
-          <%= order._id %>
-        </h6>
-        <input
-          id="hiddenInput"
-          type="hidden"
-          value="<%= JSON.stringify(order) %>"
-        />
-      </div>
-      <ul>
-        <li
-          class="status_line text-sm md:text-xl pb-16"
-          data-status="order_placed"
-        >
-          <span>Pedido Aberto</span>
-        </li>
-        <li
-          class="status_line text-sm md:text-xl pb-16"
-          data-status="confirmed"
-        >
-          <span>Pedido Confirmado</span>
-        </li>
-        <li
-          class="status_line text-sm md:text-xl pb-16"
-          data-status="preparation"
-        >
-          <span>Em Preparação</span>
-        </li>
-        <li
-          class="status_line text-sm md:text-xl pb-16"
-          data-status="outfordelivery"
-        >
-          <span>Saiu para Entrega</span>
-        </li>
-        <li class="status_line text-sm md:text-xl" data-status="delivered">
-          <span>Entregue</span>
-        </li>
-      </ul>
-    </div>
-  </div>
+	<div class="container mx-auto">
+		<div class="status-box w-full lg:w-2/3 mx-auto">
+			<div class="flex items-center justify-between mb-12">
+				<h1 class="text-xl font-bold">Status do seu pedido</h1>
+				<h6 class="bg-white py-1 rounded-full px-4 text-green-600 text-xs">
+					#<%= order.orderNumber %>
+				</h6>
+				<input
+					id="hiddenInput"
+					type="hidden"
+					value="<%= JSON.stringify(order) %>"
+				/>
+			</div>
+			<ul>
+				<li
+					class="status_line text-sm md:text-xl pb-16"
+					data-status="order_placed"
+				>
+					<span>Pedido Aberto</span>
+				</li>
+				<li
+					class="status_line text-sm md:text-xl pb-16"
+					data-status="confirmed"
+				>
+					<span>Pedido Confirmado</span>
+				</li>
+				<li
+					class="status_line text-sm md:text-xl pb-16"
+					data-status="preparation"
+				>
+					<span>Em Preparação</span>
+				</li>
+				<li
+					class="status_line text-sm md:text-xl pb-16"
+					data-status="outfordelivery"
+				>
+					<span>Saiu para Entrega</span>
+				</li>
+				<li class="status_line text-sm md:text-xl" data-status="delivered">
+					<span>Entregue</span>
+				</li>
+			</ul>
+		</div>
+	</div>
 </section>

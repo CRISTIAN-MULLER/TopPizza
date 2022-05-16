@@ -29,6 +29,8 @@
     "express-ejs-layouts": "^2.5.0",
     "express-flash": "^0.0.2",
     "express-session": "^1.17.1",
+    "graphql": "^16.5.0",
+    "graphql-request": "^4.2.0",
     "jquery-mask-plugin": "^1.14.16",
     "mercedlogger": "^1.0.1",
     "moment": "^2.29.1",

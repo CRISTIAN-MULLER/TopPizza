@@ -22,7 +22,7 @@ app.set('eventEmitter', eventEmitter);
 
 var store = new connect({
   uri: MONGO_URL,
-  collection: 'Sessions',
+  collection: 'sessions',
 });
 
 // Catch errors

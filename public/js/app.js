@@ -263,7 +263,7 @@ axios.isAxiosError = __webpack_require__(/*! ./helpers/isAxiosError */ "./node_m
 module.exports = axios;
 
 // Allow use of default import syntax in TypeScript
-module.exports.default = axios;
+module.exports["default"] = axios;
 
 
 /***/ }),
@@ -1875,13 +1875,13 @@ function initAdmin(socket) {
   function renderItems(items) {
     var parsedItems = Object.values(items);
     return parsedItems.map(function (menuItem) {
-      return "\n                <p>".concat(menuItem.item.name, " - ").concat(menuItem.itemTotalQty, " ").concat(menuItem.item.saleUnit.saleUnit, "</p>\n            ");
+      return "\n                <p>".concat(menuItem.name, " - ").concat(menuItem.itemTotalQty, " ").concat(menuItem.saleUnit.saleUnit, "</p>\n            ");
     }).join('');
   }
 
   function generateMarkup(orders) {
     return orders.map(function (order) {
-      return "\n                <tr>\n                <td class=\"border px-4 py-2 text-green-900\">\n                    <p>".concat(order._id, "</p>\n                    <div>").concat(renderItems(order.items), "</div>\n                </td>\n                <td class=\"border px-4 py-2\">").concat(order.customerId.username, "</td>\n                <td class=\"border px-4 py-2\">\n                ").concat(order.address.street, ",\n                ").concat(order.address.houseNumber, ", \n                ").concat(order.address.district, "</td>\n                <td class=\"border px-4 py-2\">").concat(order.phone, "</td>\n                <td class=\"border px-4 py-2\">\n                    ").concat(moment__WEBPACK_IMPORTED_MODULE_1___default()(order.createdAt).format('DD/MM/YYYY - HH:mm'), "\n                </td>\n                <td class=\"border px-4 py-2\">\n                    ").concat(order.paymentStatus ? 'paid' : 'Falta Pagamento', "\n                </td>\n                <td class=\"border px-4 py-2\">\n                    <div class=\"inline-block relative w-64\">\n                        <form action=\"/admin/order/status\" method=\"POST\">\n                            <input type=\"hidden\" name=\"orderId\" value=\"").concat(order._id, "\">\n                            <select name=\"status\" onchange=\"this.form.submit()\"\n                                class=\"block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline\">\n                                <option value=\"order_placed\"\n                                    ").concat(order.status === 'order_placed' ? 'selected' : '', ">\n                                    Aberto</option>\n                                <option value=\"confirmed\" ").concat(order.status === 'confirmed' ? 'selected' : '', ">\n                                    Confirmado</option>\n                                <option value=\"preparation\" ").concat(order.status === 'preparation' ? 'selected' : '', ">\n                                    Em Prepara\xE7\xE3o</option>\n                                <option value=\"outfordelivery\" ").concat(order.status === 'outfordelivery' ? 'selected' : '', ">\n                                    Saiu para entrega\n                                </option>\n                                <option value=\"delivered\" ").concat(order.status === 'delivered' ? 'selected' : '', ">\n                                    Entregue\n                                </option>\n                                <option value=\"completed\" ").concat(order.status === 'completed' ? 'selected' : '', ">\n                                    Completo\n                                </option>\n                            </select>\n                        </form>\n                        <div\n                            class=\"pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700\">\n                            <svg class=\"fill-current h-4 w-4\" xmlns=\"http://www.w3.org/2000/svg\"\n                                viewBox=\"0 0 20 20\">\n                                <path\n                                    d=\"M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z\" />\n                            </svg>\n                        </div>\n                         \n                    </div>\n                    \n                </td>\n                ").concat(order.observation ? '<tr class="table-row"><td ><textarea class="w-full border px-4 py-2 row-span-2">' + "".concat(order.observation) + '</textarea></td></tr>' : '', "\n                \n            </tr>\n        ");
+      return "\n                <tr>\n                <td class=\"border px-4 py-2 text-green-900\">\n                    <p>#".concat(order.orderNumber, "</p>\n                    <div>").concat(renderItems(order.items), "</div>\n                </td>\n                <td class=\"border px-4 py-2\">").concat(order.customerId.firstName, " ").concat(order.customerId.lastName, " </td>\n                <td class=\"border px-4 py-2\">\n                ").concat(order.deliveryAddress.street, ",\n                ").concat(order.deliveryAddress.houseNumber, ", \n                ").concat(order.deliveryAddress.district, "</td>\n                <td class=\"border px-4 py-2\">").concat(order.phone, "</td>\n                <td class=\"border px-4 py-2\">\n                    ").concat(moment__WEBPACK_IMPORTED_MODULE_1___default()(order.createdAt).format('DD/MM/YYYY - HH:mm'), "\n                </td>\n                <td class=\"border px-4 py-2\">\n                    ").concat(order.paymentStatus ? 'paid' : 'Falta Pagamento', "\n                </td>\n                <td class=\"border px-4 py-2\">\n                    <div class=\"inline-block relative w-64\">\n                        <form action=\"/admin/order/status\" method=\"POST\">\n                            <input type=\"hidden\" name=\"orderId\" value=\"").concat(order._id, "\">\n                            <select name=\"status\" onchange=\"this.form.submit()\"\n                                class=\"block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline\">\n                                <option value=\"order_placed\"\n                                    ").concat(order.status === 'order_placed' ? 'selected' : '', ">\n                                    Aberto</option>\n                                <option value=\"confirmed\" ").concat(order.status === 'confirmed' ? 'selected' : '', ">\n                                    Confirmado</option>\n                                <option value=\"preparation\" ").concat(order.status === 'preparation' ? 'selected' : '', ">\n                                    Em Prepara\xE7\xE3o</option>\n                                <option value=\"outfordelivery\" ").concat(order.status === 'outfordelivery' ? 'selected' : '', ">\n                                    Saiu para entrega\n                                </option>\n                                <option value=\"delivered\" ").concat(order.status === 'delivered' ? 'selected' : '', ">\n                                    Entregue\n                                </option>\n                                <option value=\"completed\" ").concat(order.status === 'completed' ? 'selected' : '', ">\n                                    Completo\n                                </option>\n                            </select>\n                        </form>\n                        <div\n                            class=\"pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700\">\n                            <svg class=\"fill-current h-4 w-4\" xmlns=\"http://www.w3.org/2000/svg\"\n                                viewBox=\"0 0 20 20\">\n                                <path\n                                    d=\"M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z\" />\n                            </svg>\n                        </div>\n                         \n                    </div>\n                    \n                </td>\n                ").concat(order.observation ? '<tr class="table-row"><td ><textarea class="w-full border px-4 py-2 row-span-2">' + "".concat(order.observation) + '</textarea></td></tr>' : '', "\n                \n            </tr>\n        ");
     }).join('');
   } // Socket
 
@@ -1916,9 +1916,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _admin__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./admin */ "./resources/js/admin.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_3__);
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -1940,9 +1940,6 @@ var cartItemQuantity = document.querySelectorAll('.cartItemQuantity');
 function updateCart(product) {
   axios__WEBPACK_IMPORTED_MODULE_0___default().post('/update-cart', product).then(function (res) {
     cartCounter.innerText = res.data.totalQty;
-    var productQty = document.getElementById('productQty' + res.data.itemId);
-    var cartItemTotal = document.getElementById('carItemTotal' + res.data.itemId); //cartItemTotal.innerText =  res.data.itemTotalPrice;
-
     cartAmount.innerText = res.data.cartTotalPrice.toLocaleString('pt-BR', {
       style: 'currency',
       currency: 'BRL'
@@ -1967,40 +1964,52 @@ function addToCart(product) {
       progressBar: false
     }).show();
   });
-}
+} // function decreaseItemCartQty(product) {
+// 	axios
+// 		.put('/decrease-cart-item', product)
+// 		.then((res) => {
+// 			let productQty = document.getElementById('productQty' + res.data.itemId)
+// 			let cartItemTotal = document.getElementById(
+// 				'cartItemTotal' + res.data.itemId,
+// 			)
+// 			cartItemTotal.innerText = 'R$ ' + res.data.itemTotalPrice
+// 			productQty.innerText = res.data.itemTotalQty + ' UN'
+// 			cartCounter.innerText = res.data.totalQty
+// 			cartAmount.innerText = 'R$ ' + res.data.cartTotalPrice
+// 		})
+// 		.catch((err) => {
+// 			console.log(err)
+// 		})
+// }
+// function increaseItemCartQty(product) {
+// 	axios
+// 		.put('/increase-cart-item', product)
+// 		.then((res) => {
+// 			let productQty = document.getElementById('productQty' + res.data.itemId)
+// 			let cartItemTotal = document.getElementById(
+// 				'carItemTotal' + res.data.itemId,
+// 			)
+// 			cartItemTotal.innerText = 'R$ ' + res.data.itemTotalPrice
+// 			productQty.innerText = res.data.itemTotalQty + ' UN'
+// 			cartCounter.innerText = res.data.totalQty
+// 			cartAmount.innerText = 'R$ ' + res.data.cartTotalPrice
+// 		})
+// 		.catch((err) => {
+// 			console.log(err)
+// 		})
+// }
 
-function decreaseItemCartQty(product) {
-  axios__WEBPACK_IMPORTED_MODULE_0___default().put('/decrease-cart-item', product).then(function (res) {
-    var productQty = document.getElementById('productQty' + res.data.itemId);
-    var cartItemTotal = document.getElementById('cartItemTotal' + res.data.itemId);
-    cartItemTotal.innerText = 'R$ ' + res.data.itemTotalPrice;
-    productQty.innerText = res.data.itemTotalQty + ' UN';
-    cartCounter.innerText = res.data.totalQty;
-    cartAmount.innerText = 'R$ ' + res.data.cartTotalPrice;
-  })["catch"](function (err) {
-    console.log(err);
-  });
-}
-
-function increaseItemCartQty(product) {
-  axios__WEBPACK_IMPORTED_MODULE_0___default().put('/increase-cart-item', product).then(function (res) {
-    var productQty = document.getElementById('productQty' + res.data.itemId);
-    var cartItemTotal = document.getElementById('carItemTotal' + res.data.itemId);
-    cartItemTotal.innerText = 'R$ ' + res.data.itemTotalPrice;
-    productQty.innerText = res.data.itemTotalQty + ' UN';
-    cartCounter.innerText = res.data.totalQty;
-    cartAmount.innerText = 'R$ ' + res.data.cartTotalPrice;
-  })["catch"](function (err) {
-    console.log(err);
-  });
-}
 
 function removeItemFromCart(product) {
   axios__WEBPACK_IMPORTED_MODULE_0___default().put('/remove-cart-item', product).then(function (res) {
-    var productData = document.getElementById('productData' + res.data.itemId);
+    var productData = document.getElementById('productData' + res.data.productId);
+    console.log(productData);
     productData.remove();
     cartCounter.innerText = res.data.totalQty;
-    cartAmount.innerText = 'R$ ' + res.data.cartTotalPrice;
+    cartAmount.innerText = res.data.itemsTotalPrice.toLocaleString('pt-BR', {
+      style: 'currency',
+      currency: 'BRL'
+    });
   })["catch"](function (err) {
     console.log(err);
   });
@@ -2173,7 +2182,7 @@ cartItemQuantity.forEach(function (input) {
   input.addEventListener('input', function () {
     var itemData = JSON.parse(input.dataset.item);
     var itemTotalQty = parseFloat(input.value);
-    $('#cartItemTotal' + itemData._id).text(function () {
+    $('#cartItemTotal' + itemData.productId).text(function () {
       var totalItemprice = itemTotalQty * itemData.saleUnit.price;
 
       if (isNaN(totalItemprice)) {
@@ -2187,10 +2196,10 @@ cartItemQuantity.forEach(function (input) {
     });
   });
   input.addEventListener('change', function () {
-    var cart = JSON.parse(input.dataset.item);
-    cart.itemTotalQty = parseFloat(input.value); //cart.dataset.item = JSON.stringify(product);
+    var item = JSON.parse(input.dataset.item);
+    item.itemTotalQty = parseFloat(input.value); //cart.dataset.item = JSON.stringify(product);
 
-    updateCart(cart);
+    updateCart(item);
   });
 });
 
@@ -26972,8 +26981,9 @@ process.umask = function() { return 0; };
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/ 		// Check if module is in cache
-/******/ 		if(__webpack_module_cache__[moduleId]) {
-/******/ 			return __webpack_module_cache__[moduleId].exports;
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = __webpack_module_cache__[moduleId] = {
@@ -26995,10 +27005,39 @@ process.umask = function() { return 0; };
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = __webpack_modules__;
 /******/ 	
-/******/ 	// the startup function
-/******/ 	// It's empty as some runtime module handles the default behavior
-/******/ 	__webpack_require__.x = x => {};
 /************************************************************************/
+/******/ 	/* webpack/runtime/chunk loaded */
+/******/ 	(() => {
+/******/ 		var deferred = [];
+/******/ 		__webpack_require__.O = (result, chunkIds, fn, priority) => {
+/******/ 			if(chunkIds) {
+/******/ 				priority = priority || 0;
+/******/ 				for(var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
+/******/ 				deferred[i] = [chunkIds, fn, priority];
+/******/ 				return;
+/******/ 			}
+/******/ 			var notFulfilled = Infinity;
+/******/ 			for (var i = 0; i < deferred.length; i++) {
+/******/ 				var [chunkIds, fn, priority] = deferred[i];
+/******/ 				var fulfilled = true;
+/******/ 				for (var j = 0; j < chunkIds.length; j++) {
+/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((key) => (__webpack_require__.O[key](chunkIds[j])))) {
+/******/ 						chunkIds.splice(j--, 1);
+/******/ 					} else {
+/******/ 						fulfilled = false;
+/******/ 						if(priority < notFulfilled) notFulfilled = priority;
+/******/ 					}
+/******/ 				}
+/******/ 				if(fulfilled) {
+/******/ 					deferred.splice(i--, 1)
+/******/ 					var r = fn();
+/******/ 					if (r !== undefined) result = r;
+/******/ 				}
+/******/ 			}
+/******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/compat get default export */
 /******/ 	(() => {
 /******/ 		// getDefaultExport function for compatibility with non-harmony modules
@@ -27054,15 +27093,12 @@ process.umask = function() { return 0; };
 /******/ 		
 /******/ 		// object to store loaded and loading chunks
 /******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
-/******/ 		// Promise = chunk loading, 0 = chunk loaded
+/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
 /******/ 		var installedChunks = {
-/******/ 			"/public/js/app": 0
+/******/ 			"/public/js/app": 0,
+/******/ 			"public/css/app": 0
 /******/ 		};
 /******/ 		
-/******/ 		var deferredModules = [
-/******/ 			["./resources/js/app.js"],
-/******/ 			["./resources/scss/app.scss"]
-/******/ 		];
 /******/ 		// no chunk on demand loading
 /******/ 		
 /******/ 		// no prefetching
@@ -27073,73 +27109,46 @@ process.umask = function() { return 0; };
 /******/ 		
 /******/ 		// no HMR manifest
 /******/ 		
-/******/ 		var checkDeferredModules = x => {};
+/******/ 		__webpack_require__.O.j = (chunkId) => (installedChunks[chunkId] === 0);
 /******/ 		
 /******/ 		// install a JSONP callback for chunk loading
 /******/ 		var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
-/******/ 			var [chunkIds, moreModules, runtime, executeModules] = data;
+/******/ 			var [chunkIds, moreModules, runtime] = data;
 /******/ 			// add "moreModules" to the modules object,
 /******/ 			// then flag all "chunkIds" as loaded and fire callback
-/******/ 			var moduleId, chunkId, i = 0, resolves = [];
+/******/ 			var moduleId, chunkId, i = 0;
+/******/ 			if(chunkIds.some((id) => (installedChunks[id] !== 0))) {
+/******/ 				for(moduleId in moreModules) {
+/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
+/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 					}
+/******/ 				}
+/******/ 				if(runtime) var result = runtime(__webpack_require__);
+/******/ 			}
+/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
 /******/ 			for(;i < chunkIds.length; i++) {
 /******/ 				chunkId = chunkIds[i];
 /******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
-/******/ 					resolves.push(installedChunks[chunkId][0]);
+/******/ 					installedChunks[chunkId][0]();
 /******/ 				}
 /******/ 				installedChunks[chunkId] = 0;
 /******/ 			}
-/******/ 			for(moduleId in moreModules) {
-/******/ 				if(__webpack_require__.o(moreModules, moduleId)) {
-/******/ 					__webpack_require__.m[moduleId] = moreModules[moduleId];
-/******/ 				}
-/******/ 			}
-/******/ 			if(runtime) runtime(__webpack_require__);
-/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
-/******/ 			while(resolves.length) {
-/******/ 				resolves.shift()();
-/******/ 			}
-/******/ 		
-/******/ 			// add entry modules from loaded chunk to deferred list
-/******/ 			if(executeModules) deferredModules.push.apply(deferredModules, executeModules);
-/******/ 		
-/******/ 			// run deferred modules when all chunks ready
-/******/ 			return checkDeferredModules();
+/******/ 			return __webpack_require__.O(result);
 /******/ 		}
 /******/ 		
 /******/ 		var chunkLoadingGlobal = self["webpackChunkgreen_food"] = self["webpackChunkgreen_food"] || [];
 /******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
 /******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
-/******/ 		
-/******/ 		function checkDeferredModulesImpl() {
-/******/ 			var result;
-/******/ 			for(var i = 0; i < deferredModules.length; i++) {
-/******/ 				var deferredModule = deferredModules[i];
-/******/ 				var fulfilled = true;
-/******/ 				for(var j = 1; j < deferredModule.length; j++) {
-/******/ 					var depId = deferredModule[j];
-/******/ 					if(installedChunks[depId] !== 0) fulfilled = false;
-/******/ 				}
-/******/ 				if(fulfilled) {
-/******/ 					deferredModules.splice(i--, 1);
-/******/ 					result = __webpack_require__(__webpack_require__.s = deferredModule[0]);
-/******/ 				}
-/******/ 			}
-/******/ 			if(deferredModules.length === 0) {
-/******/ 				__webpack_require__.x();
-/******/ 				__webpack_require__.x = x => {};
-/******/ 			}
-/******/ 			return result;
-/******/ 		}
-/******/ 		var startup = __webpack_require__.x;
-/******/ 		__webpack_require__.x = () => {
-/******/ 			// reset startup function so it can be called again when more startup code is added
-/******/ 			__webpack_require__.x = startup || (x => {});
-/******/ 			return (checkDeferredModules = checkDeferredModulesImpl)();
-/******/ 		};
 /******/ 	})();
 /******/ 	
 /************************************************************************/
-/******/ 	// run startup
-/******/ 	__webpack_require__.x();
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
+/******/ 	__webpack_require__.O(undefined, ["public/css/app"], () => (__webpack_require__("./resources/js/app.js")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["public/css/app"], () => (__webpack_require__("./resources/scss/app.scss")))
+/******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
+/******/ 	
 /******/ })()
 ;

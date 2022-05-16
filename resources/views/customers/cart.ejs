@@ -1,5 +1,5 @@
 <section class="cart py-16">
-  <% if(session.cart && session.cart.totalPrice !== 0) { %>
+  <% if(session.cart && session.cart.itemsTotalPrice !== 0) { %>
   <div class="order container mx-auto xl:w-1/2">
     <div class="flex items-center border-b border-gray-300 pb-4">
       <img src="/img/cart-black.png" alt="" />
@@ -8,17 +8,17 @@
     <div class="product-list">
       <% for(let product of Object.values(session.cart.items)) { %>
       <div
-        id="productData<%= product.item._id %>"
+        id="productData<%= product.productId %>"
         class="flex items-center my-8"
       >
-        <img class="w-24" src="<%= product.item.image %>" alt="" />
+        <img class="w-24" src="<%= product.image %>" alt="" />
         <div class="flex-auto ml-4">
-          <h1 style="width: 150px" ><%= product.item.name %></h1>
+          <h1 style="width: 150px" ><%= product.name %></h1>
           
         </div>
         <div class="flex-auto">
           <button
-            data-cart="<%= JSON.stringify(product.item) %>"
+            data-cart="<%= JSON.stringify(product) %>"
             class="
               removeItem
               btn-primary
@@ -33,21 +33,21 @@
             Remover
           </button>
           <input type="number" 
-            data-item='<%= JSON.stringify(product.item) %>'
+            data-item='<%= JSON.stringify(product) %>'
             min="0"
             value="<%= product.itemTotalQty %>" style="width: 3rem" class="cartItemQuantity border-gray-500 w-12 mx-2 text-center">
           </input>
-          <span class="text-sm mx-2"><%= product.item.saleUnit.saleUnit %></span>
+          <span class="text-sm mx-2"><%= product.saleUnit.saleUnit %></span>
           <span class="text-sm mx-2">x</span>        
-          <span class="text-sm mx-2"><%= product.item.saleUnit.price.toLocaleString('pt-BR', { style: 'currency',
+          <span class="text-sm mx-2"><%= product.saleUnit.price.toLocaleString('pt-BR', { style: 'currency',
             currency: 'BRL' }) %></span>
         </div>
-        <span
-          id="cartItemTotal<%= product.item._id %>"
-          class="font-bold text-lg"
-          ><%= (product.item.saleUnit.price * product.itemTotalQty).toLocaleString('pt-BR', { style: 'currency',
-          currency: 'BRL' }) %></span
-        >
+				<span
+				id="cartItemTotal<%= product.productId %>"
+				class="font-bold text-lg"
+				><%= (product.saleUnit.price * product.itemTotalQty).toLocaleString('pt-BR', { style: 'currency',
+				currency: 'BRL' }) %></span
+			>
       </div>
       <% } %>
     </div>
@@ -62,7 +62,7 @@
           <div>
             <span class="text-lg font-bold">Total do pedido:</span>
             <span id="amount" class="amount text-2xl font-bold ml-2 mr-0"
-              ><%= session.cart.totalPrice.toLocaleString('pt-BR', { style: 'currency',
+              ><%= session.cart.itemsTotalPrice.toLocaleString('pt-BR', { style: 'currency',
               currency: 'BRL' }) %></span
             >
           </div>

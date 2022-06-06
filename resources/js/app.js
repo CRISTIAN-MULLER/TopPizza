@@ -222,13 +222,17 @@ sizeSelected.forEach((btn) => {
 			btn.classList.remove('Selected')
 		})
 		btn.classList.add('Selected')
+
 		let productData = JSON.parse(btn.dataset.product)
+
 		let addToCartBtn = document.getElementById(productData._id)
+
 		let product = JSON.parse(addToCartBtn.dataset.product)
 
 		product.saleUnit = JSON.parse(btn.dataset.saleunit)
 		product.itemTotalQty = 1
 		$('#itemQuantity' + productData._id).val('1')
+
 		addToCartBtn.dataset.product = JSON.stringify(product)
 
 		$('#totalPrice' + productData._id).text(function () {

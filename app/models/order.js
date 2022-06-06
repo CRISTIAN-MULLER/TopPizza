@@ -25,6 +25,7 @@ const orderSchema = new Schema(
 		entryPoint: { type: String, required: true },
 		observation: { type: String },
 		status: { type: String, default: 'ORDER_PLACED' },
+		step: { type: Number, required: true },
 	},
 	{ timestamps: true },
 )

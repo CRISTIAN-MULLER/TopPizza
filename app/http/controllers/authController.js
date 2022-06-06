@@ -26,25 +26,24 @@ function authController() {
 				passport.authenticate('local', (err, user, info) => {
 					if (err) {
 						req.flash('error', info.message)
-						console.log('1')
 						return next(err)
 					}
 					if (!user) {
 						req.flash('error', info.message)
-						console.log('2')
+
 						return res.redirect('/login')
 					}
 					req.logIn(user, (err) => {
 						if (err) {
 							req.flash('error', info.message)
-							console.log('3')
+
 							return next(err)
 						}
-						console.log('4')
+
 						return res.redirect(_getRedirectUrl(req))
 					})
 				})(req, res, next)
-				console.log('5')
+
 				return
 			}
 

@@ -16,8 +16,6 @@ function init(passport) {
 					})
 				}
 
-				console.log('user')
-
 				bcrypt
 					// @ts-ignore
 					.compare(password, user.password)

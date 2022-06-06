@@ -123,14 +123,29 @@
           <input id="id" type="hidden" name="id" value="<%= user._id%>" />
 
           <div class="form-control">
-            <label for="username">Nome:</label>
+            <label for="firstName">Nome:</label>
 
             <input
-              id="username"
-              name="username"
+              id="firstName"
+              name="firstName"
               class="border pl-6 mr-10 px-4 py-2 border-gray-400 rounded-md"
               type="text"
-              value="<%= user.username%>"
+              value="<%= user.firstName%>"
+              placeholder="Nome"
+            />
+            <i class="fas fa-check-circle"></i>
+            <i class="fas fa-exclamation-circle"></i>
+            <small></small>
+          </div>
+					<div class="form-control">
+            <label for="lastName">Nome:</label>
+
+            <input
+              id="lastName"
+              name="lastName"
+              class="border pl-6 mr-10 px-4 py-2 border-gray-400 rounded-md"
+              type="text"
+              value="<%= user.lastName%>"
               placeholder="Nome"
             />
             <i class="fas fa-check-circle"></i>

@@ -64,33 +64,32 @@ export function initAdmin(socket) {
                             <input type="hidden" name="orderId" value="${
 															order._id
 														}">
-                            <select name="status" onchange="this.form.submit()"
+                            <select name="order_status" onchange="this.form.submit()"
                                 class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
-                                <option value="order_placed"
+                                <option value='{"status": "order_placed", "step" : 1}'
                                     ${
 																			order.status === 'order_placed'
 																				? 'selected'
 																				: ''
 																		}>
                                     Aberto</option>
-                                <option value="confirmed" ${
-																	order.status === 'confirmed' ? 'selected' : ''
-																}>
+                                <option value='{"status": "confirmed","step" : 2}'
+																${order.status === 'confirmed' ? 'selected' : ''}>
                                     Confirmado</option>
-                                <option value="preparation" ${
-																	order.status === 'preparation'
+                                <option value='{"status": "in_progress","step" : 3}' ${
+																	order.status === 'in_progress'
 																		? 'selected'
 																		: ''
 																}>
                                     Em Preparação</option>
-                                <option value="outfordelivery" ${
+                                <option value='{"status": "outfordelivery","step" : 4}' ${
 																	order.status === 'outfordelivery'
 																		? 'selected'
 																		: ''
 																}>
                                     Saiu para entrega
                                 </option>
-                                <option value="delivered" ${
+                                <option value='{"status": "outfordelivery","step" : 4}' ${
 																	order.status === 'delivered' ? 'selected' : ''
 																}>
                                     Entregue

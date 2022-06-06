@@ -1,55 +1,48 @@
 <section class="py-16">
-  <div class="client container mx-auto xl:w-1/2">
-    <div id="addClient" class="mt-4">
-      <button
-        class="
-          btn-primary
-          modal-client-open
-          rounded-full
-          mb-4
-          text-white
-          font-bold
-        "
-        id="addClientBtn"
-        name="addClientBtn"
-        type="button"
-        onclick="handleClientForm.reset();$('.form-control').removeClass('success error');$('small').text('');$('.small-message').text('')"
-      >
-        + Adicionar Cliente
-      </button>
-    </div>
-    <form
-      action="/admin/clients"
-      method="POST"
-      class=""
-      name="searchClientForm"
-      id="searchClientForm"
-    >
-      <div class="firstline">
-        <div class="form-control">
-          <label for="searchUserName">Nome:</label>
-          <input
-            type="text"
-            name="searchUserName"
-            id="searchUserName"
-            placeholder="Nome do Cliente"
-            class="border pl-6 mr-10 px-4 py-2 border-gray-400 rounded-md"
-          />
-        </div>
-        <div class="form-control">
-          <label for="searchUserPhone">Telefone:</label>
-          <input
-            type="text"
-            name="searchUserPhone"
-            id="searchUserPhone"
-            value=""
-            class="border pl-6 px-4 py-2 border-gray-400 rounded-md"
-            placeholder="Telefone"
-          />
-        </div>
-      </div>
+	<div class="client container mx-auto xl:w-1/2">
+		<div id="addClient" class="mt-4">
+			<button
+				class="btn-primary modal-client-open rounded-full mb-4 text-white font-bold"
+				id="addClientBtn"
+				name="addClientBtn"
+				type="button"
+				onclick="handleClientForm.reset();$('.form-control').removeClass('success error');$('small').text('');$('.small-message').text('')"
+			>
+				+ Adicionar Cliente
+			</button>
+		</div>
+		<form
+			action="/admin/clients"
+			method="POST"
+			class=""
+			name="searchClientForm"
+			id="searchClientForm"
+		>
+			<div class="firstline">
+				<div class="form-control">
+					<label for="searchUserName">Nome:</label>
+					<input
+						type="text"
+						name="searchUserName"
+						id="searchUserName"
+						placeholder="Nome do Cliente"
+						class="border pl-6 mr-10 px-4 py-2 border-gray-400 rounded-md"
+					/>
+				</div>
+				<div class="form-control">
+					<label for="searchUserPhone">Telefone:</label>
+					<input
+						type="text"
+						name="searchUserPhone"
+						id="searchUserPhone"
+						value=""
+						class="border pl-6 px-4 py-2 border-gray-400 rounded-md"
+						placeholder="Telefone"
+					/>
+				</div>
+			</div>
 
-      <div class="fourthline">
+			<!-- <div class="fourthline">
         <div class="form-control">
           <label for="searchUserdistrict">Bairro:</label>
           <input
@@ -83,72 +76,52 @@
             placeholder="Estado"
           />
         </div>
-      </div>
+      </div> -->
 
-      <div id="clientSearch-btn" class="mt-4">
-        <button
-          class="btn-primary rounded-full mb-4 text-white font-bold"
-          id="searchUserBtn"
-          name="searchUserBtn"
-          type="button"
-        >
-          Buscar Cliente
-        </button>
-      </div>
-    </form>
-    <table class="table userstable">
-      <thead>
-        <tr>
-          <th class="px-4 py-2 text-left">Nome</th>
-          <th class="px-4 py-2 text-left">Endereço</th>
-          <th class="px-4 py-2 text-left">Telefone</th>
-        </tr>
-      </thead>
-      <tbody id="userTableBody"></tbody>
-    </table>
-  </div>
+			<div id="clientSearch-btn" class="mt-4">
+				<button
+					class="btn-primary rounded-full mb-4 text-white font-bold"
+					id="searchUserBtn"
+					name="searchUserBtn"
+					type="button"
+				>
+					Buscar Cliente
+				</button>
+			</div>
+		</form>
+		<table class="table userstable">
+			<thead>
+				<tr>
+					<th class="px-4 py-2 text-left">Nome</th>
+					<th class="px-4 py-2 text-left">Endereço</th>
+					<th class="px-4 py-2 text-left">Telefone</th>
+				</tr>
+			</thead>
+			<tbody id="userTableBody"></tbody>
+		</table>
+	</div>
 </section>
 <div
-  class="
-    clientModal
-    opacity-0
-    pointer-events-none
-    fixed
-    w-full
-    h-full
-    top-0
-    left-0
-    flex
-    items-center
-    justify-center
-  "
+	class="clientModal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center"
 >
-  <div
-    class="modal-client-overlay absolute w-full h-full bg-gray-900 opacity-50"
-  ></div>
+	<div
+		class="modal-client-overlay absolute w-full h-full bg-gray-900 opacity-50"
+	></div>
 
-  <div
-    class="
-      modal-client-container
-      bg-white
-      m-0
-      rounded
-      shadow-lg
-      z-50
-      overflow-y-auto
-    "
-  >
-    <!-- Add margin if you want to see some of the overlay behind the modal-->
-    <div class="modal-client-content py-4 text-left px-6">
-      <!--Title-->
-      <div class="modalClientInputs">
-        <div class="clientInputModal">
-          <!--Body-->
-          <%- include('./clientForm.ejs') %>
-        </div>
-      </div>
-      <!--Footer-->
-      <div class="flex justify-end pt-2"></div>
-    </div>
-  </div>
+	<div
+		class="modal-client-container bg-white m-0 rounded shadow-lg z-50 overflow-y-auto"
+	>
+		<!-- Add margin if you want to see some of the overlay behind the modal-->
+		<div class="modal-client-content py-4 text-left px-6">
+			<!--Title-->
+			<div class="modalClientInputs">
+				<div class="clientInputModal">
+					<!--Body-->
+					<%- include('./clientForm.ejs') %>
+				</div>
+			</div>
+			<!--Footer-->
+			<div class="flex justify-end pt-2"></div>
+		</div>
+	</div>
 </div>

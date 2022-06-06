@@ -6,8 +6,6 @@ const { GraphQLClient, gql } = require('graphql-request')
 function orderController(e) {
 	return {
 		async store(req, res) {
-			console.log(req.body)
-
 			const variables = {
 				data: {
 					customerId: req.user._id,
@@ -22,16 +20,25 @@ function orderController(e) {
 						reference: req.body.reference,
 						location: {
 							type: 'point',
-							coordinates: [0, 0],
+							coordinates: {
+								latitude: 0,
+								longitude: 0,
+								latitudeDelta: 0,
+								longitudeDelta: 0,
+							},
 						},
 					},
 					items: req.session.cart.items,
 					phone: req.body.phone,
 					payment: {
-						paymentMethod: 'CASH_ON_DELIVERY',
+						paymentMethod: {
+							delivery: {
+								cash: {
+									change: '50',
+								},
+							},
+						},
 						paymentStatus: 'TO_PAY',
-						cardBrand: 'visa',
-						change: 0,
 					},
 					origin: 'WEB',
 					status: 'ORDER_PLACED',
@@ -49,8 +56,8 @@ function orderController(e) {
 					}
 				}
 			`
-			//const endpoint = 'http://192.168.100.3:4000/graphql'
-			const endpoint = 'https://green-foodie-api.herokuapp.com/graphql'
+			const endpoint = 'http://192.168.100.3:4000/graphql'
+			//const endpoint = 'https://green-foodie-api.herokuapp.com/graphql'
 
 			const graphQLClient = new GraphQLClient(endpoint)
 

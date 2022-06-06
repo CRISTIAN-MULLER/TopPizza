@@ -23,9 +23,6 @@ function searchZipcode(res) {
 		alert('Cep não encontrado.')
 		return
 	}
-
-	console.log('endereço', res)
-
 	street.value = res.logradouro
 	district.value = res.bairro
 	city.value = res.localidade

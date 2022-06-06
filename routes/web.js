@@ -43,6 +43,8 @@ function initRoutes(app) {
 	app.post('/register', authController().postRegister)
 	app.post('/logout', authController().logout)
 
+	app.get('/searchClient/:filter', usersController().searchClient)
+
 	app.get('/searchClientById/:clientid', usersController().searchClientById)
 	app.get(
 		'/searchClientByName/:clientname',
@@ -68,12 +70,14 @@ function initRoutes(app) {
 	app.get('/admin/clients', admin, clientController().index)
 	app.post('/admin/clients/handleUser', admin, clientController().handleUser)
 	app.get('/admin/products', admin, productController().index)
+
 	app.post(
 		'/admin/products/handleProduct',
 		admin,
 		upload.single('productImage'),
 		productController().handleProduct,
 	)
+	app.get('/searchProduct/:filter', productController().searchProduct)
 
 	app.get(
 		'/searchProductById/:productid',
